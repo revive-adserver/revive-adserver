@@ -190,7 +190,7 @@ class DB_DataObjectCommon extends DB_DataObject
             }
             if (!empty($primaryKey) && isset($this->$primaryKey)) {
                 // add primaty key to row if filter is empty or if it exists in filter
-                if ((empty($filter) || in_array($primaryKey, $filter)) && !array_key_exists($primaryKey, $row)) {
+                if (is_array($row) && (empty($filter) || in_array($primaryKey, $filter)) && !array_key_exists($primaryKey, $row)) {
                     $row[$primaryKey] = $this->$primaryKey;
                 }
                 $rows[$this->$primaryKey] = $row;
