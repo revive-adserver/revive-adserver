@@ -147,6 +147,35 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $this->assertEqual(count($aData), 0, 'Recordset should be empty');
     }
 
+    public function testGetZoneHourlyStatisticsInLocalTimezone()
+    {
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doPublisher = OA_Dal::factoryDO('affiliates');
+        $doZone = OA_Dal::factoryDO('zones');
+        $this->generateZoneWithParents($doAgency, $doPublisher, $doZone);
+        $doSummary = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doSummary->date_time = '2006-06-06 20:00:00';
+        $doSummary->impressions = 5;
+        $this->generateDataSummaryAdHourlyForZone($doSummary, $doZone);
+
+        $originalTimezone = (new Date())->tz->getID();
+        Date_TimeZone::setDefault('Asia/Singapore');
+        try {
+            $data = $this->_dalZoneStatistics->getZoneHourlyStatistics(
+                $doZone->zoneid,
+                new Date('2006-06-07'),
+                new Date('2006-06-07'),
+                true,
+            );
+            $this->assertEqual(count($data), 1);
+            $this->assertEqual($data[0]['day'], '2006-06-07');
+            $this->assertEqual($data[0]['hour'], 4);
+            $this->assertEqual($data[0]['impressions'], 5);
+        } finally {
+            Date_TimeZone::setDefault($originalTimezone);
+        }
+    }
+
     /**
      * Test zone advertiser statistics.
      *

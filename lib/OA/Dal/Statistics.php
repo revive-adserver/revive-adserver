@@ -171,6 +171,7 @@ class OA_Dal_Statistics extends OA_Dal
                 $oDate->setTZ($oUTC);
                 $oDate->convertTZ($oTz);
                 $aRow['day'] = $oDate->format('%Y-%m-%d');
+                $aRow['hour'] = $oDate->getHour();
             }
 
             // Add entry
