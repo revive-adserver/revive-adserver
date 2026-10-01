@@ -86,7 +86,7 @@ class OA_Maintenance_Pruning extends MAX_Dal_Common
         $row = array_map(intval(...), $this->oDbh->queryRow("
             SELECT
                 COUNT(*) AS cnt,
-                COALESCE(SUM(IF(interval_start < {$qDate}, 1, 0)), 0) AS old
+                COALESCE(SUM(CASE WHEN interval_start < {$qDate} THEN 1 ELSE 0 END), 0) AS old
             FROM {$tblAssoc}
         "));
 
