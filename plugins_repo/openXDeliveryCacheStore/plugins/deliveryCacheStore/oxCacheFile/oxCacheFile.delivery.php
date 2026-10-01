@@ -71,17 +71,28 @@ function Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($
     // On *nix systems this should guarantee atomicity
     $tmp_filename = tempnam($GLOBALS['OA_Delivery_Cache']['path'], $GLOBALS['OA_Delivery_Cache']['prefix'] . 'tmp_');
     if ($fp = @fopen($tmp_filename, 'wb')) {
-        @fwrite($fp, $cache_literal, strlen($cache_literal));
-        @fclose($fp);
+        $bytesWritten = @fwrite($fp, $cache_literal, strlen($cache_literal));
+        $closed = @fclose($fp);
+        if ($bytesWritten !== strlen($cache_literal) || !$closed) {
+            @unlink($tmp_filename);
+            return false;
+        }
 
         if (!@rename($tmp_filename, $filename)) {
             // On some systems rename() doesn't overwrite destination
-            @unlink($filename);
+            if (file_exists($filename) && !@unlink($filename)) {
+                @unlink($tmp_filename);
+                return false;
+            }
             if (!@rename($tmp_filename, $filename)) {
                 // Make sure that no temporary file is left over
                 // if the destination is not writable
                 @unlink($tmp_filename);
+                return false;
             }
+        }
+        if (!is_file($filename) || filesize($filename) !== strlen($cache_literal)) {
+            return false;
         }
         if (PHP_SAPI == 'cli') {
             // If delivery cache is used during maintenance with php-cli,
