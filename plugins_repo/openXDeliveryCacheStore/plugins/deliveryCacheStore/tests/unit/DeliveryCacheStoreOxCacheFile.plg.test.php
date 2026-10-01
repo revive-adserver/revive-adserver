@@ -82,6 +82,32 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends U
         $oPlgOxCacheFile->deleteCacheFile($filename);
     }
 
+    public function test_cacheStoreReturnsFalseWhenDestinationCannotBeReplacedByAFile()
+    {
+        $temporaryDirectory = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'ox_cache_' . uniqid();
+        $this->assertTrue(@mkdir($temporaryDirectory));
+        $originalCachePath = $GLOBALS['OA_Delivery_Cache']['path'];
+        $GLOBALS['OA_Delivery_Cache']['path'] = $temporaryDirectory . DIRECTORY_SEPARATOR;
+
+        $filename = OA_Delivery_Cache_buildFileName('blocked_destination');
+        $destination = $GLOBALS['OA_Delivery_Cache']['path'] . $filename;
+        $this->assertTrue(@mkdir($destination));
+
+        try {
+            $result = Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($filename, null);
+            $this->assertFalse($result);
+        } finally {
+            if (is_dir($destination)) {
+                foreach (glob($destination . DIRECTORY_SEPARATOR . '*') ?: [] as $path) {
+                    @unlink($path);
+                }
+                @rmdir($destination);
+            }
+            $GLOBALS['OA_Delivery_Cache']['path'] = $originalCachePath;
+            @rmdir($temporaryDirectory);
+        }
+    }
+
     /**
      * Tests the class part of this plugin.
      */
