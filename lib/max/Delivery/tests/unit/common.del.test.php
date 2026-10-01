@@ -20,6 +20,15 @@ require_once MAX_PATH . '/lib/max/Delivery/common.php';
  */
 class Test_DeliveryCommon extends UnitTestCase
 {
+    public function testEncodingFallback()
+    {
+        $this->assertEqual(MAX_commonConvertEncoding('unchanged', 'ISO-8859-1', 'UTF-8', []), 'unchanged');
+        if (function_exists('iconv')) {
+            $this->assertEqual(MAX_commonConvertEncoding("\xC3\xA9", 'ISO-8859-1', 'UTF-8', ['unavailable', 'iconv']), "\xE9");
+            $this->assertEqual(MAX_commonConvertEncoding(['text' => "\xC3\xA9"], 'ISO-8859-1', 'UTF-8', ['unavailable', 'iconv']), ['text' => "\xE9"]);
+        }
+    }
+
     /** @var int */
     public $original_server_port;
 
