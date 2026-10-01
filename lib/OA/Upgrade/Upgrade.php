@@ -922,7 +922,8 @@ class OA_Upgrade
      */
     public function _checkDBIntegrity($version, $aSchema = [])
     {
-        if (empty($aSchema)) {
+        $useDefaultSchema = empty($aSchema);
+        if ($useDefaultSchema) {
             $path_schema = $this->oDBUpgrader->path_schema ?? '';
             $file_schema = $this->oDBUpgrader->file_schema;
             $aSchema['name'] = 'tables_core';
@@ -933,7 +934,7 @@ class OA_Upgrade
         $this->oIntegrity->oUpgrader = $this;
         $result = $this->oIntegrity->checkIntegrityQuick($version, $aSchema);
 
-        if (empty($schema)) {
+        if ($useDefaultSchema) {
             $this->oDBUpgrader->path_schema = $path_schema;
             $this->oDBUpgrader->file_schema = $file_schema;
         }
