@@ -24,6 +24,25 @@ require_once(MAX_PATH . '/lib/OA/Upgrade/DB_UpgradeAuditor.php');
  */
 class Test_DB_Upgrade extends UnitTestCase
 {
+    public function testFailedFieldAndIndexMigrationHooks()
+    {
+        $upgrade = (new ReflectionClass(OA_DB_Upgrade::class))->newInstanceWithoutConstructor();
+        $upgrade->timingStr = 'constructive';
+        $upgrade->oMigrator = new class {
+            public function fail()
+            {
+                return false;
+            }
+        };
+        $upgrade->aChanges['hooks']['constructive']['tables']['example'] = [
+            'fields' => ['field' => ['beforeAddField' => 'fail']],
+            'indexes' => ['idx' => ['beforeAddIndex' => 'fail']],
+        ];
+        $this->assertTrue(PEAR::isError($upgrade->_executeMigrationMethodField('example', 'field', 'beforeAddField')));
+        $this->assertTrue(PEAR::isError($upgrade->_executeMigrationMethodIndex('example', 'idx', 'beforeAddIndex')));
+        $this->assertFalse($upgrade->_executeMigrationMethodField('example', 'missing', 'beforeAddField'));
+    }
+
     public function test_prepPreScript()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
