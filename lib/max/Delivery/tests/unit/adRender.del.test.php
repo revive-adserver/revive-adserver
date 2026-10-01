@@ -60,6 +60,19 @@ class Test_DeliveryAdRender extends UnitTestCase
         $this->assertPattern('#foo%3Dbar#', $aBanner['clickUrl']);
     }
 
+    public function test_MAX_adRender_siteVariableEncoding()
+    {
+        require MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
+
+        $aBanner['url'] .= '/?foo={foo}&encoded={foo_enc}';
+        $_REQUEST['foo'] = 'a b&c';
+        MAX_adRender($aBanner);
+
+        $this->assertEqual($aBanner['aMagicMacros']['{foo}'], 'a b&amp;c');
+        $this->assertEqual($aBanner['aMagicMacros']['{foo_enc}'], 'a+b%26c');
+        unset($_REQUEST['foo']);
+    }
+
     /**
      * render an ad of type image
      *
