@@ -118,7 +118,8 @@ abstract class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_D
                 MAX_CONNECTION_MANUAL,
             ];
             foreach ($aConversionTypes as $conversionType) {
-                if (isset($aRows['sum_conversions_' . $conversionType])) {
+                if (isset($row['sum_conversions_' . $conversionType])) {
+                    $this->aTotal['sum_conversions_' . $conversionType] ??= 0;
                     $this->aTotal['sum_conversions_' . $conversionType] += $row['sum_conversions_' . $conversionType];
                 }
             }
