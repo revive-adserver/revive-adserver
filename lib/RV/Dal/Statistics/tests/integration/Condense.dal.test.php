@@ -278,6 +278,24 @@ class Test_Rv_Dal_Statistics_Condense extends \UnitTestCase
         $this->assertEqual($aResult, $aExpect);
     }
 
+    public function test_condense_daily_then_monthly(): void
+    {
+        $this->oDal->start(5, null);
+        $this->oDal->start(null, 5);
+
+        foreach (['data_intermediate_ad', 'data_summary_ad_hourly'] as $table) {
+            $aResult = $this->oDbh->queryAll(
+                "SELECT date_time, ad_id, impressions FROM oa_{$table} WHERE date_time < '2025-03-01' ORDER BY date_time, ad_id",
+                fetchmode: MDB2_FETCHMODE_ORDERED,
+            );
+            $this->assertEqual($aResult, [
+                ['2025-01-01 00:00:00', '3', '2'],
+                ['2025-02-01 00:00:00', '1', '2'],
+                ['2025-02-01 00:00:00', '2', '3'],
+            ]);
+        }
+    }
+
     private function generateDataSet(array $aData): void
     {
         foreach ($aData as $item) {
