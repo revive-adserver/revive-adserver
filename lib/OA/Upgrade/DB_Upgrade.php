@@ -1294,7 +1294,8 @@ class OA_DB_Upgrade
     public function _executeMigrationMethodField($table_name, $field_name, $method)
     {
         if (isset($this->aChanges['hooks'][$this->timingStr]['tables'][$table_name]['fields'][$field_name][$method])) {
-            return $this->_executeMigrationMethod($this->aChanges['hooks'][$this->timingStr]['tables'][$table_name]['fields'][$field_name][$method]);
+            $result = $this->_executeMigrationMethod($this->aChanges['hooks'][$this->timingStr]['tables'][$table_name]['fields'][$field_name][$method]);
+            return $result === false ? new PEAR_Error('Field migration hook failed: ' . $method) : $result;
         }
         return false;
     }
@@ -1311,7 +1312,8 @@ class OA_DB_Upgrade
     public function _executeMigrationMethodIndex($table_name, $index_name, $method)
     {
         if (isset($this->aChanges['hooks'][$this->timingStr]['tables'][$table_name]['indexes'][$index_name][$method])) {
-            return $this->_executeMigrationMethod($this->aChanges['hooks'][$this->timingStr]['tables'][$table_name]['indexes'][$index_name][$method]);
+            $result = $this->_executeMigrationMethod($this->aChanges['hooks'][$this->timingStr]['tables'][$table_name]['indexes'][$index_name][$method]);
+            return $result === false ? new PEAR_Error('Index migration hook failed: ' . $method) : $result;
         }
         return false;
     }
