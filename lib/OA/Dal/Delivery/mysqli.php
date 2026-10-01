@@ -29,7 +29,7 @@ function OA_Dal_Delivery_connect($database = 'database')
     $database = 'rawDatabase' === $database ? 'database' : $database;
 
     // If a connection already exists, then return that
-    if ('database' === $database && isset($GLOBALS['_MAX']['ADMIN_DB_LINK']) && $GLOBALS['_MAX']['ADMIN_DB_LINK'] instanceof \Pgsql\Connection) {
+    if ('database' === $database && isset($GLOBALS['_MAX']['ADMIN_DB_LINK']) && $GLOBALS['_MAX']['ADMIN_DB_LINK'] instanceof \mysqli) {
         return $GLOBALS['_MAX']['ADMIN_DB_LINK'];
     }
 
