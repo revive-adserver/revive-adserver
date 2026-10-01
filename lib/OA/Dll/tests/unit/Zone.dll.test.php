@@ -56,6 +56,16 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         );
     }
 
+    public function testValidateZoneTypeError()
+    {
+        $zone = new OA_Dll_Zone();
+        $zone->clearErrors();
+        $this->assertTrue($zone->_validateZoneType(2));
+        $this->assertEqual($zone->getLastError(), '');
+        $this->assertFalse($zone->_validateZoneType(99));
+        $this->assertEqual($zone->getLastError(), 'Zone type is wrong!');
+    }
+
     public function setUp()
     {
         $this->agencyId = DataGenerator::generateOne('agency');
