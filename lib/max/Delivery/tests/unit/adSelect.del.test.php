@@ -560,6 +560,11 @@ class Test_DeliveryAdSelect extends UnitTestCase
         $this->assertIsA($ret[0], 'array');
         $this->assertEqual($ret[0]['=='], 'companionid:55');
 
+        // Previously delivered companion campaigns must not be excluded.
+        $context = [['==' => 'companionid:55']];
+        $aBanner['placement_id'] = '56';
+        $this->assertEqual(_adSelectBuildContext($aBanner, $context), $context);
+
         // Check that if the advertiser_limitation is enabled, that the return array includes the correct exclusion
         $aBanner = ['placement_id' => '56', 'client_id' => '1', 'advertiser_limitation' => '1'];
         $context = [];
