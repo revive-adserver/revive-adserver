@@ -581,6 +581,10 @@
             function onException(jobIndex, url, e)
             {
                   errorMessage = e;
+                  errors.push({
+                      id: settings.jobs[jobIndex].id,
+                      message: String(e)
+                  });
                   $("ol", $errorContainer).append("<li>"
                      + "<h4>Failure of '" + settings.jobs[jobIndex].name  + "' task</h4>"
                      + errorMessage + "</li>");
