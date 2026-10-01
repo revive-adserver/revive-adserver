@@ -24,6 +24,21 @@ require_once(MAX_PATH . '/lib/OA/Upgrade/DB_UpgradeAuditor.php');
  */
 class Test_DB_Upgrade extends UnitTestCase
 {
+    public function testFlushLogBufferKeepsCurrentMessage()
+    {
+        $upgrade = (new ReflectionClass('OA_DB_Upgrade'))->newInstanceWithoutConstructor();
+        $upgrade->_logWrite('buffered message');
+        $upgrade->logFile = tempnam(MAX_PATH . '/var', 'upgrade-log-');
+        try {
+            $upgrade->_logWrite('current message');
+            $upgrade->_logWrite('following message');
+            $this->assertEqual(file_get_contents($upgrade->logFile), "buffered message\ncurrent message\nfollowing message\n");
+            $this->assertEqual($upgrade->logBuffer, []);
+        } finally {
+            unlink($upgrade->logFile);
+        }
+    }
+
     public function test_prepPreScript()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
