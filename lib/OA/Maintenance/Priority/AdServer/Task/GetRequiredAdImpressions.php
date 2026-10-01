@@ -320,6 +320,7 @@ abstract class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions ex
             OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->_getDate());
         // For each campaign
         foreach ($aCampaigns as $oCampaign) {
+            $this->currentTz = $this->oDal->getTimezoneForCampaign($oCampaign->id);
             OA::debug('  - Distributing impression inventory requirements for campaign ID: ' . $oCampaign->id, PEAR_LOG_DEBUG);
             $adsCount = count($oCampaign->aAds);
             OA::debug("    - Campaign has $adsCount ads.", PEAR_LOG_DEBUG);
