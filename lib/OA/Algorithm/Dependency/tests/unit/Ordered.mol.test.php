@@ -55,6 +55,27 @@ class Test_OA_Algorithm_Dependency_Ordered extends UnitTestCase
         $this->assertEqual(array_values($ret), ['B', 'C', 'E', 'F', 'A', 'D']);
     }
 
+    public function testNestedDependencies()
+    {
+        $source = new OA_Algorithm_Dependency_Source_HoA([
+            'A' => ['B'],
+            'B' => ['C'],
+            'C',
+        ]);
+        $dep = new OA_Algorithm_Dependency_Ordered($source);
+        $this->assertEqual(array_values($dep->schedule(['A'])), ['C', 'B', 'A']);
+    }
+
+    public function testDependencyCycle()
+    {
+        $source = new OA_Algorithm_Dependency_Source_HoA([
+            'A' => ['B'],
+            'B' => ['A'],
+        ]);
+        $dep = new OA_Algorithm_Dependency_Ordered($source);
+        $this->assertFalse($dep->schedule(['A']));
+    }
+
     public function getAlgorithmWithData($selected = [], $ignoreOrphans = false)
     {
         $items = [
