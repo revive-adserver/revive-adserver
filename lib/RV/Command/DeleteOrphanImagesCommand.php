@@ -42,11 +42,12 @@ class DeleteOrphanImagesCommand extends AbstractReviveCommand
 
         $prefix = $aConf['table']['prefix'];
 
-        $res = $oDbh->query("SELECT filename FROM {$prefix}banners b WHERE storagetype = 'web' OR ext_bannertype = 'bannerTypeHtml:oxHtml:html5' ORDER BY bannerid");
+        $res = $oDbh->query("SELECT filename, alt_filename FROM {$prefix}banners b WHERE storagetype = 'web' OR ext_bannertype = 'bannerTypeHtml:oxHtml:html5' ORDER BY bannerid");
 
         $aDbImages = [];
         while ($row = $res->fetchRow()) {
             $aDbImages[] = $row['filename'];
+            $aDbImages[] = $row['alt_filename'];
         }
 
         $finder = (new Finder())
