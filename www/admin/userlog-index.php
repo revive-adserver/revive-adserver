@@ -73,8 +73,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
 $listorder = htmlspecialchars(MAX_getStoredValue('listorder', 'updated'));
 $oAudit = OA_Dal::factoryDO('audit');
 $aAuditColumns = $oAudit->table();
-$aColumnNamesFound = array_keys($aAuditColumns, $listorder);
-if (empty($aColumnNamesFound)) {
+if (!array_key_exists($listorder, $aAuditColumns)) {
     // Invalid column name to order by, set to default
     $listorder = 'updated';
 }
@@ -279,7 +278,7 @@ $session['prefs'][$pageName]['campaignId'] = $campaignId;
 $session['prefs'][$pageName]['publisherId'] = $publisherId;
 $session['prefs'][$pageName]['zoneId'] = $zoneId;
 $session['prefs'][$pageName]['period_preset'] = $periodPreset;
-$seesion['prefs'][$pageName]['setPerPage'] = $setPerPage;
+$session['prefs'][$pageName]['setPerPage'] = $setPerPage;
 $session['prefs'][$pageName]['listorder'] = $listorder;
 $session['prefs'][$pageName]['orderdirection'] = $orderdirection;
 

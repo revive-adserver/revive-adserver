@@ -99,7 +99,7 @@ class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
         function {$this->_name}Reset()
         {
             document.getElementById('{$this->_name}_start').value = '$startDateStr';
-            document.getElementById('{$this->_name}_start').value = '$endDateStr';
+            document.getElementById('{$this->_name}_end').value = '$endDateStr';
             document.getElementById('{$this->_name}_preset').value = \"" . addcslashes(stripslashes($this->_fieldSelectionValue), "\0..\37/\"\\") . "\";
         }
         function {$this->_name}FormSubmit() {
