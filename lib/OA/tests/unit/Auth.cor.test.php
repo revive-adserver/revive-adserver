@@ -63,5 +63,10 @@ class Test_OA_Auth extends UnitTestCase
         $session['user'] = new OA_Permission_User($doUser, true, AuthContext::API);
         $this->assertFalse(OA_Auth::isLoggedIn());
         $this->assertTrue(OA_Auth::isLoggedIn(AuthContext::API));
+
+        // System process users use the UI context
+        $session['user'] = new OA_Permission_SystemUser('maintenance');
+        $this->assertTrue(OA_Auth::isLoggedIn());
+        $this->assertFalse(OA_Auth::isLoggedIn(AuthContext::API));
     }
 }
