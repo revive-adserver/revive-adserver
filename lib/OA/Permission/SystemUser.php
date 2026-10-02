@@ -19,13 +19,10 @@ require_once MAX_PATH . '/lib/OA/Permission/User.php';
  */
 class OA_Permission_SystemUser extends OA_Permission_User
 {
-    /**
-     * Class constructor
-     *
-     * @return OA_Permission_User
-     */
     public function __construct($userName)
     {
+        parent::__construct(null);
+
         // Store user information as array
         $this->aUser = [
             'user_id' => 0,
