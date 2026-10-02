@@ -210,9 +210,19 @@ jobs:
           mv tests/*/build/test-coverage/* coverage/
           ./tools/phpcov merge --clover coverage.xml coverage
 
+      - name: Save merged coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: codecov-coverage-report
+          path: coverage.xml
+          if-no-files-found: error
+          retention-days: 1
+
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
         with:
+          files: ./coverage.xml
+          disable_search: true
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload test results to Codecov
