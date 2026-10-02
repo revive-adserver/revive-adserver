@@ -41,39 +41,36 @@ class Language_Loader
         if (!defined('phpAds_dbmsname')) {
             define('phpAds_dbmsname', '');
         }
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        if (!empty($GLOBALS['_MAX']['PREF'])) {
-            $aPref = $GLOBALS['_MAX']['PREF'];
-        } else {
-            $aPref = [];
-        }
-        if (is_null($lang) && !empty($aPref['language'])) {
-            $lang = $aPref['language'];
-        }
-
         // Always load the English language, in case of incomplete translations
         if (!self::loadLanguage($section, 'en')) {
             return;
         }
 
-        // Load the language from preferences, if possible, otherwise load
-        // the global preference, if possible
-        // If language preference is set, do not load language from config file (common bug here is to check if prefereced language is 'en'!)
-        if (!empty($lang) && preg_match('#^[a-z][a-z](_[A-Z][A-Z])?$#', $lang)) {
-            self::loadLanguage($section, $lang);
-        } else {
-            // Check if using full language name (polish), if so then set to use two letter abbr (pl).
-            if (!empty($aConf['max']['language'])) {
-                $confMaxLanguage = $aConf['max']['language'];
-                if (isset(RV_Admin_Languages::$aOldLanguagesMap[$confMaxLanguage])) {
-                    $confMaxLanguage = RV_Admin_Languages::$aOldLanguagesMap[$confMaxLanguage];
-                }
-            }
+        self::loadLanguage($section, self::resolveLanguage($lang));
+    }
 
-            if (!empty($confMaxLanguage)) {
-                self::loadLanguage($section, $confMaxLanguage);
-            }
+    /**
+     * Resolve an explicit language, the user preference, or the global configuration.
+     */
+    public static function resolveLanguage($lang = null): string
+    {
+        if ($lang === null && !empty($GLOBALS['_MAX']['PREF']['language'])) {
+            $lang = $GLOBALS['_MAX']['PREF']['language'];
         }
+
+        // An explicit or user language takes precedence over the configuration,
+        // including when the language is English.
+        if (!empty($lang) && preg_match('#^[a-z][a-z](_[A-Z][A-Z])?$#', $lang)) {
+            return $lang;
+        }
+
+        // Map legacy full language names (for example, polish) to locale codes.
+        $confMaxLanguage = $GLOBALS['_MAX']['CONF']['max']['language'] ?? 'en';
+        if (isset(RV_Admin_Languages::$aOldLanguagesMap[$confMaxLanguage])) {
+            $confMaxLanguage = RV_Admin_Languages::$aOldLanguagesMap[$confMaxLanguage];
+        }
+
+        return $confMaxLanguage ?: 'en';
     }
 
     private static function loadLanguage($section, $lang): bool
