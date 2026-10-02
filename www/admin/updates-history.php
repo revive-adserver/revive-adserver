@@ -15,7 +15,7 @@ require_once '../../init.php';
 
 // Preliminary check before including config.php to prevent it from outputting HTML code
 // in case session is expired
-if (!empty($_POST['xajax'])) {
+if (!empty($_POST['xajax']) || !empty($_GET['xajax'])) {
     require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
     require_once MAX_PATH . '/lib/OA/Permission.php';
     unset($session);
