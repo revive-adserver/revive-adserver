@@ -117,7 +117,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: ${{ env.PHP_EXTENSIONS }}
-          ini-values: pcov.directory=$GITHUB_WORKSPACE, ${{ env.PHP_INI_VALUES }}
+          ini-values: pcov.directory=${{ github.workspace }}, ${{ env.PHP_INI_VALUES }}
           coverage: ${{ matrix.coverage }}
           tools: composer
 
