@@ -18,16 +18,21 @@ class Plugins_Mailer_rvMailerSMTP_Mailer extends AbstractMailer
 
     protected function getTransport(): TransportInterface
     {
+        return Transport::fromDSN($this->getDsn());
+    }
+
+    protected function getDsn(): string
+    {
         $aConf = $GLOBALS['_MAX']['CONF'][$this->group];
 
         $dsn = 'smtp' . (empty($aConf['tls']) ? '' : 's') . '://';
 
         if (!empty($aConf['user']) && !empty($aConf['password'])) {
-            $dsn .= $aConf['user'] . ':' . $aConf['password'] . '@';
+            $dsn .= rawurlencode($aConf['user']) . ':' . rawurlencode($aConf['password']) . '@';
         }
 
         $dsn .= $aConf['hostname'] . ':' . $aConf['port'];
 
-        return Transport::fromDSN($dsn);
+        return $dsn;
     }
 }
