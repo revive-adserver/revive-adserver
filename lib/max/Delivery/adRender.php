@@ -149,7 +149,7 @@ function MAX_adRender(array &$aBanner, int $zoneId = 0, string $source = '', str
 
         $value = stripslashes($_REQUEST[$aMatches[1][$i]]);
 
-        $aMagicMacros[$aMatches[0][$i]] = empty($macros[2][$i]) ?
+        $aMagicMacros[$aMatches[0][$i]] = empty($aMatches[2][$i]) ?
             htmlspecialchars($value, ENT_QUOTES) :
             urlencode($value);
     }
