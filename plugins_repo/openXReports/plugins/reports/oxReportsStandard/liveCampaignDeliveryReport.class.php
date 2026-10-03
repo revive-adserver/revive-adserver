@@ -751,6 +751,10 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
      */
     public function _calculateTodaysPercentDifference($todaysImpressions, $yesterdaysImpressions, $yesterdaysImpressionsToSameHourAsNow, $remainingDays, $campaignImpressionsToLastNight, $desiredImpressions)
     {
+        if ($yesterdaysImpressionsToSameHourAsNow <= 0) {
+            return false;
+        }
+
         // The number of impressions that are predicted to happen "today" is the number of impressions delivered so
         // far today, multiplied by the total number of impressions delivered yesterday divided by how many of those
         // impressions had been delivered so far at the same point in time yesterday
