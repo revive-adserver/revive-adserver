@@ -73,6 +73,8 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
             // PHP 8.1+
             $this->assertTrue($GLOBALS['_MAX']['ADMIN_DB_LINK'] instanceof PgSql\Connection);
         }
+        $this->assertIdentical($GLOBALS['_MAX']['ADMIN_DB_LINK'], OA_Dal_Delivery_connect());
+        $this->assertIdentical($GLOBALS['_MAX']['ADMIN_DB_LINK'], OA_Dal_Delivery_connect('rawDatabase'));
     }
 
     /**
