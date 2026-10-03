@@ -652,7 +652,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             // reduce the list of old plugins to those that need to be deleted only
             foreach ($aGroupsOld as $k => &$aOld) {
                 if ($aOld['name'] == $aGroup['name']) {
-                    unset($aGroupsOld[$idx]);
+                    unset($aGroupsOld[$k]);
                     break;
                 }
             }
