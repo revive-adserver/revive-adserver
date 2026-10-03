@@ -263,7 +263,7 @@ class OA_Dll_Audit extends OA_Dll
             $doZones->affiliateid = $aParam['publisher_id'];
             if ($zoneIdSet) {
                 // Also limit to the set zone ID
-                $doZones->zone_id = $aParam['zone_id'];
+                $doZones->zoneid = $aParam['zone_id'];
             }
             $doZones->find();
             if ($doZones->getRowCount() > 0) {

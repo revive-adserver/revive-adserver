@@ -242,6 +242,38 @@ class OA_Dll_AuditTest extends DllUnitTestCase
         }
     }
 
+    public function testCountAuditLogForSelectedZone()
+    {
+        $publisherId = DataGenerator::generateOne('affiliates');
+        $zoneIds = [];
+        foreach ([1, 2] as $unused) {
+            $doZone = OA_Dal::factoryDO('zones');
+            $doZone->affiliateid = $publisherId;
+            $zoneIds[] = DataGenerator::generateOne($doZone);
+        }
+
+        $audit = new OA_Dll_Audit();
+        $selectedZoneParams = ['publisher_id' => $publisherId, 'zone_id' => $zoneIds[0]];
+        $publisherParams = ['publisher_id' => $publisherId];
+        $selectedZoneCount = $audit->countAuditLog($selectedZoneParams);
+        $publisherCount = $audit->countAuditLog($publisherParams);
+
+        foreach ($zoneIds as $zoneId) {
+            $doAudit = OA_Dal::factoryDO('audit');
+            $doAudit->context = 'zones';
+            $doAudit->contextid = $zoneId;
+            $doAudit->parentid = null;
+            $doAudit->actionid = OA_AUDIT_ACTION_UPDATE;
+            $doAudit->details = serialize([]);
+            DataGenerator::generateOne($doAudit);
+        }
+
+        $this->assertEqual($selectedZoneCount + 1, $audit->countAuditLog($selectedZoneParams));
+        $this->assertEqual($publisherCount + 2, $audit->countAuditLog($publisherParams));
+
+        DataGenerator::cleanUp(['zones', 'affiliates']);
+    }
+
     public function test_getParentContextData()
     {
         $dllAuditPartialMock = new PartialMockOA_Dll_Audit($this);
