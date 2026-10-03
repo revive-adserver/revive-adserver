@@ -33,7 +33,7 @@ function MAX_checkTime_Date($limitation, $op, $aParams = [])
     } else {
         $tz = false;
     }
-    if ($limitation == '' && $limitation == '00000000') {
+    if ($limitation == '' || $limitation == '00000000') {
         return true;
     }
     $timestamp = empty($aParams['timestamp']) ? time() : $aParams['timestamp'];
