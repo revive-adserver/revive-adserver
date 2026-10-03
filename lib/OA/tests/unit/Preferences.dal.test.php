@@ -1091,9 +1091,26 @@ class Test_OA_Preferences extends UnitTestCase
         $prefs = OA_Preferences::loadPreferencesByNameAndAccount($accountId, ['pref1'], 'ADMIN');
         $this->assertEqual($prefs, ['pref1' => 'pref1val']);
 
+        $this->assertEqual(OA_Preferences::cachePreferences($accountId, ['pref1']), $prefs);
+        $doPreference = OA_Dal::factoryDO('account_preference_assoc');
+        $doPreference->account_id = $accountId;
+        $doPreference->preference_id = 1;
+        $doPreference->find();
+        $doPreference->fetch();
+        $doPreference->value = 'updated';
+        $doPreference->update();
+        $this->assertEqual(
+            OA_Preferences::loadPreferencesByNameAndAccount($accountId, ['pref1'], 'ADMIN'),
+            ['pref1' => 'pref1val'],
+        );
+        $this->assertEqual(
+            OA_Preferences::loadPreferencesByNameAndAccount($accountId, ['pref1'], 'ADMIN', false),
+            ['pref1' => 'updated'],
+        );
+
         $this->_addPrefsToAccount([2 => 'pref2val'], $accountId);
         $prefs = OA_Preferences::loadPreferencesByNameAndAccount($accountId, ['pref1', 'pref2'], 'ADMIN');
-        $this->assertEqual($prefs, ['pref1' => 'pref1val', 'pref2' => 'pref2val']);
+        $this->assertEqual($prefs, ['pref1' => 'updated', 'pref2' => 'pref2val']);
 
         $prefs = OA_Preferences::loadPreferencesByNameAndAccount(2, ['pref1'], 'ADMIN');
         $this->assertEqual($prefs, []);

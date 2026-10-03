@@ -231,7 +231,7 @@ class OA_Preferences
      */
     public static function loadPreferencesByNameAndAccount($accountId, $aPreferencesNames, $accountType, $useCache = true)
     {
-        $aPrefs = OA_Preferences::cachePreferences($accountId, $aPreferencesNames);
+        $aPrefs = $useCache ? OA_Preferences::cachePreferences($accountId, $aPreferencesNames) : [];
         if (count($aPrefs) == count($aPreferencesNames)) {
             return $aPrefs;
         }
@@ -245,7 +245,7 @@ class OA_Preferences
         while ($doAccount_preference_assoc->fetch()) {
             $aPrefs[$prefsIdsFlip[$doAccount_preference_assoc->preference_id]] = $doAccount_preference_assoc->value;
         }
-        OA_Preferences::cachePreferences($accountId, $aPrefs);
+        OA_Preferences::cachePreferences($accountId, $aPrefs, false);
         return $aPrefs;
     }
 
