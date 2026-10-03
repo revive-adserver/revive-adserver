@@ -124,6 +124,13 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $aCheck = $doCampaigns->getAll('campaignname', $indexBy = 'clientid', $flatten = true);
         $this->assertEqual(count($aCheck), 2);
         $this->assertEqual(array_keys($aCheck), [$clientId, $clientId2]);
+
+        $doCampaigns = clone ($doCampaignsFilter);
+        $aCheck = $doCampaigns->getAll('campaignid', true, true);
+        foreach ($aCheck as $id => $value) {
+            $this->assertEqual($id, $value);
+        }
+        $this->assertEqual(count($aCheck), count($aCampaignId));
     }
 
     public function testBelongsToAccount()
