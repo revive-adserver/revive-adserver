@@ -112,7 +112,7 @@ class Condense
         if ($this->oDbh->dbsyntax === 'pgsql') {
             $where = match ($type) {
                 'daily' => "date_time::time(0) <> '00:00:00'",
-                'monthly' => "EXTRACT(DAY from date_time) <> 1 AND date_time::time(0) <> '00:00:00'",
+                'monthly' => "(EXTRACT(DAY from date_time) <> 1 OR date_time::time(0) <> '00:00:00')",
             };
         } else {
             $where = match ($type) {
