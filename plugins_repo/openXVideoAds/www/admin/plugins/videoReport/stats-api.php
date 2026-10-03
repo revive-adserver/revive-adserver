@@ -1,6 +1,6 @@
 <?php
 
-require_once MAX_PATH . "/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common.php";
+require_once dirname(__DIR__, 4) . '/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common.php';
 
 class OX_Video_Report
 {
@@ -223,7 +223,7 @@ class OX_Video_Report
                 $pattern = '%Y-%m-%d';
                 break;
             case 'week':
-                $pattern = 'Week %W (%Y)';
+                // Match DATE_FORMAT's ISO week number and week-based year below.
                 break;
             case 'month':
                 $pattern = '%B %Y';
@@ -238,7 +238,11 @@ class OX_Video_Report
         $startTimestamp = strtotime($startDate);
         $endTimestamp = strtotime($endDate);
         while ($startTimestamp <= $endTimestamp) {
-            $dates[] = strftime($pattern, $startTimestamp);
+            if ($dimension === 'week') {
+                $dates[] = 'Week ' . date('W', $startTimestamp) . ' (' . date('o', $startTimestamp) . ')';
+            } else {
+                $dates[] = strftime($pattern, $startTimestamp);
+            }
             $startTimestamp = strtotime("+1 day", $startTimestamp);
         }
         return $dates;
