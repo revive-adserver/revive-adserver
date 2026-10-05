@@ -483,7 +483,7 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
             $aBanner['block_zone'] .= $delimiter . $ad['block_zone'];
             $aBanner['cap_zone'] .= $delimiter . $ad['cap_zone'];
             $aBanner['session_cap_zone'] .= $delimiter . $ad['session_cap_zone'];
-            $logLastAction .= $delimiter . (!empty($ad['viewwindow']) && !empty($ad['tracker_status'])) ? '1' : '0';
+            $logLastAction .= $delimiter . ((!empty($ad['viewwindow']) && !empty($ad['tracker_status'])) ? '1' : '0');
         }
     }
     $url = MAX_commonGetDeliveryUrl($conf['file']['log']);
@@ -599,7 +599,7 @@ function _adRenderBuildClickQueryString(array $aBanner, int $zoneId = 0, string 
             $aBanner['bannerid'] .= $delimiter . $ad['bannerid'];
             $aBanner['placement_id'] .= $delimiter . $ad['placement_id'];
             $zoneId .= $delimiter . $ad['zoneid'];
-            $logLastClick .= (empty($aBanner['clickwindow'])) ? '0' : '1';
+            $logLastClick .= $delimiter . (empty($ad['clickwindow']) ? '0' : '1');
         }
     }
 
@@ -715,7 +715,7 @@ function _adRenderBuildParams($aBanner, $zoneId = 0, $source = '', $ct0 = '', $l
             $aBanner['bannerid'] .= $delimiter . $ad['bannerid'];
             $aBanner['placement_id'] .= $delimiter . $ad['placement_id'];
             $zoneId .= $delimiter . $ad['zoneid'];
-            $logLastClick .= (empty($aBanner['clickwindow'])) ? '0' : '1';
+            $logLastClick .= $delimiter . (empty($ad['clickwindow']) ? '0' : '1');
         }
     }
 
