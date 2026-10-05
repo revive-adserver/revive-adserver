@@ -2069,6 +2069,7 @@ class OA_DB_Upgrade
         } else {
             $log = fopen($this->logFile, 'a');
             if (count($this->logBuffer)) {
+                $this->logBuffer[] = $message;
                 $message = implode("\n", $this->logBuffer);
                 $this->logBuffer = [];
             }
