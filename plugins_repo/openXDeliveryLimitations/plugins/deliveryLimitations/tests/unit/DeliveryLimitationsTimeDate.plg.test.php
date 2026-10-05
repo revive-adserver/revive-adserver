@@ -24,6 +24,16 @@ Language_Loader::load();
  */
 class Plugins_TestOfPlugins_DeliveryLimitations_Time_Date extends UnitTestCase
 {
+    public function testEmptyDateLimitationsAlwaysAllowDelivery()
+    {
+        $timestamp = mktime(12, 0, 0, 7, 1, 2009);
+        foreach (['', '00000000'] as $limitation) {
+            foreach (['==', '!=', '<=', '>=', '<', '>'] as $operator) {
+                $this->assertTrue(MAX_checkTime_Date($limitation, $operator, ['timestamp' => $timestamp]));
+            }
+        }
+    }
+
     public function testCheckTimeDay()
     {
         OA_setTimeZoneUTC();
