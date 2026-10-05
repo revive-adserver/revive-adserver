@@ -776,7 +776,7 @@ class OX_PluginManager extends OX_Plugin_ComponentGroupManager
             $this->_cacheDependencies(); // need to keep recreating the array
             $this->_auditUpdate(
                 ['description' => 'PLUGIN UNINSTALL COMPLETE',
-                    'action' => UPGRADE_ACTION_INSTALL_FAILED,
+                    'action' => UPGRADE_ACTION_UNINSTALL_SUCCEEDED,
                     'id' => $auditId,
                 ],
             );
