@@ -34,14 +34,17 @@ class OA_Permission_User
     /**
      * Class constructor
      *
-     * @param DataObjects_Users $doUsers
-     * @return OA_Permission_User
+     * @param DataObjects_Users|null $doUsers Null for system process users
      */
     public function __construct(
         $doUsers,
         $skipDatabaseAccess = false,
         public readonly AuthContext $context = AuthContext::UI,
     ) {
+        if ($doUsers === null && $this instanceof OA_Permission_SystemUser) {
+            return;
+        }
+
         if (!is_a($doUsers, 'DataObjects_Users')) {
             MAX::raiseError('doUser not a DataObjects_Users');
         }
