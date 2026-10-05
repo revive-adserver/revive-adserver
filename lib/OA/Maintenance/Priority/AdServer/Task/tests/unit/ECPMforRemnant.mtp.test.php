@@ -121,6 +121,11 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends UnitTest
         $dataJustLoaded = $oEcpm->preloadZonesAvailableImpressionsForAgency(152);
         $this->assertEqual($aZonesExpectedContracts, $oEcpm->aZonesAvailableImpressions);
         $this->assertFalse($dataJustLoaded);
+
+        $oEcpm->resetHelperProperties();
+        $dataJustLoaded = $oEcpm->preloadZonesAvailableImpressionsForAgency(123);
+        $this->assertTrue($dataJustLoaded);
+        $this->assertEqual($aZonesExpectedContracts, $oEcpm->aZonesAvailableImpressions);
     }
 
     /**
