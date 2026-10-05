@@ -221,8 +221,8 @@ function MAX_commonConvertEncoding($content, $toEncoding, $fromEncoding = 'UTF-8
                 break;
         }
 
-        return $converted ?: $content;
     }
+    return $converted === false ? $content : $converted;
 }
 
 /**
