@@ -555,6 +555,9 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
 
     public function uptodateAction()
     {
+        $oWizard = new OX_Admin_UI_Install_Wizard($this->getInstallStatus());
+        $this->setCurrentStepIfReachable($oWizard, 'uptodate');
+
         $this->finalizeInstallation();
 
         if ($this->getRequest()->isPost()) {

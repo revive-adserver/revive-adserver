@@ -88,8 +88,16 @@ class OX_Admin_UI_Install_Wizard extends OX_Admin_UI_Wizard
             }
         } elseif ($oStatus->isUpToDate()) {
             $aSteps = [
+                'login' => 'Administrator Login',
                 'uptodate' => 'Up To Date',
             ];
+            $aMeta = [
+                'uptodate' => ['secured' => true],
+            ];
+
+            if (!$oStorage->get('isLoginStepVisible')) {
+                unset($aSteps['login']);
+            }
         }
         return ['steps' => $aSteps, 'meta' => $aMeta];
     }
