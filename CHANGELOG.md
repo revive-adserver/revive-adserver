@@ -16,6 +16,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Added missing HTML escaping in the error message when trying to link a wrong type of baner to a zone ([#1703](https://github.com/revive-adserver/revive-adserver/issues/1703))
 - Fixed PHP fatal error when opening the tracker append code page ([#1719](https://github.com/revive-adserver/revive-adserver/issues/1719))
 - Fixed a PHP fatal error when reporting database errors during an upgrade ([#1721](https://github.com/revive-adserver/revive-adserver/issues/1721))
+- Added missing HTML escaping to the campaign name in email-zone date-conflict errors ([#1763](https://github.com/revive-adserver/revive-adserver/issues/1763))
 
 ## [6.0.8] - 2026-06-25
 

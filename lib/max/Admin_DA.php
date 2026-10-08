@@ -937,7 +937,7 @@ class Admin_DA
         }
         if (!$okToLink) {
             $link = "campaign-edit.php?clientid={$otherCampaignVariables['advertiser_id']}&campaignid={$otherCampaignVariables['placement_id']}";
-            return PEAR::raiseError($GLOBALS['strDatesConflict'] . ": <a href='{$link}'>" . $otherCampaignVariables['name'] . "</a>", MAX_ERROR_EXISTINGCAMPAIGNFORDATES);
+            return PEAR::raiseError($GLOBALS['strDatesConflict'] . ": <a href='{$link}'>" . htmlspecialchars($otherCampaignVariables['name']) . "</a>", MAX_ERROR_EXISTINGCAMPAIGNFORDATES);
         }
         PEAR::popErrorHandling();
         return true;
