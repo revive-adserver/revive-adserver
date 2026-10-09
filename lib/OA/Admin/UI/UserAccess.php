@@ -118,7 +118,8 @@ class OA_Admin_UI_UserAccess
         }
 
         if (!empty($this->request['submit'])) {
-            if (!OA_Permission::validateUsername($this->request['login'])) {
+            // Existing users may have usernames that predate the current restrictions.
+            if (empty($this->userid) && !OA_Permission::validateUsername($this->request['login'])) {
                 $this->aErrors = [$GLOBALS['strInvalidUsername']];
             } else {
                 $this->aErrors = $this->oPlugin->validateUsersData($this->request);
