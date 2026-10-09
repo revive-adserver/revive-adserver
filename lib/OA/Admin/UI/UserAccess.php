@@ -107,7 +107,7 @@ class OA_Admin_UI_UserAccess
     public function process()
     {
         // Avoid information disclosure to non-admin users
-        if (!empty($this->userid) && !OA_Permission::isUserLinkedToAdmin() && !OA_Permission::isUserLinkedToAccount($this->accountId, $this->userid)) {
+        if (!empty($this->userid) && !$this->canLinkExistingUser()) {
             OA_Admin_UI::queueMessage(
                 'You are not allowed to add existing users to this account',
                 'local',
@@ -159,6 +159,30 @@ class OA_Admin_UI_UserAccess
             }
         }
         $this->display();
+    }
+
+    /**
+     * Checks whether an existing user may be linked to the target account.
+     */
+    public function canLinkExistingUser(): bool
+    {
+        return OA_Permission::isUserLinkedToAdmin()
+            || (OA_Permission::getAccountType() === OA_ACCOUNT_MANAGER
+                && !empty($GLOBALS['_MAX']['CONF']['security']['allowLinkingExistingUsers']))
+            || OA_Permission::isUserLinkedToAccount($this->accountId, $this->userid);
+    }
+
+    /**
+     * Checks whether autocomplete may search beyond the active account's realm.
+     */
+    public static function canSearchAllUsers(): bool
+    {
+        $accountType = OA_Permission::getAccountType();
+
+        return $accountType === OA_ACCOUNT_ADMIN
+            || ($accountType === OA_ACCOUNT_MANAGER
+                && !empty($GLOBALS['_MAX']['CONF']['security']['allowLinkingExistingUsers'])
+                && OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT));
     }
 
     public function display()

@@ -435,5 +435,9 @@ enabledForZoneLinking=false
 [security]
 passwordMinLength=12
 badLoginLogPath=
+; Allow managers to link users not already linked to the target account
+; and search all users in autocomplete.
+; Not recommended on shared instances.
+allowLinkingExistingUsers=false
 
 ;------------------------------------------------------------------------------------------;

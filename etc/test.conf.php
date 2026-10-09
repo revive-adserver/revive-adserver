@@ -449,6 +449,7 @@ enabledForZoneLinking=false
 [security]
 passwordMinLength=12
 badLoginLogPath=
+allowLinkingExistingUsers=false
 
 ;------------------------------------------------------------------------------------------;
 ; Test configuration

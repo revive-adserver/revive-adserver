@@ -42,6 +42,10 @@ if ($oSettings->isFormSubmitted()) {
     $aElements += [
         'security_passwordMinLength' => ['security' => 'passwordMinLength'],
         'security_badLoginLogPath' => ['security' => 'badLoginLogPath'],
+        'security_allowLinkingExistingUsers' => [
+            'security' => 'allowLinkingExistingUsers',
+            'bool' => true,
+        ],
     ];
     // Audit Trail
     $aElements += [
@@ -130,6 +134,14 @@ $aSettings = [
                 'name' => 'security_badLoginLogPath',
                 'text' => $strSecurityBadLoginPath,
                 'size' => 35,
+            ],
+            [
+                'type' => 'break',
+            ],
+            [
+                'type' => 'checkbox',
+                'name' => 'security_allowLinkingExistingUsers',
+                'text' => $strSecurityAllowLinkingExistingUsers,
             ],
         ],
     ],

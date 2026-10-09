@@ -19,6 +19,10 @@ All notable changes to Revive Adserver will be documented in this file.
 - Added missing HTML escaping to the campaign name in email-zone date-conflict errors ([#1763](https://github.com/revive-adserver/revive-adserver/issues/1763))
 - Existing users with legacy usernames containing spaces could not be linked to accounts or have their permissions updated ([#1764](https://github.com/revive-adserver/revive-adserver/issues/1764))
 
+### Added
+
+- Added the disabled-by-default `security.allowLinkingExistingUsers` configuration option to allow managers to link existing users to other accounts and search all users in autocomplete. Enabling it is not recommended on shared instances ([#1765](https://github.com/revive-adserver/revive-adserver/issues/1765))
+
 ## [6.0.8] - 2026-06-25
 
 ### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2026-003/)

@@ -19,7 +19,8 @@
  *   - "limit" -- The number of search results to be returned.
  *
  * Results of auto completion are limited to those users that are already
- * linked to accounts in the current account realm.
+ * linked to accounts in the current account realm, unless searching as an
+ * administrator or a manager with the existing-user linking bypass enabled.
  */
 
 $q = strtolower(trim($_GET["q"] ?? ''));
@@ -34,9 +35,13 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
 // Restrict access to accounts which are allowed to link other accounts
-switch (OA_Permission::getAccountType()) {
+$accountType = OA_Admin_UI_UserAccess::canSearchAllUsers()
+    ? OA_ACCOUNT_ADMIN
+    : OA_Permission::getAccountType();
+switch ($accountType) {
     case OA_ACCOUNT_ADMIN:
         // There are no restrictions on users that are applied to the autocomplete
         // list, as the admin account can see all accounts and therefore users in
