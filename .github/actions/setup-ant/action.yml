@@ -1,0 +1,27 @@
+name: Setup Ant
+description: Install Apache Ant 1.7.1 from cache or a verified release package.
+runs:
+  using: composite
+  steps:
+    - name: Install Ant 1.7.1 from cache
+      id: ant-cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ runner.temp }}/apache-ant-1.7.1
+        key: ${{ runner.os }}-ant-1.7.1-6344bb150f22dc335462bafa87de45085d51a5be
+
+    - name: Install Ant 1.7.1 from release package
+      if: steps.ant-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        curl -fsSL --retry 3 \
+          https://archive.apache.org/dist/ant/binaries/apache-ant-1.7.1-bin.tar.gz \
+          -o "$RUNNER_TEMP/ant.tar.gz"
+        echo "6344bb150f22dc335462bafa87de45085d51a5be  $RUNNER_TEMP/ant.tar.gz" | sha1sum --check
+        tar -xzf "$RUNNER_TEMP/ant.tar.gz" -C "$RUNNER_TEMP"
+
+    - name: Configure Ant
+      shell: bash
+      run: |
+        echo "ANT_HOME=$RUNNER_TEMP/apache-ant-1.7.1" >> "$GITHUB_ENV"
+        echo "$RUNNER_TEMP/apache-ant-1.7.1/bin" >> "$GITHUB_PATH"

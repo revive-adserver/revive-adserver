@@ -294,15 +294,8 @@ jobs:
           ini-values: ${{ env.PHP_INI_VALUES }}
           tools: composer
 
-      - name: Install ant 1.7
-        run: |
-          curl -s -O http://archive.debian.org/debian-archive/debian/pool/main/a/ant1.7/ant1.7_1.7.1-7_all.deb
-          curl -s -O http://archive.debian.org/debian-archive/debian/pool/main/a/ant1.7/ant1.7-optional_1.7.1-7_all.deb
-          sudo apt-get -y -qq remove ant
-          sudo apt-get -y -qq install libxerces2-java
-          sudo dpkg -i ant1.7_1.7.1-7_all.deb
-          sudo dpkg -i ant1.7-optional_1.7.1-7_all.deb
-          rm *.deb
+      - name: Install Ant 1.7.1
+        uses: ./.github/actions/setup-ant
 
       - name: Gather commit messages
         id: gather
