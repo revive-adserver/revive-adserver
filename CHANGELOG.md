@@ -2,6 +2,26 @@
 
 All notable changes to Revive Adserver will be documented in this file.
 
+## [6.0.9]
+
+### Security fixes (temporary QA notes)
+
+Security fixes affect the areas below. Use the prepared test build, test accounts, and sample data to check that these everyday tasks still work.
+
+- **Campaigns and banners:** Create and edit campaigns and banners. Change their names and settings, save, and reopen them to confirm the changes were kept. There should be no unexpected errors or permission messages. (H1 3831102, 3896779)
+- **Campaign-to-zone links:** Link and unlink campaigns to zones within the same manager account. Confirm the saved links are correct and ads still appear in the linked zones. (H1 3958112)
+- **Website list:** Check that each manager can see their own websites and zones. Try sorting the list and moving between pages. (H1 3883840)
+- **Trackers:** Create and edit trackers, generate their invocation tags, and open the append-code maintenance check. Names should display correctly, links should work, and viewing invocation tags should not change tracker settings. (H1 3826207, 3981932)
+- **Invocation tags:** Generate and use banner, frame, and popup tags. Check banner selection, frame dimensions, popup position, opening delay, and automatic closing with normal settings. (H1 3942028, 3908050, 3971985)
+- **Conversion statistics:** View conversions for advertisers and websites. Switch between daily and hourly views, then expand and collapse conversion details. The selected period and displayed conversions should stay consistent, with no unexpected permission errors. (H1 3878649)
+- **Conversion report exports:** Export reports and open them in a spreadsheet. Check the detail and variable-summary sheets, including conversions with blank optional fields. Text, dates, numbers, and connection labels should display correctly, and exports should complete without errors. (H1 3859000)
+- **Login:** Log in and out with the usual test accounts. Surrounding spaces in a username should be ignored. If a test password contains leading or trailing spaces, login should succeed only when those spaces are included. (H1 3896779)
+- **Update history:** As an administrator, open update history and use its available controls. After the session expires, check that the page asks for login again rather than showing an error or a broken page. (H1 4075098)
+
+### Changed
+
+- Login passwords are no longer trimmed; leading and trailing whitespace is now significant. Usernames continue to be trimmed.
+
 ## [6.0.8] - 2026-06-25
 
 ### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2026-003/)
