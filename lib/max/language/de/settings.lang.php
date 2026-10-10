@@ -114,6 +114,7 @@ $GLOBALS['strSecurityAndDebug'] = "Sicherheits- und Debug-Einstellungen";
 $GLOBALS['strSecuritySettings'] = "Sicherheitseinstellungen";
 $GLOBALS['strSecurityPasswordMinLength'] = "Minimale Passwortlänge";
 $GLOBALS['strSecurityBadLoginPath'] = "Logdatei für fehlerhafte Anmeldungen";
+$GLOBALS['strSecurityAllowLinkingExistingUsers'] = "Verwalter erlauben bestehende Benutzer zu verknüpfen (nicht sicher bei freigegebenen Instanzen)";
 
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Einstellungen Prüfprotokoll";
