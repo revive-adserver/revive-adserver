@@ -113,6 +113,7 @@ $GLOBALS['strSecurityAndDebug'] = "Beveiliging en Debug Instellingen";
 $GLOBALS['strSecuritySettings'] = "Beveiligingsinstellingen";
 $GLOBALS['strSecurityPasswordMinLength'] = "Minimale wachtwoord lengte";
 $GLOBALS['strSecurityBadLoginPath'] = "Logbestand voor foute logins";
+$GLOBALS['strSecurityAllowLinkingExistingUsers'] = "Beheerders toestaan bestaande gebruikers te koppelen (niet veilig op gedeelde instanties)";
 
 // Audit Trail Settings
 $GLOBALS['strAuditTrailSettings'] = "Audit Trail Instellingen";
