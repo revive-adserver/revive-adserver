@@ -18,6 +18,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Menu/CompoundChecker.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/model/PageHeaderModel.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/NotificationManager.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/AccountSwitch.php';
+require_once MAX_PATH . '/lib/max/language/Loader.php';
 require_once MAX_PATH . '/lib/OX/Admin/UI/Hooks.php';
 require_once MAX_PATH . '/www/admin/assets/minify-init.php';
 
@@ -907,7 +908,7 @@ class OA_Admin_UI
 
     private function addJsCalendarTranslation(): void
     {
-        $language = substr($GLOBALS['_MAX']['PREF']['language'] ?? 'en', 0, 2);
+        $language = substr(Language_Loader::resolveLanguage(), 0, 2);
 
         if ($language !== 'en' && file_exists(MAX_PATH . "/www/admin/assets/js/jscalendar/lang/calendar-{$language}.js")) {
             $this->otherJSFiles[] = "assets/js/jscalendar/lang/calendar-{$language}.js";

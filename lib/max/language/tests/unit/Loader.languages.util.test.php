@@ -14,6 +14,28 @@ require_once(MAX_PATH . '/lib/max/language/Loader.php');
 
 class MAX_Language_LoaderTest extends UnitTestCase
 {
+    public function testResolveLanguage()
+    {
+        $savedPreferences = $GLOBALS['_MAX']['PREF'] ?? [];
+        $savedConfig = $GLOBALS['_MAX']['CONF'];
+
+        try {
+            $GLOBALS['_MAX']['PREF'] = [];
+            $GLOBALS['_MAX']['CONF']['max']['language'] = 'polish';
+            $this->assertEqual('pl', Language_Loader::resolveLanguage());
+
+            $GLOBALS['_MAX']['PREF']['language'] = 'de';
+            $this->assertEqual('de', Language_Loader::resolveLanguage());
+            $this->assertEqual('fr', Language_Loader::resolveLanguage('fr'));
+
+            $GLOBALS['_MAX']['PREF']['language'] = 'invalid';
+            $this->assertEqual('pl', Language_Loader::resolveLanguage());
+        } finally {
+            $GLOBALS['_MAX']['PREF'] = $savedPreferences;
+            $GLOBALS['_MAX']['CONF'] = $savedConfig;
+        }
+    }
+
     public function testLoad()
     {
         $PRODUCT_NAME = $PRODUCT_DOCSURL = 'FOO';
