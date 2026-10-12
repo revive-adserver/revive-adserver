@@ -27,7 +27,8 @@ jobs:
           download_translations: true
           localization_branch_name: crowdin_translations
           create_pull_request: true
-          pull_request_title: 'New Crowdin Translations'
+          commit_message: '[ci skip] New Crowdin translations'
+          pull_request_title: 'New Crowdin translations'
           pull_request_body: 'Updated translations from Crowdin'
           pull_request_base_branch_name: 'master'
         env:
