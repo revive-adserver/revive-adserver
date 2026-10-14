@@ -18,6 +18,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Fixed a PHP fatal error when reporting database errors during an upgrade ([#1721](https://github.com/revive-adserver/revive-adserver/issues/1721))
 - Added missing HTML escaping to the campaign name in email-zone date-conflict errors ([#1763](https://github.com/revive-adserver/revive-adserver/issues/1763))
 - Existing users with legacy usernames containing spaces could not be linked to accounts or have their permissions updated ([#1764](https://github.com/revive-adserver/revive-adserver/issues/1764))
+- Added missing HTML escaping to campaign names in the zone linked-banners view ([#1769](https://github.com/revive-adserver/revive-adserver/issues/1769))
 
 ### Added
 

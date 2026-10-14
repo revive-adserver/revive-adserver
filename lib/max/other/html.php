@@ -837,7 +837,7 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
             $bgcolor = $i % 2 == 0 ? " bgcolor='#F6F6F6'" : '';
             if ($showParentPlacements) {
                 $placementIcon = MAX_getEntityIcon('placement', $placementActive);
-                $placementName = MAX_getDisplayName($aPlacement['name']);
+                $placementName = htmlspecialchars(MAX_getDisplayName($aPlacement['name']));
                 $placementLink = (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) ? "<a href='campaign-edit.php?clientid={$aPlacement['advertiser_id']}&campaignid=$placementId'>$placementName</a>" : $placementName;
                 if ($i > 0) {
                     echo "
