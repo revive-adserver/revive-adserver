@@ -783,46 +783,79 @@ function OX_Delivery_Common_getFunctionFromComponentIdentifier($identifier, $hoo
     return $functionName;
 }
 
-function OX_Delivery_Common_getClickSignature(int $adId, int $zoneId, string $data): string
+/**
+ * @param list<int|string> $aSecrets
+ */
+function OX_Delivery_Common_getSignature(array $aSecrets, string $data): string
 {
     if (empty($GLOBALS['_MAX']['CONF']['delivery']['secret'])) {
         throw new InvalidArgumentException('Empty delivery secret');
     }
 
-    $secret = implode("\t", [
-        base64_decode($GLOBALS['_MAX']['CONF']['delivery']['secret']),
-        $adId,
-        $zoneId,
-    ]);
+    array_unshift($aSecrets, base64_decode($GLOBALS['_MAX']['CONF']['delivery']['secret']));
 
     return hash_hmac(
         'sha256',
         $data,
-        $secret,
+        implode("\t", $aSecrets),
     );
 }
 
 function OX_Delivery_Common_checkClickSignature(int $adId, int $zoneId, string $dest): bool
 {
     $aConf = $GLOBALS['_MAX']['CONF'];
-    $sig = $_REQUEST[$aConf['var']['signature']] ?? '';
+    $sig = $_GET[$aConf['var']['signature']] ?? '';
 
-    $ts = (int) ($_REQUEST[$aConf['var']['timestamp']] ?? 0);
+    $ts = (int) ($_GET[$aConf['var']['timestamp']] ?? 0);
     $validity = (int) ($aConf['delivery']['clickUrlValidity'] ?? 0);
 
-    if (!preg_match('#^https?://#', $dest)) {
+    if (!is_string($sig) || !preg_match('#^https?://#', $dest)) {
         return false;
     }
 
     // Does the signature match the destination?
-    if ($sig === OX_Delivery_Common_getClickSignature($adId, $zoneId, $dest)) {
+    if (hash_equals(OX_Delivery_Common_getSignature([$adId, $zoneId], $dest), $sig)) {
         return true;
     }
 
-    if (empty($ts) || $sig !== OX_Delivery_Common_getClickSignature($adId, $zoneId, (string) $ts)) {
+    if (empty($ts) || !hash_equals(OX_Delivery_Common_getSignature([$adId, $zoneId], (string) $ts), $sig)) {
         // Missing or invalid timestamp
         return false;
     }
+    // Valid click url
+    return $ts <= MAX_commonGetTimeNow() && $ts + $validity >= MAX_commonGetTimeNow();
+}
+
+/**
+ * @param string|array|null $adId
+ * @param string|array|null $zoneId
+ */
+function OX_Delivery_Common_checkLogSignature($adId, $zoneId): bool
+{
+    if (!is_string($adId) || !is_string($zoneId)) {
+        return false;
+    }
+
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    $sig = $_GET[$aConf['var']['signature']] ?? null;
+
+    if (!is_string($sig)) {
+        return false;
+    }
+
+    $ts = (int) ($_GET[$aConf['var']['timestamp']] ?? 0);
+    $validity = (int) ($aConf['delivery']['logUrlValidity'] ?? 0);
+
+    $aSecrets = ['lg', $adId, $zoneId];
+
+    if (empty($ts)) {
+        return hash_equals(OX_Delivery_Common_getSignature($aSecrets, ''), $sig);
+    }
+
+    if (!hash_equals(OX_Delivery_Common_getSignature($aSecrets, (string) $ts), $sig)) {
+        return false;
+    }
+
     // Valid click url
     return $ts <= MAX_commonGetTimeNow() && $ts + $validity >= MAX_commonGetTimeNow();
 }

@@ -70,5 +70,6 @@ $expect = "<a href='{clickurl_html}' target='{target}' rel='{rel}'>" .
     "<div id='beacon_{random}' style='position: absolute; left: 0px; top: 0px; visibility: hidden;'>" .
     "<img src='http://" . $GLOBALS['_MAX']['CONF']['webpath']['delivery'] .
     "/lg.php?{$conf['var']['adId']}=7&amp;campaignid=2&amp;{$conf['var']['zoneId']}=0&amp;{$conf['var']['blockAd']}=60&amp;" .
-    "referer=http%3A%2F%2Fsome.referrer.com%2F&amp;cb={random}' width='0' height='0' alt='' " .
+    "referer=http%3A%2F%2Fsome.referrer.com%2F&amp;cb={random}" .
+    "&amp;{$conf['var']['signature']}=" . OX_Delivery_Common_getSignature(['lg', 7, 0], '') . "' width='0' height='0' alt='' " .
     "style='width: 0px; height: 0px;' /></div>";

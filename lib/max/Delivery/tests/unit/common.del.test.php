@@ -69,6 +69,7 @@ class Test_DeliveryCommon extends UnitTestCase
         $url = MAX_commonGetDeliveryUrl('test.html');
         $this->assertEqual($url, 'https://secure.maxstore.net:4430/www/delivery/test.html', "A non-standard port number should be explicitly provided in delivery URLs. %s");
         unset($_SERVER['HTTPS']);
+        unset($GLOBALS['_MAX']['SSL_REQUEST']);
     }
 
     /**
@@ -361,26 +362,50 @@ class Test_DeliveryCommon extends UnitTestCase
 
     public function test_OX_Delivery_Common_checkClickSignature_noTimestamp()
     {
+        $previousGet = $_GET;
+        $_GET = [];
         $this->assertFalse(OX_Delivery_Common_checkClickSignature(0, 0, ''));
 
         // Valid destination and signature
-        $_REQUEST['sig'] = OX_Delivery_Common_getClickSignature(1, 1, 'http://example.com/');
+        $_GET['sig'] = OX_Delivery_Common_getSignature([1, 1], 'http://example.com/');
         $this->assertTrue(OX_Delivery_Common_checkClickSignature(1, 1, 'http://example.com/'));
 
         // Tamper with IDs or destination
         $this->assertFalse(OX_Delivery_Common_checkClickSignature(1, 1, 'http://example.com/foo.html'));
         $this->assertFalse(OX_Delivery_Common_checkClickSignature(1, 2, 'http://example.com/'));
         $this->assertFalse(OX_Delivery_Common_checkClickSignature(2, 1, 'http://example.com/'));
+
+        $_GET['sig'] = ['invalid'];
+        $this->assertFalse(OX_Delivery_Common_checkClickSignature(1, 1, 'http://example.com/'));
+        $_GET = $previousGet;
+    }
+
+    public function test_OX_Delivery_Common_getSignature_requiresSecret()
+    {
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $previousSecret = $conf['delivery']['secret'];
+        $conf['delivery']['secret'] = '';
+
+        try {
+            OX_Delivery_Common_getSignature([1, 1], 'test');
+            $this->fail('Expected an exception for an empty delivery secret');
+        } catch (InvalidArgumentException $e) {
+            $this->assertEqual($e->getMessage(), 'Empty delivery secret');
+        } finally {
+            $conf['delivery']['secret'] = $previousSecret;
+        }
     }
 
     public function test_OX_Delivery_Common_checkClickSignature_withTimestamp()
     {
+        $previousGet = $_GET;
+        $_GET = [];
         // Set Now
         $GLOBALS['_MAX']['NOW'] = gmmktime(10, 50, 0, 2, 25, 2021);
 
         // Sign with no URL, hence using the current time
-        $_REQUEST['ts'] = (string) MAX_commonGetTimeNow();
-        $_REQUEST['sig'] = OX_Delivery_Common_getClickSignature(1, 1, $_REQUEST['ts']);
+        $_GET['ts'] = (string) MAX_commonGetTimeNow();
+        $_GET['sig'] = OX_Delivery_Common_getSignature([1, 1], $_GET['ts']);
 
         // Advance the wall clock
         $GLOBALS['_MAX']['NOW'] += 30;
@@ -410,11 +435,90 @@ class Test_DeliveryCommon extends UnitTestCase
         $this->assertFalse(OX_Delivery_Common_checkClickSignature(2, 1, 'http://example.com/'));
 
         // Or maybe the timestamp
-        $_REQUEST['ts'] = $GLOBALS['_MAX']['NOW'] - 15;
+        $_GET['ts'] = $GLOBALS['_MAX']['NOW'] - 15;
         $this->assertFalse(OX_Delivery_Common_checkClickSignature(1, 1, 'http://example.com/foobar.html'));
 
         // Cleanup
+        $_GET = $previousGet;
         unset($GLOBALS['_MAX']['NOW']);
+    }
+
+    public function test_OX_Delivery_Common_checkLogSignature()
+    {
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $previousValidity = $conf['delivery']['logUrlValidity'] ?? null;
+        $previousNow = $GLOBALS['_MAX']['NOW'] ?? null;
+        $previousGet = $_GET;
+        $check = static function (array $params) use (&$conf): bool {
+            $_GET = $params;
+            return OX_Delivery_Common_checkLogSignature(
+                $params[$conf['var']['adId']] ?? null,
+                $params[$conf['var']['zoneId']] ?? null,
+            );
+        };
+        $conf['delivery']['logUrlValidity'] = 60;
+        $GLOBALS['_MAX']['NOW'] = 1600000000;
+        $params = [
+            $conf['var']['adId'] => '12|34',
+            $conf['var']['zoneId'] => '9|10',
+            $conf['var']['creativeId'] => '5|6',
+            $conf['var']['timestamp'] => (string) $GLOBALS['_MAX']['NOW'],
+        ];
+        $params[$conf['var']['signature']] = OX_Delivery_Common_getSignature(['lg', '12|34', '9|10'], $params[$conf['var']['timestamp']]);
+
+        $this->assertTrue($check($params));
+        $GLOBALS['_MAX']['NOW'] += 60;
+        $this->assertTrue($check($params));
+        $GLOBALS['_MAX']['NOW']++;
+        $this->assertFalse($check($params));
+
+        $GLOBALS['_MAX']['NOW'] = 1600000000;
+        $changed = $params;
+        $changed[$conf['var']['adId']] = '12|35';
+        $this->assertFalse($check($changed));
+        $changed[$conf['var']['adId']] = ['12', '34'];
+        $this->assertFalse($check($changed));
+        $changed = $params;
+        $changed[$conf['var']['zoneId']] = ['9', '10'];
+        $this->assertFalse($check($changed));
+        $changed = $params;
+        $changed[$conf['var']['creativeId']] = '5|7';
+        $this->assertTrue($check($changed));
+        $changed = $params;
+        $changed[$conf['var']['timestamp']] = '1600000001';
+        $this->assertFalse($check($changed));
+        $changed = $params;
+        unset($changed[$conf['var']['signature']]);
+        $this->assertFalse($check($changed));
+        $changed = $params;
+        unset($changed[$conf['var']['timestamp']]);
+        $this->assertFalse($check($changed));
+        $changed[$conf['var']['signature']] = OX_Delivery_Common_getSignature(['lg', '12|34', '9|10'], '');
+        // A URL without a timestamp remains valid if expiry is enabled later.
+        $this->assertTrue($check($changed));
+
+        $GLOBALS['_MAX']['NOW']--;
+        $this->assertFalse($check($params));
+        $conf['delivery']['logUrlValidity'] = 0;
+        unset($params[$conf['var']['timestamp']]);
+        $params[$conf['var']['signature']] = OX_Delivery_Common_getSignature(['lg', '12|34', '9|10'], '');
+        $GLOBALS['_MAX']['NOW'] += 3600;
+        $this->assertTrue($check($params));
+        $this->assertFalse($check([]));
+        $changed = $params;
+        $changed[$conf['var']['zoneId']] = '9|11';
+        $this->assertFalse($check($changed));
+        $_GET = $previousGet;
+        if ($previousValidity === null) {
+            unset($conf['delivery']['logUrlValidity']);
+        } else {
+            $conf['delivery']['logUrlValidity'] = $previousValidity;
+        }
+        if ($previousNow === null) {
+            unset($GLOBALS['_MAX']['NOW']);
+        } else {
+            $GLOBALS['_MAX']['NOW'] = $previousNow;
+        }
     }
 
     public function test_OX_Delivery_Common_sendPreconnectHeaders()
@@ -448,5 +552,6 @@ class Test_DeliveryCommon extends UnitTestCase
             'Link: cdn.example.com; rel=dns-prefetch',
         ]);
         $GLOBALS['_HEADERS'] = [];
+        $GLOBALS['_MAX']['SSL_REQUEST'] = false;
     }
 }
