@@ -202,7 +202,71 @@ class Test_DeliveryAdRender extends UnitTestCase
         $amp = '&amp;';
         $return = _adRenderBuildLogURL($aBanner, $zoneId, $source, $loc, $referer, $amp);
         $expect = "http://" . $GLOBALS['_MAX']['CONF']['webpath']['delivery'] . "/lg.php?bannerid=9999&amp;campaignid=111&amp;zoneid=1&amp;source=test&amp;loc=http%3A%2F%2Fwww.example.com%2Fpage.php%3Fname%3Dvalue&amp;referer=http%3A%2F%2Fwww.example.com%2Freferer.php%3Fname%3Dvalue&amp;cb={random}";
-        $this->assertEqual($return, $expect);
+        $this->assertTrue(str_starts_with($return, $expect . '&amp;'));
+        parse_str(str_replace('&amp;', '&', explode('?', $return, 2)[1]), $params);
+        $previousGet = $_GET;
+        $_GET = $params;
+        $conf = $GLOBALS['_MAX']['CONF'];
+        $this->assertTrue(OX_Delivery_Common_checkLogSignature($params[$conf['var']['adId']], $params[$conf['var']['zoneId']]));
+        $_GET = $previousGet;
+    }
+
+    public function test_adRenderBuildLogURLWithSignature()
+    {
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $previousSecret = $conf['delivery']['secret'] ?? null;
+        $previousValidity = $conf['delivery']['logUrlValidity'] ?? null;
+        $previousNow = $GLOBALS['_MAX']['NOW'] ?? null;
+        $previousGet = $_GET;
+        $check = static function (array $params) use (&$conf): bool {
+            $_GET = $params;
+            return OX_Delivery_Common_checkLogSignature($params[$conf['var']['adId']], $params[$conf['var']['zoneId']]);
+        };
+        $conf['delivery']['secret'] = base64_encode('test-delivery-secret');
+        $conf['delivery']['logUrlValidity'] = 0;
+        $GLOBALS['_MAX']['NOW'] = 1600000000;
+
+        foreach (['&', '&amp;'] as $amp) {
+            $url = _adRenderBuildLogURL([
+                'ad_id' => 123,
+                'placement_id' => 456,
+            ], 789, '', '', '', $amp);
+            parse_str(str_replace('&amp;', '&', explode('?', $url, 2)[1]), $params);
+
+            $this->assertFalse(isset($params[$conf['var']['timestamp']]));
+            $this->assertTrue($check($params));
+            $changed = $params;
+            $changed[$conf['var']['creativeId']] = '1';
+            $this->assertTrue($check($changed));
+            $GLOBALS['_MAX']['NOW'] += 3600;
+            $this->assertTrue($check($params));
+            $GLOBALS['_MAX']['NOW'] = 1600000000;
+        }
+
+        $conf['delivery']['logUrlValidity'] = 60;
+        $url = _adRenderBuildLogURL(['ad_id' => 123, 'placement_id' => 456], 789, '', '', '', '&');
+        parse_str(explode('?', $url, 2)[1], $params);
+        $this->assertEqual($params[$conf['var']['timestamp']], '1600000000');
+        $this->assertTrue($check($params));
+        $this->assertFalse(hash_equals(
+            $params[$conf['var']['signature']],
+            OX_Delivery_Common_getSignature([123, 789], $params[$conf['var']['timestamp']]),
+        ));
+        $GLOBALS['_MAX']['NOW'] += 61;
+        $this->assertFalse($check($params));
+
+        $_GET = $previousGet;
+        $conf['delivery']['secret'] = $previousSecret;
+        if ($previousValidity === null) {
+            unset($conf['delivery']['logUrlValidity']);
+        } else {
+            $conf['delivery']['logUrlValidity'] = $previousValidity;
+        }
+        if ($previousNow === null) {
+            unset($GLOBALS['_MAX']['NOW']);
+        } else {
+            $GLOBALS['_MAX']['NOW'] = $previousNow;
+        }
     }
 
     /**

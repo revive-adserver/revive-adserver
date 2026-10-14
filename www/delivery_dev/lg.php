@@ -20,6 +20,12 @@ require_once '../../init-delivery.php';
 // Prevent the logging beacon from being cached by browsers
 MAX_commonSetNoCacheHeaders();
 
+// Reject expired or altered beacons
+if (!OX_Delivery_Common_checkLogSignature($_GET[$conf['var']['adId']] ?? null, $_GET[$conf['var']['zoneId']] ?? null)) {
+    MAX_commonDisplay1x1();
+    exit;
+}
+
 // Remove any special characters from the request variables
 MAX_commonRemoveSpecialChars($_REQUEST);
 

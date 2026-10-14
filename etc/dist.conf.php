@@ -135,6 +135,7 @@ assetClientCacheExpire              = 3600  ; Used to create the browser caching
                                             ; of semi-static delivery files, e.g. asyncjs.php
 secret                              =
 clickUrlValidity                    = 0;    ; Click URL open redirect validity in seconds
+logUrlValidity                      = 0;    ; Impression logging URL validity in seconds
 relAttribute                        = noopener nofollow
 relPreconnect                       = false
 
