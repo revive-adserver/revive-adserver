@@ -27,7 +27,12 @@ $coverage = new CodeCoverage(
 $filter
 );
 
-$coverageName = "{$_GET['folder']}/tests/{$_GET['type']}/{$_GET['file']}";
+$coverageName = match ($_GET['level'] ?? '') {
+    'file' => "{$_GET['folder']}/tests/{$_GET['type']}/{$_GET['file']}",
+    'folder' => "{$_GET['folder']}/tests/{$_GET['type']}",
+    'layer' => "tests/{$_GET['type']}/{$_GET['layer']}",
+    default => 'tests/' . ($_GET['type'] ?? 'all'),
+};
 
 $coverage->start($coverageName);
 
