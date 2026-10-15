@@ -17,8 +17,6 @@ class Test_OX_Video_Report_WeekLabels extends UnitTestCase
     public function testWeekLabelsUseTheSameIsoWeekAndYearAsTheQuery()
     {
         $report = new class extends OX_Video_Report {
-            public function __construct() {}
-
             public function getWeekLabels($startDate, $endDate)
             {
                 return $this->getDateLabelsBetweenDates($startDate, $endDate, 'week');

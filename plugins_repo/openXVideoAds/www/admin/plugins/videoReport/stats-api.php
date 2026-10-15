@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__DIR__, 4) . '/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common.php';
+require_once MAX_PATH . '/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common.php';
 
 class OX_Video_Report
 {
