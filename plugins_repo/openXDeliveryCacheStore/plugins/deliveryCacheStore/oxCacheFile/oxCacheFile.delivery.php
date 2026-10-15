@@ -91,9 +91,6 @@ function Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($
                 return false;
             }
         }
-        if (!is_file($filename) || filesize($filename) !== strlen($cache_literal)) {
-            return false;
-        }
         if (PHP_SAPI == 'cli') {
             // If delivery cache is used during maintenance with php-cli,
             // most likely the user running it is not the webserver user.
