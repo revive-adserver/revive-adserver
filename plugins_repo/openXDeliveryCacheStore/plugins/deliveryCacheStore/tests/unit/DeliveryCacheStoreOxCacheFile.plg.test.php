@@ -97,12 +97,7 @@ class Plugins_TestOfPlugins_DeliveryCacheStore_oxCacheFile_oxCacheFile extends U
             $result = Plugin_deliveryCacheStore_oxCacheFile_oxCacheFile_Delivery_cacheStore($filename, null);
             $this->assertFalse($result);
         } finally {
-            if (is_dir($destination)) {
-                foreach (glob($destination . DIRECTORY_SEPARATOR . '*') ?: [] as $path) {
-                    @unlink($path);
-                }
-                @rmdir($destination);
-            }
+            $this->assertTrue(rmdir($destination));
             $GLOBALS['OA_Delivery_Cache']['path'] = $originalCachePath;
             @rmdir($temporaryDirectory);
         }
