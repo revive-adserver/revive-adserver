@@ -55,6 +55,7 @@ class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
         $startDateStr = is_null($oStartDate) ? '' : $oStartDate->format('%Y-%m-%d');
         $oEndDate = $this->getEndDate();
         $endDateStr = is_null($oEndDate) ? '' : $oEndDate->format('%Y-%m-%d');
+        $presetValue = json_encode($this->_fieldSelectionValue, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_INVALID_UTF8_SUBSTITUTE);
 
         echo "
         <select name='{$this->_name}_preset' id='{$this->_name}_preset' onchange='{$this->_name}FormChange(" . ($this->_autoSubmit ? 1 : 0) . ")' tabindex='" . $this->_tabIndex++ . "'>";
@@ -100,7 +101,7 @@ class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
         {
             document.getElementById('{$this->_name}_start').value = '$startDateStr';
             document.getElementById('{$this->_name}_start').value = '$endDateStr';
-            document.getElementById('{$this->_name}_preset').value = \"" . addcslashes(stripslashes($this->_fieldSelectionValue), "\0..\37/\"\\") . "\";
+            document.getElementById('{$this->_name}_preset').value = $presetValue;
         }
         function {$this->_name}FormSubmit() {
             submitForm();

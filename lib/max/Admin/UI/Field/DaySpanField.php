@@ -192,6 +192,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
         $startDateStr = $formatter->format($oStartDate);
         $oEndDate = $this->getEndDate();
         $endDateStr = $formatter->format($oEndDate);
+        $presetValue = json_encode($this->_fieldSelectionValue, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_INVALID_UTF8_SUBSTITUTE);
 
         echo "
         <select name='{$this->_name}_preset' id='{$this->_name}_preset' onchange='{$this->_name}FormChange(" . ($this->_autoSubmit ? 1 : 0) . ")' tabindex='" . $this->_tabIndex++ . "'>";
@@ -276,7 +277,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
         {
             document.getElementById('{$this->_name}_start').value = '$startDateStr';
             document.getElementById('{$this->_name}_start').value = '$endDateStr';
-            document.getElementById('{$this->_name}_preset').value = '{$this->_fieldSelectionValue}';
+            document.getElementById('{$this->_name}_preset').value = $presetValue;
         }
 
         function {$this->_name}FormSubmit() {
