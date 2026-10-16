@@ -546,7 +546,22 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
         }
     }
 
-    return _adRenderReplaceMagicMacros($aBanner, $url);
+    $url = _adRenderReplaceMagicMacros($aBanner, $url);
+
+    $aParams = [];
+    if (($conf['delivery']['logUrlValidity'] ?? 0) > 0) {
+        // Timestamp signature
+        $aParams[$conf['var']['timestamp']] = (string) MAX_commonGetTimeNow();
+    }
+
+    $aParams[$conf['var']['signature']] = OX_Delivery_Common_getSignature(
+        ['lg', $aBanner['ad_id'], $zoneId],
+        $aParams[$conf['var']['timestamp']] ?? '',
+    );
+
+    $url .= $amp . http_build_query($aParams, '', $amp);
+
+    return $url;
 }
 
 /**
@@ -636,18 +651,16 @@ function _adRenderBuildClickQueryString(array $aBanner, int $zoneId = 0, string 
 
     if ($dest) {
         // Destination signature
-        $aParams[$conf['var']['signature']] = OX_Delivery_Common_getClickSignature(
-            $aBanner['bannerid'] ?? 0,
-            $zoneId,
+        $aParams[$conf['var']['signature']] = OX_Delivery_Common_getSignature(
+            [$aBanner['bannerid'] ?? 0, $zoneId],
             $dest,
         );
         $aParams[$conf['var']['dest']] = $dest;
     } elseif ($conf['delivery']['clickUrlValidity'] > 0) {
         // Timestamp signature
         $aParams[$conf['var']['timestamp']] = (string) MAX_commonGetTimeNow();
-        $aParams[$conf['var']['signature']] = OX_Delivery_Common_getClickSignature(
-            $aBanner['bannerid'] ?? 0,
-            $zoneId,
+        $aParams[$conf['var']['signature']] = OX_Delivery_Common_getSignature(
+            [$aBanner['bannerid'] ?? 0, $zoneId],
             $aParams[$conf['var']['timestamp']],
         );
         $aParams[$conf['var']['dest']] = '';
