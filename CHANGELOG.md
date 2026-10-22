@@ -19,6 +19,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Added missing HTML escaping to the campaign name in email-zone date-conflict errors ([#1763](https://github.com/revive-adserver/revive-adserver/issues/1763))
 - Existing users with legacy usernames containing spaces could not be linked to accounts or have their permissions updated ([#1764](https://github.com/revive-adserver/revive-adserver/issues/1764))
 - Added missing HTML escaping to campaign names in the zone linked-banners view ([#1769](https://github.com/revive-adserver/revive-adserver/issues/1769))
+- Improved ownership validation to prevent bypassing the restriction on moving trackers to a client belonging to a different manager ([#1773](https://github.com/revive-adserver/revive-adserver/issues/1773))
 
 ### Added
 

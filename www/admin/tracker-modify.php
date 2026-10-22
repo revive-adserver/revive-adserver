@@ -46,9 +46,10 @@ if (!empty($trackerid)) {
         $doTrackers->trackerid = $trackerid;
         $doTrackers->clientid = $clientid;
         if ($doTrackers->find()) {
-            // Ensure the tracker belongs to the same manager
+            // Ensure the source and destination advertisers belong to the same manager
+            $doSourceClients = OA_Dal::staticGetDO('clients', $clientid);
             $doClients = OA_Dal::staticGetDO('clients', $moveto);
-            OA_Permission::enforceTrue($doClients && $doClients->agencyid == $agencyid);
+            OA_Permission::enforceTrue($doSourceClients && $doClients && $doClients->agencyid == $doSourceClients->agencyid);
             $advertiserName = $doClients->clientname;
 
             // Delete any campaign-tracker links
