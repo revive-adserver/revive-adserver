@@ -10,29 +10,49 @@
 +---------------------------------------------------------------------------+
 */
 
+namespace RV;
+
+use GuzzleHttp;
+use OA;
+use OA_DB;
+use OA_Dal_ApplicationVariables;
+use PEAR;
+use RV as Revive;
+use RV\Sync\Dto\SerializerFactory;
+use RV\Sync\Dto\Software;
+use RV\Sync\Dto\SyncRequest;
+use RV\Sync\Dto\SyncResponse;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
+
+use const PEAR_LOG_ERR;
+use const PEAR_LOG_INFO;
+
 require_once RV_PATH . '/lib/RV.php';
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
-require_once MAX_PATH . '/lib/OA/Central.php';
-require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * A class to deal with the services provided by Revive Adserver Sync
  *
  * @package    Revive Adserver
  */
-class RV_Sync
+class Sync
 {
     public $aConf;
     public $aPref;
     public $_conf;
 
     /**
-     * @var MDB2_Driver_Common
+     * @var \MDB2_Driver_Common
      */
     public $oDbh;
+
+    private readonly GuzzleHttp\ClientInterface $client;
+
+    private readonly SerializerInterface $serializer;
 
     /**
      * Constructor
@@ -40,12 +60,14 @@ class RV_Sync
      * @param array $conf array, if null reads the global variable
      * @param array $pref array, if null reads the global variable
      */
-    public function __construct($conf = null, $pref = null)
+    public function __construct($conf = null, $pref = null, ?GuzzleHttp\ClientInterface $client = null, ?SerializerInterface $serializer = null)
     {
         $this->aConf = $conf ?? $GLOBALS['_MAX']['CONF'] ?? null;
         $this->aPref = $pref ?? $GLOBALS['_MAX']['PREF'] ?? null;
 
-        $this->_conf = $this->aConf['oacSync'];
+        $this->_conf = $this->aConf['rvSync'];
+        $this->client = $client ?? new GuzzleHttp\Client();
+        $this->serializer = $serializer ?? SerializerFactory::create();
 
         $this->oDbh = OA_DB::singleton();
     }
@@ -81,7 +103,7 @@ class RV_Sync
             'stable' => 0.4,
         ];
 
-        $version = RV::stripVersion(strtolower($version), ['dev', 'stable']);
+        $version = Revive::stripVersion(strtolower($version), ['dev', 'stable']);
 
         if (preg_match('/^v/', $version)) {
             $v = preg_split('/[.-]/', substr($version, 1));
@@ -126,36 +148,16 @@ class RV_Sync
     }
 
     /**
-     * Connect to OpenX Sync to check for updates
+     * Check for updates using the JSON endpoint.
      *
-     * @param float $already_seen Only check for updates newer than this value.
-     * @return array An array of two items:
-     *
-     *               Item 0 is the XML-RPC error code. Meanings:
-     *                      -2  => The admin user has disabled update checking
-     *                      -1  => No response from the server
-     *                  0 - 799 => XML-RPC library error codes
-     *                       0  => No error
-     *                     800  => No updates
-     *                     801+ => Error codes from the remote XML-RPC server
-     *
-     *               Item 1 is either the error message (item 1 != 0), or an array containing update info
+     * @return array Error code and message, or 0 and a list of suggested releases.
+     *               -2: disabled; -1: communication/response error; 800: no updates.
      */
-    public function checkForUpdates($already_seen = 0)
+    public function checkForUpdates()
     {
-        global $XML_RPC_erruser;
-
         if (!$this->aConf['sync']['checkForUpdates']) {
-            // Checking for updates has been disabled by the admin user,
-            // so do not communicate with the server that provides the
-            // details of what upgrades are available - just return an
-            // 800 "error"
-            $aReturn = [-2, 'Check for updates has been disabled by the administrator.'];
-            return $aReturn;
+            return [-2, 'Check for updates has been disabled by the administrator.'];
         }
-
-        // Create the XML-RPC client object
-        $client = OA_Central::getXmlRpcClient($this->_conf);
 
         // Prepare the installation's platform hash
         $platform_hash = OA_Dal_ApplicationVariables::get('platform_hash');
@@ -166,29 +168,18 @@ class RV_Sync
             $platform_hash = OA_Dal_ApplicationVariables::generatePlatformHash();
             if (!OA_Dal_ApplicationVariables::set('platform_hash', $platform_hash)) {
                 OA::debug("Could not save the new platform_hash to the database", PEAR_LOG_ERR);
-                unset($platform_hash);
+                $platform_hash = '';
                 OA::debug("Sync process proceeding without a platform_hash", PEAR_LOG_INFO);
             }
         }
 
 
-        // Prepare the parameters required for the XML-RPC call to
-        // obtain if an update is available for this installation
-        $params = [
-            new XML_RPC_Value(PRODUCT_NAME, 'string'),
-            new XML_RPC_Value(self::getConfigVersion(OA_Dal_ApplicationVariables::get('oa_version')), 'string'),
-            new XML_RPC_Value($already_seen, 'string'),
-            new XML_RPC_Value($platform_hash, 'string'),
-        ];
+        $software = new Software();
 
-        // Has the Revive Adserver admin user kindly agreed to share the
-        // technology stack that it is running on, to help the community?
-        $aTechStack = [
-            'data' => false,
-        ];
+        // Only send technology stack data when the administrator has opted in.
         if ($this->aConf['sync']['shareStack']) {
             // Thanks, admin user! You're a star! Prepare the technology stack
-            // data and add it to the XML-RPC call
+            // data and add it to the JSON request
             if ($this->oDbh->dbsyntax == 'mysql' || $this->oDbh->dbsyntax == 'mysqli') {
                 $dbms = 'MySQL';
             } elseif ($this->oDbh->dbsyntax == 'pgsql') {
@@ -202,74 +193,70 @@ class RV_Sync
                 $dbVersion = '';
             }
 
-            $aTechStack = [
-                'os_type' => php_uname('s'),
-                'os_version' => php_uname('r'),
-
-                'webserver_type' => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^(.*?)/.*$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
-                'webserver_version' => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^.*?/(.*?)(?: .*)?$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
-
-                'db_type' => $dbms,
-                'db_version' => $dbVersion,
-
-                'php_version' => phpversion(),
-                'php_sapi' => ucfirst(php_sapi_name()),
-                'php_extensions' => get_loaded_extensions(),
-                'php_register_globals' => false,
-                'php_magic_quotes_gpc' => false,
-                'php_safe_mode' => false,
-                'php_open_basedir' => (bool) strlen(ini_get('open_basedir')),
-                'php_upload_tmp_readable' => (bool) is_readable(ini_get('upload_tmp_dir') . DIRECTORY_SEPARATOR),
-            ];
+            $software = new Software();
+            $software->osType = php_uname('s');
+            $software->osVersion = php_uname('r');
+            $software->webserverType = isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^(.*?)/.*$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '';
+            $software->webserverVersion = isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^.*?/(.*?)(?: .*)?$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '';
+            $software->dbType = $dbms;
+            $software->dbVersion = (string) $dbVersion;
+            $software->phpVersion = phpversion();
+            $software->phpSapi = ucfirst(php_sapi_name());
+            $software->phpExtensions = get_loaded_extensions();
+            $software->phpRegisterGlobals = false;
+            $software->phpMagicQuotesGpc = false;
+            $software->phpSafeMode = false;
+            $software->phpOpenBasedir = (bool) strlen(ini_get('open_basedir'));
+            $software->phpUploadTmpReadable = (bool) is_readable(ini_get('upload_tmp_dir') . DIRECTORY_SEPARATOR);
         }
-        $params[] = XML_RPC_Encode($aTechStack);
+        $request = new SyncRequest(
+            PRODUCT_NAME,
+            (string) self::getConfigVersion(OA_Dal_ApplicationVariables::get('oa_version')),
+            (string) $platform_hash,
+            (string) OA_Dal_ApplicationVariables::get('sync_registered_email'),
+            $software,
+        );
 
-        // Add the registered email address
-        $params[] = new XML_RPC_Value(OA_Dal_ApplicationVariables::get('sync_registered_email'), 'string');
-
-        // Create the XML-RPC request message
-        $msg = new XML_RPC_Message("Revive.Sync", $params);
-
-        // Send the XML-RPC request message
-        if ($response = $client->send($msg, 10)) {
-            // XML-RPC server found, now checking for errors
-            if (!$response->faultCode()) {
-                // No fault! Woo! Get the response and return it!
-                $aReturn = [0, XML_RPC_Decode($response->value())];
-                // Prepare cache
-                $cache = $aReturn[1];
-                // Update last run
-                OA_Dal_ApplicationVariables::set('sync_last_run', date('Y-m-d H:i:s'));
-                // Also write to the debug log
-                OA::debug("Sync: updates found!", PEAR_LOG_INFO);
-            } else {
-                // Boo! An error! (Well, maybe - if it's 800, yay!)
-                $aReturn = [$response->faultCode(), $response->faultString()];
-                // Prepare cache
-                $cache = false;
-                // Update last run
-                if ($response->faultCode() == 800) {
-                    // Update last run
-                    OA_Dal_ApplicationVariables::set('sync_last_run', date('Y-m-d H:i:s'));
-                    // Also write to the debug log
-                    OA::debug("Sync: {$aReturn[1]}", PEAR_LOG_INFO);
-                } else {
-                    // Write to the debug log
-                    OA::debug("Sync: {$aReturn[1]} (code: {$aReturn[0]}", PEAR_LOG_ERR);
-                    // Return immediately without writing to cache
-                    return $aReturn;
-                }
+        try {
+            $response = $this->client->request('POST', $this->_conf['endpoint'], [
+                'body' => $this->serializer->serialize($request, 'json', [
+                    AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
+                    AbstractObjectNormalizer::PRESERVE_EMPTY_OBJECTS => true,
+                ]),
+                'headers' => ['Accept' => 'application/json', 'Content-Type' => 'application/json'],
+                'timeout' => 10,
+                'connect_timeout' => 10,
+                'allow_redirects' => false,
+                'http_errors' => false,
+                'verify' => true,
+            ]);
+            if ($response->getStatusCode() !== 200) {
+                throw new \RuntimeException('Sync server returned HTTP ' . $response->getStatusCode() . '.');
             }
-            OA_Dal_ApplicationVariables::set('sync_cache', serialize($cache));
-            OA_Dal_ApplicationVariables::set('sync_timestamp', time());
-            return $aReturn;
+
+            $syncResponse = SyncResponse::fromJson((string) $response->getBody(), $this->serializer);
+            $updates = $syncResponse->toLegacyUpdates($this->serializer);
+        } catch (GuzzleHttp\Exception\GuzzleException | \JsonException | \RuntimeException | \InvalidArgumentException $e) {
+            OA::debug('Sync: ' . $e->getMessage(), PEAR_LOG_ERR);
+            return [-1, $e->getMessage()];
         }
 
-        $aReturn = [-1, 'No response from the remote XML-RPC server.'];
+        OA_Dal_ApplicationVariables::set('sync_last_run', date('Y-m-d H:i:s'));
+        OA_Dal_ApplicationVariables::set('sync_cache', serialize($updates));
+        OA_Dal_ApplicationVariables::set('sync_timestamp', time());
+        OA::debug($updates !== [] ? 'Sync: updates found!' : 'Sync: no updates available.', PEAR_LOG_INFO);
 
-        // Also write to the debug log
-        OA::debug("Sync: {$aReturn[1]}", PEAR_LOG_ERR);
+        return $updates !== [] ? [0, $updates] : [800, 'No updates available.'];
+    }
 
-        return $aReturn;
+    /**
+     * Read both the legacy single-release cache and the new release list.
+     */
+    public static function normalizeUpdates($updates): array
+    {
+        if (!is_array($updates)) {
+            return [];
+        }
+        return isset($updates['config_version']) ? [$updates] : $updates;
     }
 }

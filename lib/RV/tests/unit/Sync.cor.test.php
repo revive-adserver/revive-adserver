@@ -10,10 +10,10 @@
 +---------------------------------------------------------------------------+
 */
 
-require_once MAX_PATH . '/lib/RV/Sync.php';
+use RV\Sync;
 
 /**
- * A class for testing the RV_Sync class.
+ * A class for testing the RV\Sync class.
  *
  * @package    Revive Adserver
  * @subpackage TestSuite
@@ -50,7 +50,16 @@ class Test_RV_Sync extends UnitTestCase
         ];
 
         foreach ($aVersions as $version => $config_version) {
-            $this->assertEqual(RV_Sync::getConfigVersion($version), $config_version);
+            $this->assertEqual(Sync::getConfigVersion($version), $config_version);
         }
     }
+    public function testNormalizeCachedUpdates()
+    {
+        $release = ['config_version' => '6100.400', 'security_fix' => 1];
+        $this->assertEqual(Sync::normalizeUpdates(false), []);
+        $this->assertEqual(Sync::normalizeUpdates([]), []);
+        $this->assertEqual(Sync::normalizeUpdates($release), [$release]);
+        $this->assertEqual(Sync::normalizeUpdates([$release, $release]), [$release, $release]);
+    }
+
 }

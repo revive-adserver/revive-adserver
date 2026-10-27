@@ -29,7 +29,6 @@ if (!empty($_POST['xajax'])) {
 
 // Required files
 require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
-require_once MAX_PATH . '/lib/RV/Sync.php';
 require_once MAX_PATH . '/lib/xajax.inc.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';

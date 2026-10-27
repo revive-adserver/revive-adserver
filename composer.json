@@ -54,7 +54,10 @@
         "symfony/mailgun-mailer": "^6.4",
         "symfony/sendgrid-mailer": "^6.4",
         "symfony/polyfill-ctype": "^1.23",
-        "symfony/http-client": "^6.4"
+        "symfony/http-client": "^6.4",
+        "symfony/serializer": "^6.4",
+        "symfony/property-info": "^6.4",
+        "symfony/property-access": "^6.4"
     },
     "require-dev": {
         "phpcompatibility/php-compatibility": "dev-develop",

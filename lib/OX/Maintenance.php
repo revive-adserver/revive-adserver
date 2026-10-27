@@ -291,9 +291,8 @@ class OX_Maintenance
         $delay = mt_rand(0, 30); // Delay up to 30 seconds
         OA::debug(sprintf('Delaying ' . PRODUCT_NAME . ' sync process by %d seconds.', $delay), PEAR_LOG_INFO);
         sleep($delay);
-        require_once MAX_PATH . '/lib/RV/Sync.php';
-        $oSync = new RV_Sync($this->aConf, $this->aPref);
-        $oSync->checkForUpdates(0);
+        $oSync = RV_getContainer()->get(\RV\Sync::class);
+        $oSync->checkForUpdates();
         OA::debug('Finished ' . PRODUCT_NAME . ' Sync process.', PEAR_LOG_INFO);
     }
 

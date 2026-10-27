@@ -15,6 +15,7 @@ namespace RV;
 use Psr\Container\ContainerInterface as PsrContainerInterface;
 use RV\Config\AdminServiceConfigurator;
 use RV\Config\ConfigCache;
+use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\Config\ContainerParametersResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -38,6 +39,11 @@ class Container implements PsrContainerInterface
     public function __construct(array $aConf, $isDelivery = false, $hostname = null)
     {
         $container = $this->initContainerWithParameters($aConf);
+
+        if (!$isDelivery) {
+            // Track service registrations so they invalidate the compiled admin container.
+            $container->addResource(new FileResource(__DIR__ . '/Config/AdminServiceConfigurator.php'));
+        }
 
         $configCache = $this->getConfigCache($container, $hostname, $isDelivery);
 
