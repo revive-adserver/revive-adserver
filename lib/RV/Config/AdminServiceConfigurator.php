@@ -19,10 +19,22 @@ use RV\Manager\Html5ZipManager;
 use RV\Parser\DomainParser;
 use RV\Parser\Html5\AdobeEdgeParser;
 use RV\Parser\Html5\MetaParser;
+use RV\Sync;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
+use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use Symfony\Component\Serializer\Mapping\Loader\AttributeLoader;
+use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
+use Symfony\Component\Serializer\NameConverter\MetadataAwareNameConverter;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class AdminServiceConfigurator
 {
@@ -35,6 +47,8 @@ class AdminServiceConfigurator
      */
     public static function configure(ContainerBuilder $container)
     {
+        self::configureSerializerServices($container);
+
         $container
             ->register('filesystem.adapter.local', Adapter\Local::class)
             ->addArgument('%store.webDir%')
@@ -92,6 +106,64 @@ class AdminServiceConfigurator
             ->addArgument(new Reference('cache.psr16'))
         ;
 
+        $container
+            ->register(Sync::class, Sync::class)
+            ->setPublic(true)
+            ->setArguments([null, null, null, new Reference(SerializerInterface::class)]);
+
         return $container;
+    }
+
+    private static function configureSerializerServices(ContainerBuilder $container): void
+    {
+        $container
+            ->register('serializer.mapping.class_metadata_factory', ClassMetadataFactory::class)
+            ->addArgument(new Reference('serializer.mapping.loader.attribute'));
+
+        $container
+            ->register('serializer.mapping.loader.attribute', AttributeLoader::class);
+
+        $container
+            ->register('serializer.name_converter.camel_case_to_snake_case', CamelCaseToSnakeCaseNameConverter::class);
+
+        $container
+            ->register('serializer.name_converter.metadata_aware', MetadataAwareNameConverter::class)
+            ->addArgument(new Reference('serializer.mapping.class_metadata_factory'))
+            ->addArgument(new Reference('serializer.name_converter.camel_case_to_snake_case'));
+
+        $container
+            ->register('property_info.reflection_extractor', ReflectionExtractor::class);
+
+        $container
+            ->register('property_info', PropertyInfoExtractor::class)
+            ->addArgument([])
+            ->addArgument([new Reference('property_info.reflection_extractor')])
+            ->addArgument([])
+            ->addArgument([new Reference('property_info.reflection_extractor')])
+            ->addArgument([new Reference('property_info.reflection_extractor')]);
+
+        $container
+            ->register('property_accessor', PropertyAccessor::class)
+            ->setPublic(true);
+
+        $container
+            ->register('serializer.normalizer.object', ObjectNormalizer::class)
+            ->addArgument(new Reference('serializer.mapping.class_metadata_factory'))
+            ->addArgument(new Reference('serializer.name_converter.metadata_aware'))
+            ->addArgument(new Reference('property_accessor'))
+            ->addArgument(new Reference('property_info'));
+
+        $container
+            ->register('serializer.encoder.json', JsonEncoder::class);
+
+        $container
+            ->register('serializer', Serializer::class)
+            ->setPublic(true)
+            ->addArgument([new Reference('serializer.normalizer.object')])
+            ->addArgument([new Reference('serializer.encoder.json')]);
+
+        $container
+            ->setAlias(SerializerInterface::class, 'serializer')
+            ->setPublic(true);
     }
 }

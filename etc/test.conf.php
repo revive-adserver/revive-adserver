@@ -400,12 +400,8 @@ persistent          = false
 checkForUpdates = true
 shareStack      = true
 
-[oacSync]
-protocol    = https
-host        = sync.revive-adserver.com
-path        = /xmlrpc.php
-httpPort    = 80
-httpsPort   = 443
+[rvSync]
+endpoint = https://sync.revive-adserver.com/v1/sync
 
 ;------------------------------------------------------------------------------------------;
 ; Plugins Settings                                                                         ;

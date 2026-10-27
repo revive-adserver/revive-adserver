@@ -14,12 +14,11 @@
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/RV/Sync.php';
+require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
 
-$update_check = false;
+$update_check = [];
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
@@ -30,32 +29,32 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     $aConf = $GLOBALS['_MAX']['CONF'];
     $aVars = OA_Dal_ApplicationVariables::getAll();
 
-    $update_check = false;
+    $update_check = [];
 
     // Check accordingly to user preferences
     if (!empty($aConf['sync']['checkForUpdates'])) {
         if ($aVars['sync_cache']) {
-            $update_check = unserialize($aVars['sync_cache']);
+            $update_check = \RV\Sync::normalizeUpdates(unserialize($aVars['sync_cache'], ['allowed_classes' => false]));
         }
 
-        // If cache timestamp not set or older than 24hrs, re-sync
-        if (isset($aVars['sync_timestamp']) && $aVars['sync_timestamp'] + 86400 < time()) {
-            $oSync = new RV_Sync();
+        // If cache timestamp is not set or older than 24hrs, re-sync
+        if (empty($aVars['sync_timestamp']) || $aVars['sync_timestamp'] + 86400 < time()) {
+            $oSync = RV_getContainer()->get(\RV\Sync::class);
             $res = $oSync->checkForUpdates();
 
             if ($res[0] == 0) {
                 $update_check = $res[1];
+            } elseif ($res[0] == 800) {
+                $update_check = [];
             }
         }
 
-        if (!is_array($update_check) || $update_check['config_version'] <= $aVars['sync_last_seen']) {
-            $update_check = false;
+        $latestVersion = $update_check ? max(array_column($update_check, 'config_version')) : 0;
+        if ($latestVersion <= ($aVars['sync_last_seen'] ?? 0)) {
+            $update_check = [];
         } else {
-            // Make sure that the alert doesn't display everytime
-            OA_Dal_ApplicationVariables::set('sync_last_seen', $update_check['config_version']);
-
-            // Format like the XML-RPC response
-            $update_check = [0, $update_check];
+            // Remember the newest suggested release so the alert only appears once.
+            OA_Dal_ApplicationVariables::set('sync_last_seen', $latestVersion);
         }
     }
 
@@ -63,10 +62,10 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     phpAds_SessionDataStore();
 
     // Add Product Update redirector
-    if (isset($update_check[0]) && $update_check[0] == 0) {
+    if ($update_check) {
         header("Content-Type: application/x-javascript");
 
-        if ($update_check[1]['security_fix']) {
+        if (in_array(1, array_column($update_check, 'security_fix'))) {
             echo "alert('" . $strUpdateAlertSecurity . "');\n";
         } else {
             echo "if (confirm('" . $strUpdateAlert . "'))\n\t";
