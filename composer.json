@@ -13,7 +13,7 @@
     "config": {
         "vendor-dir": "lib/vendor",
         "platform": {
-            "php": "8.1.0"
+            "php": "8.2.35"
         },
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
@@ -26,6 +26,7 @@
         }
     },
     "require": {
+        "php": ">=8.2.35",
         "ext-intl": "*",
         "ext-json": "*",
         "ext-pcre": "*",
@@ -43,21 +44,21 @@
         "psr/simple-cache": "^3.0",
         "sinergi/browser-detector": "^6.0",
         "slowprog/composer-copy-file": "^0.3.3",
-        "symfony/cache": "^6.4",
-        "symfony/config": "^6.4",
-        "symfony/console": "^6.4",
-        "symfony/dependency-injection": "^6.4",
-        "symfony/finder": "^6.4",
-        "symfony/http-foundation": "^6.4",
-        "symfony/mailer": "^6.4",
-        "symfony/mailchimp-mailer": "^6.4",
-        "symfony/mailgun-mailer": "^6.4",
-        "symfony/sendgrid-mailer": "^6.4",
+        "symfony/cache": "^7.4",
+        "symfony/config": "^7.4",
+        "symfony/console": "^7.4",
+        "symfony/dependency-injection": "^7.4",
+        "symfony/finder": "^7.4",
+        "symfony/http-foundation": "^7.4",
+        "symfony/mailer": "^7.4",
+        "symfony/mailchimp-mailer": "^7.4",
+        "symfony/mailgun-mailer": "^7.4",
+        "symfony/sendgrid-mailer": "^7.4",
         "symfony/polyfill-ctype": "^1.23",
-        "symfony/http-client": "^6.4",
-        "symfony/serializer": "^6.4",
-        "symfony/property-info": "^6.4",
-        "symfony/property-access": "^6.4"
+        "symfony/http-client": "^7.4",
+        "symfony/serializer": "^7.4",
+        "symfony/property-info": "^7.4",
+        "symfony/property-access": "^7.4"
     },
     "require-dev": {
         "phpcompatibility/php-compatibility": "dev-develop",
@@ -86,7 +87,7 @@
         },
         "symfony": {
             "allow-contrib": false,
-            "require": "6.4.*"
+            "require": "7.4.*"
         }
     },
     "scripts" :{

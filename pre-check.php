@@ -293,8 +293,8 @@ function RV_checkSystemInitialRequirements(&$aErrors)
 
     // Check PHP version, as use of anything below the minimum required version of PHP
     // may result in parse errors, which we want to avoid
-    if (PHP_VERSION_ID < 80100) {
-        $aErrors[] = "PHP version 8.1.0, or greater, was not detected.";
+    if (PHP_VERSION_ID < 80235) {
+        $aErrors[] = "PHP version 8.2.35, or greater, was not detected.";
         $isSystemOK = false;
         if ($return === true) {
             $return = -3;

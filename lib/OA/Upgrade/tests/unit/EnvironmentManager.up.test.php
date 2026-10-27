@@ -61,7 +61,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set an invalid version of PHP
-        $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '8.0.5';
+        $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '8.2.34';
         // Test critical PHP settings
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
@@ -72,7 +72,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $oEnvironmentManager = $this->_getValidEnvironmentManagerObject();
         $this->_testValidEnvironmentManagerObject($oEnvironmentManager);
         // Set a valid version of PHP
-        $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '8.1.0';
+        $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '8.2.35';
         // Test critical PHP settings
         $result = $oEnvironmentManager->_checkCriticalPHP();
         // Check the results
@@ -439,7 +439,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         // Create a new OA_Environment_Manager instance
         $oEnvironmentManager = new OA_Environment_Manager();
         // Set a valid enfironment
-        $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '8.1.0';
+        $oEnvironmentManager->aInfo['PHP']['actual']['version'] = '8.2.35';
         $oEnvironmentManager->aInfo['PHP']['actual']['memory_limit'] = '';
         $oEnvironmentManager->aInfo['PHP']['actual']['file_uploads'] = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['pcre'] = '1';
