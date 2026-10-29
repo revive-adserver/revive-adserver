@@ -133,7 +133,7 @@ function MAX_commonRemoveSpecialChars(&$var)
  * @param string|array  $content The string to be converted, or an array
  * @param string $toEncoding The destination encoding
  * @param string $fromEncoding The source encoding (if known)
- * @param string $aExtensions An array of engines to be used, currently supported are intl, iconv, mbstrng, xml.
+ * @param string $aExtensions An array of engines to be used, currently supported are intl, iconv, mbstring.
  *
  * @return string|array The converted string
  */
@@ -145,7 +145,7 @@ function MAX_commonConvertEncoding($content, $toEncoding, $fromEncoding = 'UTF-8
     }
 
     // Default extensions, sorted by accuracy and speed.
-    $aExtensions ??= ['intl', 'iconv', 'mbstring', 'xml'];
+    $aExtensions ??= ['intl', 'iconv', 'mbstring'];
 
     // Walk arrays
     if (is_array($content)) {
@@ -169,9 +169,6 @@ function MAX_commonConvertEncoding($content, $toEncoding, $fromEncoding = 'UTF-8
         ],
         'mbstring' => [
             'WINDOWS-1255' => 'ISO-8859-8', // Best match to convert hebrew w/ mbstring
-        ],
-        'xml' => [
-            'ISO-8859-15' => 'ISO-8859-1', // Best match
         ],
     ];
 
@@ -204,18 +201,6 @@ function MAX_commonConvertEncoding($content, $toEncoding, $fromEncoding = 'UTF-8
             case 'mbstring':
                 if (function_exists('mb_convert_encoding')) {
                     $converted = @mb_convert_encoding($content, $mappedToEncoding, $mappedFromEncoding);
-                }
-
-                break;
-
-            case 'xml':
-                if (function_exists('utf8_encode')) {
-                    // Does this actually help us at all? it can only convert between UTF8 and ISO-8859-1
-                    if ($mappedToEncoding == 'UTF-8' && $mappedFromEncoding == 'ISO-8859-1') {
-                        $converted = @utf8_encode($content);
-                    } elseif ($mappedToEncoding == 'ISO-8859-1' && $mappedFromEncoding == 'UTF-8') {
-                        $converted = @utf8_decode($content);
-                    }
                 }
 
                 break;

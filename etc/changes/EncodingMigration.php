@@ -152,8 +152,6 @@ class EncodingMigration extends Migration
             $this->extension = 'mbstring';
         } elseif (function_exists('iconv')) {
             $this->extension = 'iconv';
-        } elseif (function_exists('utf8_encode')) {
-            $this->extension = 'xml';
         }
 
         return $this->extension;
@@ -165,7 +163,7 @@ class EncodingMigration extends Migration
             return false;
         }
         if (!$this->_setEncodingExtension()) {
-            $this->_log("convertEncoding will be skipped because no extension was found (iconv, mbstring, xml)");
+            $this->_log("convertEncoding will be skipped because no extension was found (intl, iconv, mbstring)");
             return true;
         }
         $this->_log("Starting convertEncoding");

@@ -72,18 +72,18 @@ class EncodingMigrationTest extends MigrationTest
 
     public function test_setEncodingExtension()
     {
-        $this->oEncodingMigration->setReturnValue('_setEncodingExtension', true);
-        $this->oEncodingMigration->_setEncodingExtension();
+        $migration = new EncodingMigration();
+        $expected = false;
         if (class_exists('UConverter')) {
-            $this->extension = 'intl';
+            $expected = 'intl';
         } elseif (function_exists('mb_convert_encoding')) {
-            $this->extension = 'mbstring';
+            $expected = 'mbstring';
         } elseif (function_exists('iconv')) {
-            $this->extension = 'iconv';
-        } elseif (function_exists('utf8_encode')) {
-            $this->extension = 'xml';
+            $expected = 'iconv';
+
         }
-        return $this->extension;
+        $this->assertIdentical($migration->_setEncodingExtension(), $expected);
+        $this->assertIdentical($migration->extension, $expected);
     }
 
 
@@ -140,23 +140,6 @@ class EncodingMigrationTest extends MigrationTest
                 'EUC-KR' => "\xEB\xB0\x94\xEB\xA1\x9C\xEA\xB0\x80\xEA\xB8\xB0",
                 'windows-1251' => "\xD0\x92\xD0\xB5\xD1\x80\xD0\xBE\xD1\x8F\xD1\x82\xD0\xBD\xD0\xBE\xD1\x81\xD1\x82\xD1\x8C",
                 'koi8-r' => "\xD0\x92\xD0\xB5\xD1\x80\xD0\xBE\xD1\x8F\xD1\x82\xD0\xBD\xD0\xBE\xD1\x81\xD1\x82\xD1\x8C",
-            ]);
-        }
-    }
-
-    public function testXml()
-    {
-        if ($this->assertTrue(extension_loaded('xml'))) {
-            $this->oEncodingMigration->extension = 'xml';
-            $this->_testConvertStrings('xml', [
-                'big5' => "\xAB\x4F\xA6\x73\xA7\xF3\xA7\xEF",
-                'gb2312' => "\xB1\xA3\xB4\xE6\xB8\xFC\xB8\xC4",
-                'iso-8859-2' => "\x50\xF8\x69\x68\x6C\x61\xB9\x6F\x76\x61\x63\xED\x20\xFA\x64\x61\x6A\x65",
-                'iso-8859-15' => "\x50\x72\xC3\xA9\x66\xC3\xA9\x72\x65\x6E\x63\x65\x73\x20\xC2\xA4",
-                'windows-1255' => "\xF7\xE3\xE9\xEE\xE5\xE9\xE5\xFA",
-                'EUC-KR' => "\xB9\xD9\xB7\xCE\xB0\xA1\xB1\xE2",
-                'windows-1251' => "\xC2\xE5\xF0\xEE\xFF\xF2\xED\xEE\xF1\xF2\xFC",
-                'koi8-r' => "\xF7\xC5\xD2\xCF\xD1\xD4\xCE\xCF\xD3\xD4\xD8",
             ]);
         }
     }

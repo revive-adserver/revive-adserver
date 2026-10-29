@@ -631,12 +631,6 @@ class Plugins_InvocationTagsOptions
                 'Windows-1252' => 'Western European (Windows-1252)',
             ];
         }
-        if (function_exists('utf8_encode')) {
-            // No? Tough luck, that's what xml_encode/decode support
-            return [
-                'UTF-8' => 'Unicode (UTF-8)',
-                'ISO-8859-1' => 'Western European (ISO-8859-1)',
-            ];
-        }
+        return [];
     }
 }

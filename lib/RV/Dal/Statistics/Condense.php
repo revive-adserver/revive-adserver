@@ -91,7 +91,7 @@ class Condense
     {
         $startDate ??= $this->findMinDate($table, $endDate);
 
-        if (null === $startDate) {
+        if (!$startDate instanceof \DateTimeImmutable) {
             $this->io?->writeln("<comment>Nothing to do for {$type} condensing of {$table}</comment>", OutputInterface::VERBOSITY_VERBOSE);
 
             return;
