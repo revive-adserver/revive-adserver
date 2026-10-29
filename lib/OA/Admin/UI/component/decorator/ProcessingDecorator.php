@@ -71,7 +71,7 @@ class OA_Admin_UI_ProcessingDecorator extends OA_Admin_UI_AbstractDecorator
         $this->_callback = $aParameters['callback'];
 
         if (empty($this->_tagName) && empty($this->_regexp)) {
-            return PEAR::raiseError('Either tag to process or regexp to match 
+            PEAR::raiseError('Either tag to process or regexp to match
                 must be given for OA_Admin_UI_ProcessingDecorator');
         }
     }

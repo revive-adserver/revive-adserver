@@ -452,6 +452,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $oEnvironmentManager->aInfo['PHP']['actual']['zip'] = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['tokenizer'] = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['intl'] = '1';
+        $oEnvironmentManager->aInfo['PHP']['actual']['ftp'] = '1';
         $oEnvironmentManager->aInfo['PHP']['actual']['timeout'] = '0';
         // Return the valid OA_Environment_Manager instance
         return $oEnvironmentManager;
@@ -483,7 +484,41 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['zip']), in_array('zip', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['tokenizer']), in_array('tokenizer', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['intl']), in_array('intl', $aErrors));
+        $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error']['ftp']), in_array('ftp', $aErrors));
         $this->assertEqual(isset($oEnvironmentManager->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEOUT]), in_array('OA_ENV_ERROR_PHP_TIMEOUT', $aErrors));
+    }
+
+    public function testFtpExtensionRequirementDependsOnStorage()
+    {
+        require_once MAX_PATH . '/lib/OX/Admin/UI/Install/SystemCheckModelBuilder.php';
+        Language_Loader::load('installer');
+
+        $originalMode = $GLOBALS['_MAX']['CONF']['store']['mode'];
+        try {
+            foreach (['0', '1'] as $mode) {
+                $GLOBALS['_MAX']['CONF']['store']['mode'] = $mode;
+                foreach ([false, true] as $loaded) {
+                    $manager = $this->_getValidEnvironmentManagerObject();
+                    $manager->aInfo['PHP']['actual']['ftp'] = $loaded;
+                    $required = '1' === $mode;
+                    $this->assertIdentical($manager->aInfo['PHP']['expected']['ftp'], $required);
+                    $manager->_checkCriticalPHP();
+                    $this->_testValidEnvironmentManagerObject($manager, $required && !$loaded ? ['ftp'] : []);
+                    $this->assertEqual(!empty($manager->aInfo['PHP']['error']['badPhpConfiguration']), $required && !$loaded);
+
+                    $manager->aInfo['COOKIES']['actual']['enabled'] = true;
+                    $manager->aInfo['PERMS']['actual'] = [$manager->buildFilePermArrayItem(MAX_PATH . '/var')];
+                    $model = (new OX_Admin_UI_Install_SystemCheckModelBuilder())->processEnvironmentCheck($manager->aInfo);
+                    $check = $model->getSections()['php']['checks']['ftp'];
+                    $this->assertEqual($check['name'], $required ? 'ftp (required)' : 'ftp (optional)');
+                    $this->assertEqual($check['value'], $loaded ? 'LOADED' : 'NOT LOADED');
+                    $this->assertEqual($check['hasError'], $required && !$loaded);
+                    $this->assertEqual($model->hasError(), $required && !$loaded);
+                }
+            }
+        } finally {
+            $GLOBALS['_MAX']['CONF']['store']['mode'] = $originalMode;
+        }
     }
 
     public function test_buildFilePermArrayItem()

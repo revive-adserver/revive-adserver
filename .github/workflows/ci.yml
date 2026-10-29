@@ -13,7 +13,6 @@ jobs:
 
     env:
       PHP_VERSION: 8.3
-      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, iconv, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
 
     runs-on: ubuntu-24.04
 
@@ -22,12 +21,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install PHP
-        uses: shivammathur/setup-php@v2
+        uses: ./.github/actions/setup-php
         with:
           php-version: ${{ env.PHP_VERSION }}
-          extensions: ${{ env.PHP_EXTENSIONS }}
           coverage: none
-          tools: composer
 
       - name: Ensure that composer.json is valid
         run: composer validate --no-ansi --strict composer.json
@@ -58,7 +55,6 @@ jobs:
 
     env:
       PHP_VERSION: 8.3
-      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, iconv, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
 
     runs-on: ubuntu-24.04
 
@@ -71,12 +67,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install PHP
-        uses: shivammathur/setup-php@v2
+        uses: ./.github/actions/setup-php
         with:
           php-version: ${{ env.PHP_VERSION }}
-          extensions: ${{ env.PHP_EXTENSIONS }}
           coverage: none
-          tools: composer
 
       - name: Get Composer cache directory
         id: composer-cache
@@ -114,7 +108,6 @@ jobs:
 
     env:
       PHP_VERSION: 8.3
-      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, iconv, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
 
     runs-on: ubuntu-24.04
 
@@ -123,12 +116,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install PHP
-        uses: shivammathur/setup-php@v2
+        uses: ./.github/actions/setup-php
         with:
           php-version: ${{ env.PHP_VERSION }}
-          extensions: ${{ env.PHP_EXTENSIONS }}
           coverage: none
-          tools: composer
 
       - name: Get Composer cache directory
         id: composer-cache
@@ -166,7 +157,6 @@ jobs:
 
     env:
       PHP_VERSION: 8.3
-      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, iconv, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
 
     runs-on: ubuntu-24.04
 
@@ -175,12 +165,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install PHP
-        uses: shivammathur/setup-php@v2
+        uses: ./.github/actions/setup-php
         with:
           php-version: ${{ env.PHP_VERSION }}
-          extensions: ${{ env.PHP_EXTENSIONS }}
           coverage: none
-          tools: composer
 
       - name: Get Composer cache directory
         id: composer-cache
@@ -210,7 +198,6 @@ jobs:
 
     env:
       PHP_VERSION: 8.3
-      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, iconv, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
 
     runs-on: ubuntu-24.04
 
@@ -219,12 +206,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install PHP
-        uses: shivammathur/setup-php@v2
+        uses: ./.github/actions/setup-php
         with:
           php-version: ${{ env.PHP_VERSION }}
-          extensions: ${{ env.PHP_EXTENSIONS }}
           coverage: none
-          tools: composer
 
       - name: Get Composer cache directory
         id: composer-cache
@@ -268,7 +253,6 @@ jobs:
 
     env:
       PHP_VERSION: 8.3
-      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, iconv, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
       PHP_INI_VALUES: memory_limit=-1, assert.exception=1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On
 
     runs-on: ubuntu-24.04
@@ -287,12 +271,10 @@ jobs:
           token: ${{ secrets.MATTEO_PAT }}
 
       - name: Install PHP with extensions
-        uses: shivammathur/setup-php@v2
+        uses: ./.github/actions/setup-php
         with:
           php-version: ${{ env.PHP_VERSION }}
-          extensions: ${{ env.PHP_EXTENSIONS }}
           ini-values: ${{ env.PHP_INI_VALUES }}
-          tools: composer
 
       - name: Install Ant 1.7.1
         uses: ./.github/actions/setup-ant

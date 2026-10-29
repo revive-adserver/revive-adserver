@@ -12,22 +12,27 @@
 
 namespace RV\Bridge\Flysystem;
 
-use League\Flysystem\Adapter\CanOverwriteFiles;
-use League\Flysystem\AdapterInterface;
 use League\Flysystem\Config;
-use League\Flysystem\NotSupportedException;
+use League\Flysystem\FileAttributes;
+use League\Flysystem\FilesystemAdapter;
+use League\Flysystem\UnableToCopyFile;
+use League\Flysystem\UnableToCreateDirectory;
+use League\Flysystem\UnableToDeleteDirectory;
+use League\Flysystem\UnableToDeleteFile;
+use League\Flysystem\UnableToListContents;
+use League\Flysystem\UnableToMoveFile;
+use League\Flysystem\UnableToReadFile;
+use League\Flysystem\UnableToRetrieveMetadata;
+use League\Flysystem\UnableToSetVisibility;
+use League\Flysystem\UnableToWriteFile;
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once 'DB/DataObject/Cast.php';
 
-class SqlStoredBannerAdapter implements AdapterInterface, CanOverwriteFiles
+class SqlStoredBannerAdapter implements FilesystemAdapter
 {
     /**
      * Returns a filename suitable for duplication or to avoid overwriting an existing file.
-     *
-     * @param string $path
-     *
-     * @return string
      */
     public static function getUniqueNameForDuplication($path)
     {
@@ -38,40 +43,31 @@ class SqlStoredBannerAdapter implements AdapterInterface, CanOverwriteFiles
         return $doImages->getUniqueNameForDuplication('filename');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function has($path)
+    public function fileExists(string $path): bool
     {
-        /** @var \DataObjects_Images $doImages */
-        $doImages = \OA_Dal::staticGetDO('images', $path);
-
-        return (bool) $doImages;
+        return (bool) \OA_Dal::staticGetDO('images', $path);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function read($path)
+    public function directoryExists(string $path): bool
     {
-        /** @var \DataObjects_Images $doImages */
-        $doImages = \OA_Dal::staticGetDO('images', $path);
-
-        if ($doImages) {
-            return $doImages->contents;
-        }
-
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function write($path, $contents, Config $config)
+    public function read(string $path): string
     {
         /** @var \DataObjects_Images $doImages */
         $doImages = \OA_Dal::staticGetDO('images', $path);
+        if (!$doImages) {
+            throw UnableToReadFile::fromLocation($path, 'Image does not exist.');
+        }
 
+        return $doImages->contents;
+    }
+
+    public function write(string $path, string $contents, Config $config): void
+    {
+        /** @var \DataObjects_Images $doImages */
+        $doImages = \OA_Dal::staticGetDO('images', $path);
         if ($doImages) {
             $method = 'update';
         } else {
@@ -81,160 +77,94 @@ class SqlStoredBannerAdapter implements AdapterInterface, CanOverwriteFiles
         }
 
         $doImages->contents = \DB_DataObject_Cast::blob($contents);
-
-        return $doImages->$method();
+        if (false === $doImages->$method()) {
+            throw UnableToWriteFile::atLocation($path, 'Unable to save image in the database.');
+        }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function delete($path)
+    public function delete(string $path): void
     {
         /** @var \DataObjects_Images $doImages */
         $doImages = \OA_Dal::staticGetDO('images', $path);
+        if ($doImages && false === $doImages->delete()) {
+            throw UnableToDeleteFile::atLocation($path, 'Unable to delete image from the database.');
+        }
+    }
 
-        if ($doImages) {
-            return (bool) $doImages->delete();
+    public function fileSize(string $path): FileAttributes
+    {
+        try {
+            return new FileAttributes($path, strlen($this->read($path)));
+        } catch (UnableToReadFile $e) {
+            throw UnableToRetrieveMetadata::fileSize($path, $e->getMessage(), $e);
+        }
+    }
+
+    public function move(string $source, string $destination, Config $config): void
+    {
+        if ($source === $destination) {
+            return;
         }
 
-        return false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getSize($path)
-    {
-        /** @var \DataObjects_Images $doImages */
-        $doImages = \OA_Dal::staticGetDO('images', $path);
-
-        if ($doImages) {
-            return [
-                'size' => strlen($doImages->contents),
-            ];
+        try {
+            $this->write($destination, $this->read($source), $config);
+            $this->delete($source);
+        } catch (UnableToReadFile | UnableToWriteFile | UnableToDeleteFile $e) {
+            throw UnableToMoveFile::fromLocationTo($source, $destination, $e);
         }
-
-        return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function update($path, $contents, Config $config)
+    public function copy(string $source, string $destination, Config $config): void
     {
-        return $this->write($path, $contents, $config);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rename($path, $newpath)
-    {
-        /** @var \DataObjects_Images $doImages */
-        $doImages = \OA_Dal::staticGetDO('images', $path);
-
-        if ($doImages) {
-            $doImages->filename = $newpath;
-
-            return $doImages->update();
+        try {
+            $this->write($destination, $this->read($source), $config);
+        } catch (UnableToReadFile | UnableToWriteFile $e) {
+            throw UnableToCopyFile::fromLocationTo($source, $destination, $e);
         }
-
-        return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function copy($path, $newpath)
+    public function writeStream(string $path, $contents, Config $config): void
     {
-        return $this->write($newpath, $this->read($path), new Config());
+        throw UnableToWriteFile::atLocation($path, 'Streams are not supported for SQL images.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function writeStream($path, $resource, Config $config)
+    public function readStream(string $path)
     {
-        throw new NotSupportedException(__METHOD__);
+        throw UnableToReadFile::fromLocation($path, 'Streams are not supported for SQL images.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function updateStream($path, $resource, Config $config)
+    public function deleteDirectory(string $path): void
     {
-        throw new NotSupportedException(__METHOD__);
+        throw UnableToDeleteDirectory::atLocation($path, 'Directories are not supported for SQL images.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function deleteDir($dirname)
+    public function createDirectory(string $path, Config $config): void
     {
-        throw new NotSupportedException(__METHOD__);
+        throw UnableToCreateDirectory::atLocation($path, 'Directories are not supported for SQL images.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function createDir($dirname, Config $config)
+    public function setVisibility(string $path, string $visibility): void
     {
-        throw new NotSupportedException(__METHOD__);
+        throw UnableToSetVisibility::atLocation($path, 'Visibility is not supported for SQL images.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setVisibility($path, $visibility)
+    public function listContents(string $path, bool $deep): iterable
     {
-        throw new NotSupportedException(__METHOD__);
+        throw UnableToListContents::atLocation($path, $deep, new \LogicException('Listing SQL images is not supported.'));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function readStream($path)
+    public function mimeType(string $path): FileAttributes
     {
-        throw new NotSupportedException(__METHOD__);
+        throw UnableToRetrieveMetadata::mimeType($path, 'MIME types are not stored for SQL images.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function listContents($directory = '', $recursive = false)
+    public function lastModified(string $path): FileAttributes
     {
-        throw new NotSupportedException(__METHOD__);
+        throw UnableToRetrieveMetadata::lastModified($path, 'Timestamps are not stored for SQL images.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMetadata($path)
+    public function visibility(string $path): FileAttributes
     {
-        throw new NotSupportedException(__METHOD__);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getMimetype($path)
-    {
-        throw new NotSupportedException(__METHOD__);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTimestamp($path)
-    {
-        throw new NotSupportedException(__METHOD__);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getVisibility($path)
-    {
-        throw new NotSupportedException(__METHOD__);
+        throw UnableToRetrieveMetadata::visibility($path, 'Visibility is not stored for SQL images.');
     }
 }

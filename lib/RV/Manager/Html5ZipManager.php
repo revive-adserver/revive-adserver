@@ -12,10 +12,9 @@
 
 namespace RV\Manager;
 
-use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
-use League\Flysystem\MountManager;
 use League\Flysystem\ZipArchive\ZipArchiveAdapter;
+use League\Flysystem\ZipArchive\FilesystemZipArchiveProvider;
 use RV\Parser\Html5ParserInterface;
 
 class Html5ZipManager
@@ -74,9 +73,9 @@ EOF;
     private $destination;
 
     /**
-     * @var MountManager
+     * @var Filesystem
      */
-    private $mountManager;
+    private $source;
 
     /**
      *
@@ -127,11 +126,11 @@ EOF;
      *
      * @param string $zipFile
      *
-     * @return Filesystem
+     * @return void
      */
     public function open($zipFile)
     {
-        $source = new Filesystem(new ZipArchiveAdapter($zipFile));
+        $source = new Filesystem(new ZipArchiveAdapter(new FilesystemZipArchiveProvider($zipFile)));
         $this->hash = md5(file_get_contents($zipFile));
 
         self::stripMacOsDir($source);
@@ -139,13 +138,10 @@ EOF;
         $basedir = self::findBasedir($source);
 
         if (!empty($basedir)) {
-            $source = new Filesystem(new ZipArchiveAdapter($zipFile, null, $basedir));
+            $source = new Filesystem(new ZipArchiveAdapter(new FilesystemZipArchiveProvider($zipFile), $basedir));
         }
 
-        $this->mountManager = new MountManager([
-            'src' => $source,
-            'dst' => $this->destination,
-        ]);
+        $this->source = $source;
 
         $this->verifyContent();
         $this->parseSize();
@@ -158,18 +154,23 @@ EOF;
      */
     public function copyToWebdir()
     {
-        foreach ($this->mountManager->listContents('src://', true) as $entry) {
-            if ('file' !== $entry['type'] || empty(self::$extensions[strtolower($entry['extension'])])) {
+        foreach ($this->source->listContents('', true) as $entry) {
+            if (!$entry->isFile() || empty(self::$extensions[strtolower(pathinfo($entry->path(), PATHINFO_EXTENSION))])) {
                 continue;
             }
 
-            $srcPath = "src://{$entry['path']}";
-            $dstPath = "dst://{$this->hash}/{$entry['path']}";
+            $srcPath = $entry->path();
+            $dstPath = "{$this->hash}/{$srcPath}";
 
-            if ('index.html' === $entry['basename']) {
-                $this->mountManager->put($dstPath, $this->alterHtml($this->mountManager->read($srcPath)));
+            if ('index.html' === basename($entry->path())) {
+                $this->destination->write($dstPath, $this->alterHtml($this->source->read($srcPath)));
             } else {
-                $this->mountManager->putStream($dstPath, $this->mountManager->readStream($srcPath));
+                $stream = $this->source->readStream($srcPath);
+                try {
+                    $this->destination->writeStream($dstPath, $stream);
+                } finally {
+                    fclose($stream);
+                }
             }
         }
 
@@ -201,7 +202,7 @@ EOF;
      */
     private function parseSize()
     {
-        $html = $this->mountManager->read('src://index.html');
+        $html = $this->source->read('index.html');
 
         foreach ($this->getSortedParsers() as $parser) {
             $size = $parser->parseSize($html);
@@ -261,9 +262,9 @@ EOF;
      */
     private function verifyContent()
     {
-        foreach ($this->mountManager->listContents('src://', true) as $entry) {
-            if ('file' === $entry['type'] && !isset(self::$extensions[strtolower($entry['extension'])])) {
-                throw new \RuntimeException(sprintf($GLOBALS['strHtml5InvalidFileType'], $entry['basename']));
+        foreach ($this->source->listContents('', true) as $entry) {
+            if ($entry->isFile() && !isset(self::$extensions[strtolower(pathinfo($entry->path(), PATHINFO_EXTENSION))])) {
+                throw new \RuntimeException(sprintf($GLOBALS['strHtml5InvalidFileType'], basename($entry->path())));
             }
         }
     }
@@ -275,14 +276,12 @@ EOF;
      */
     private static function stripMacOsDir(Filesystem $filesystem)
     {
-        try {
-            $macOsDir = $filesystem->getMetadata('__MACOSX');
-
-            if (false !== $macOsDir && 'dir' === $macOsDir['type']) {
-                $filesystem->deleteDir('__MACOSX');
+        foreach ($filesystem->listContents('__MACOSX', true)->toArray() as $entry) {
+            if ($entry->isFile()) {
+                $filesystem->delete($entry->path());
             }
-        } catch (FileNotFoundException) {
         }
+        $filesystem->deleteDirectory('__MACOSX');
     }
 
     /**
@@ -298,13 +297,14 @@ EOF;
     {
         $htmls = [];
         foreach ($filesystem->listContents('', true) as $entry) {
-            if ('file' !== $entry['type'] || 'html' !== $entry['extension']) {
+            if (!$entry->isFile() || 'html' !== pathinfo($entry->path(), PATHINFO_EXTENSION)) {
                 continue;
             }
 
-            $htmls[$entry['basename']] ??= [];
+            $htmls[basename($entry->path())] ??= [];
 
-            $htmls[$entry['basename']][] = $entry['dirname'];
+            $dirname = dirname($entry->path());
+            $htmls[basename($entry->path())][] = '.' === $dirname ? '' : $dirname;
         }
 
         if (isset($htmls['index.html'])) {
@@ -319,7 +319,7 @@ EOF;
         $fileName = key($htmls);
         if (1 === count($htmls) && 1 === count($htmls[$fileName])) {
             $dir = current($htmls[$fileName]);
-            $filesystem->rename("{$dir}/{$fileName}", "{$dir}/index.html");
+            $filesystem->move("{$dir}/{$fileName}", "{$dir}/index.html");
 
             return $dir;
         }

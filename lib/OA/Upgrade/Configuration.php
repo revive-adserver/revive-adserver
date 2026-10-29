@@ -27,7 +27,7 @@ class OA_Upgrade_Config
         // set default configPath
         $this->configPath = MAX_PATH . '/var/';
         if (!OA_Admin_Settings::isConfigWritable()) {
-            return false;
+            return;
         }
     }
 

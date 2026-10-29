@@ -158,7 +158,7 @@ class OA_XML_RPC_Client extends XML_RPC_Client
         $buffer = @curl_exec($ch);
         $status = curl_errno($ch);
 
-        @curl_close($ch);
+        unset($ch);
 
         if ($status != CURLE_OK) {
             if ($status == CURLE_OPERATION_TIMEOUTED) {

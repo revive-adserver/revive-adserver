@@ -90,6 +90,7 @@ class OA_Environment_Manager
         $this->aInfo['PHP']['expected']['zip'] = true;
         $this->aInfo['PHP']['expected']['tokenizer'] = true;
         $this->aInfo['PHP']['expected']['intl'] = true;
+        $this->aInfo['PHP']['expected']['ftp'] = !empty($conf['store']['mode']);
         $this->aInfo['PHP']['expected']['timeout'] = false;
         $this->aInfo['COOKIES']['expected']['enabled'] = true;
 
@@ -151,6 +152,7 @@ class OA_Environment_Manager
         $aResult['zip'] = extension_loaded('zip');
         $aResult['tokenizer'] = extension_loaded('tokenizer');
         $aResult['intl'] = extension_loaded('intl');
+        $aResult['ftp'] = extension_loaded('ftp');
 
         // set_time_limit is used throughout maintenance to increase the timeout for scripts
         // if user has disabled the set_time_limit function
@@ -379,6 +381,10 @@ class OA_Environment_Manager
         }
         if (!$this->aInfo['PHP']['actual']['intl']) {
             $this->aInfo['PHP']['error']['intl'] = 'The intl extension must be loaded';
+        }
+
+        if ($this->aInfo['PHP']['expected']['ftp'] && !$this->aInfo['PHP']['actual']['ftp']) {
+            $this->aInfo['PHP']['error']['ftp'] = 'The ftp extension must be loaded when FTP storage is selected';
         }
 
         // Test that at least one of the required database extensions are loaded

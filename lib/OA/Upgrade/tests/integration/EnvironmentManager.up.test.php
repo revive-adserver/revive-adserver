@@ -38,6 +38,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $oEnvMgr = $this->_getEnvMgrObj();
         $aResult = $oEnvMgr->getPHPInfo();
         $this->assertEqual($aResult['version'], phpversion(), 'wrong PHP version');
+        $this->assertIdentical($aResult['ftp'], extension_loaded('ftp'));
     }
 
     public function test_getFileIntegInfo()

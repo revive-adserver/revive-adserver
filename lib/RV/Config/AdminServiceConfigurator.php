@@ -12,7 +12,11 @@
 
 namespace RV\Config;
 
-use League\Flysystem\Adapter;
+use League\Flysystem\Ftp\FtpAdapter;
+use League\Flysystem\Ftp\FtpConnectionOptions;
+use League\Flysystem\Local\LocalFilesystemAdapter;
+use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
+use League\Flysystem\Visibility;
 use League\Flysystem\Filesystem;
 use RV\DependencyInjection\Compiler\Html5ZipManagerPass;
 use RV\Manager\Html5ZipManager;
@@ -50,19 +54,34 @@ class AdminServiceConfigurator
         self::configureSerializerServices($container);
 
         $container
-            ->register('filesystem.adapter.local', Adapter\Local::class)
+            ->register('filesystem.adapter.local', LocalFilesystemAdapter::class)
             ->addArgument('%store.webDir%')
+            ->addArgument(new Reference('filesystem.visibility'))
             ->addArgument(0);
 
         $container
-            ->register('filesystem.adapter.ftp', Adapter\Ftp::class)
+            ->register('filesystem.visibility', PortableVisibilityConverter::class)
+            ->setFactory([PortableVisibilityConverter::class, 'fromArray'])
+            ->addArgument([])
+            ->addArgument(Visibility::PUBLIC);
+
+        $container
+            ->register('filesystem.ftp.options', FtpConnectionOptions::class)
+            ->setFactory([FtpConnectionOptions::class, 'fromArray'])
             ->addArgument([
                 'host' => '%store.ftpHost%',
                 'username' => '%store.ftpUsername%',
                 'password' => '%store.ftpPassword%',
                 'root' => '%store.ftpPath%',
-                'passive' => '%store.ftpPassive%',
+                'passive' => (bool) $container->getParameter('store.ftpPassive'),
             ]);
+
+        $container
+            ->register('filesystem.adapter.ftp', FtpAdapter::class)
+            ->addArgument(new Reference('filesystem.ftp.options'))
+            ->addArgument(null)
+            ->addArgument(null)
+            ->addArgument(new Reference('filesystem.visibility'));
 
         $container
             ->register('filesystem', Filesystem::class)
@@ -71,7 +90,8 @@ class AdminServiceConfigurator
                 $container->getParameter('store.mode') ?
                 'filesystem.adapter.ftp' : // store.mode 1: FTP
                 'filesystem.adapter.local', // store.mode 0: Local
-            ));
+            ))
+            ->addArgument(['visibility' => Visibility::PUBLIC, 'directory_visibility' => Visibility::PUBLIC]);
 
         $container
             ->addCompilerPass(new Html5ZipManagerPass())

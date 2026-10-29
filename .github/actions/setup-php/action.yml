@@ -1,0 +1,26 @@
+name: Setup PHP
+description: Install PHP with the extensions used by Revive Adserver.
+inputs:
+  php-version:
+    description: PHP version to install.
+    required: true
+  ini-values:
+    description: Additional php.ini settings.
+    required: false
+  coverage:
+    description: Code coverage driver.
+    required: false
+  tools:
+    description: PHP tools to install.
+    default: composer
+runs:
+  using: composite
+  steps:
+    - name: Install PHP with extensions
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ inputs.php-version }}
+        extensions: none, ctype, curl, dom, fileinfo, ftp, iconv, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
+        ini-values: ${{ inputs.ini-values }}
+        coverage: ${{ inputs.coverage }}
+        tools: ${{ inputs.tools }}

@@ -49,7 +49,7 @@ class UserMigration extends Migration
         // We will need the admin and per-agency languages to assign the correct "Default" languages to advertiser and websites
         if (!$this->init(OA_DB::singleton())) {
             $this->_logError('Failed to initialise UserMigration class');
-            return false;
+            return;
         }
         $this->_log('Initialised UserMigration class, construction begun');
         $table = $this->_getQuotedTableName('preference');
@@ -68,7 +68,7 @@ class UserMigration extends Migration
         $adminLang = $this->oDBH->getAssoc($query);
         if (PEAR::isError($adminLang)) {
             $this->_logError("Error while retrieving admin language: " . $adminLang->getUserInfo());
-            return false;
+            return;
         }
 
         // Get agency languages
@@ -82,7 +82,7 @@ class UserMigration extends Migration
         $agencyLang = $this->oDBH->getAssoc($query);
         if (PEAR::isError($agencyLang)) {
             $this->_logError("Error while retrieving agency languages: " . $agencyLang->getUserInfo());
-            return false;
+            return;
         }
 
         // Set the admin's language for id 0, then set each agencies language as specified, using admins if unset

@@ -92,7 +92,6 @@ jobs:
           - 3306:3306
 
     env:
-      PHP_EXTENSIONS: none, ctype, curl, dom, fileinfo, iconv, intl, json, libxml, mbstring, mysqli, openssl, pgsql, simplexml, tokenizer, xml, xmlwriter, zip
       PHP_INI_VALUES: memory_limit=-1, assert.exception=1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On
 
     steps:
@@ -103,13 +102,11 @@ jobs:
         uses: ./.github/actions/setup-ant
 
       - name: Install PHP with extensions
-        uses: shivammathur/setup-php@v2
+        uses: ./.github/actions/setup-php
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: ${{ env.PHP_EXTENSIONS }}
           ini-values: pcov.directory=${{ github.workspace }}, ${{ env.PHP_INI_VALUES }}
           coverage: ${{ matrix.coverage }}
-          tools: composer
 
       - name: Get Composer cache directory
         id: composer-cache

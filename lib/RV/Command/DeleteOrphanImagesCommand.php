@@ -77,10 +77,11 @@ class DeleteOrphanImagesCommand extends AbstractReviveCommand
             if (!$dryRun) {
                 try {
                     if (is_dir($path)) {
-                        $unlinked += (int) $filesystem->deleteDir($filename);
+                        $filesystem->deleteDirectory($filename);
                     } else {
-                        $unlinked += (int) $filesystem->delete($filename);
+                        $filesystem->delete($filename);
                     }
+                    ++$unlinked;
                 } catch (\Exception $e) {
                     $output->writeln("<error>{$e->getMessage()}</error>");
                 }

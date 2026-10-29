@@ -65,7 +65,7 @@ class OA_Algorithm_Dependency
 
         foreach ($selected as $id) {
             if (!$source->getItem($id)) {
-                return false;
+                return;
             }
             // add to selected index
             $this->selected[$id] = $id;
