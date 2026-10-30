@@ -24,6 +24,94 @@ require_once(MAX_PATH . '/lib/OA/Upgrade/DB_UpgradeAuditor.php');
  */
 class Test_DB_Upgrade extends UnitTestCase
 {
+    public function testFailedFieldAndIndexMigrationHooks()
+    {
+        $upgrade = (new ReflectionClass(OA_DB_Upgrade::class))->newInstanceWithoutConstructor();
+        $upgrade->timingStr = 'constructive';
+        $upgrade->oMigrator = new class {
+            public function fail()
+            {
+                return false;
+            }
+
+            public function succeed()
+            {
+                return true;
+            }
+        };
+        $upgrade->aChanges['hooks']['constructive']['tables']['example'] = [
+            'fields' => ['field' => ['beforeAddField' => 'fail']],
+            'indexes' => ['idx' => ['beforeAddIndex' => 'fail']],
+        ];
+        $this->assertTrue(PEAR::isError($upgrade->_executeMigrationMethodField('example', 'field', 'beforeAddField')));
+        $this->assertTrue(PEAR::isError($upgrade->_executeMigrationMethodIndex('example', 'idx', 'beforeAddIndex')));
+        $this->assertFalse($upgrade->_executeMigrationMethodField('example', 'missing', 'beforeAddField'));
+        $this->assertFalse($upgrade->_executeMigrationMethodIndex('example', 'missing', 'beforeAddIndex'));
+
+        $upgrade->aChanges['hooks']['constructive']['tables']['example'] = [
+            'fields' => ['field' => ['beforeAddField' => 'succeed']],
+            'indexes' => ['idx' => ['beforeAddIndex' => 'succeed']],
+        ];
+        $this->assertIdentical(true, $upgrade->_executeMigrationMethodField('example', 'field', 'beforeAddField'));
+        $this->assertIdentical(true, $upgrade->_executeMigrationMethodIndex('example', 'idx', 'beforeAddIndex'));
+    }
+
+    public function testFailedHooksHaltBeforeChangingSchema()
+    {
+        Mock::generatePartial('OA_DB_Upgrade', $mockUpgrade = 'OA_DB_Upgrade_FailedHooksTest' . rand(), [
+            '_listIndexes', '_listConstraints',
+        ]);
+        foreach (['field', 'index'] as $kind) {
+            $upgrade = new $mockUpgrade($this);
+            $upgrade->setReturnValue('_listIndexes', []);
+            $upgrade->setReturnValue('_listConstraints', []);
+            $upgrade->prefix = '';
+            $upgrade->timingStr = 'constructive';
+            $upgrade->continue = true;
+            $upgrade->oMigrator = new class {
+                public function fail()
+                {
+                    return false;
+                }
+            };
+            $upgrade->aChanges['hooks']['constructive']['tables']['example'] = [
+                'fields' => ['field' => ['beforeAddField' => 'fail']],
+                'indexes' => ['idx' => ['beforeAddIndex' => 'fail']],
+            ];
+            $manager = new class {
+                public $changes = [];
+
+                public function alterTable($table, $changes, $check)
+                {
+                    $this->changes[] = 'alterTable';
+                    return true;
+                }
+
+                public function createIndex($table, $index, $definition)
+                {
+                    $this->changes[] = 'createIndex';
+                    return true;
+                }
+            };
+            $upgrade->oSchema = (object) ['db' => (object) ['manager' => $manager]];
+            $upgrade->oTable = new class {
+                public function _generateIndexName($table, $index)
+                {
+                    return $index;
+                }
+            };
+
+            if ($kind === 'field') {
+                $upgrade->aTaskList['fields']['add'] = [['name' => 'example', 'field' => 'field', 'cargo' => []]];
+                $this->assertFalse($upgrade->_executeTasksTablesAlter());
+            } else {
+                $this->assertFalse($upgrade->_createAllIndexes(['indexes' => ['idx' => ['fields' => []]]], 'example'));
+            }
+            $this->assertFalse($upgrade->continue);
+            $this->assertEqual([], $manager->changes);
+        }
+    }
+
     public function test_prepPreScript()
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
