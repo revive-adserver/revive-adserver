@@ -587,8 +587,19 @@ class Test_OX_PluginManager extends UnitTestCase
             ],
         );
         $oManager = new $oMockManager($this);
-        $oManager->setReturnValue('_auditStart', true);
-
+        for ($index = 0; $index < 5; $index++) {
+            $oManager->setReturnValueAt($index, '_auditStart', 101 + $index);
+        }
+        $oManager->expectCallCount('_auditStart', 5);
+        // Only the successful uninstalls should complete their original audit records.
+        $oManager->expectCallCount('_auditUpdate', 3);
+        foreach ([102, 104, 105] as $index => $auditId) {
+            $oManager->expectAt($index, '_auditUpdate', [[
+                'description' => 'PLUGIN UNINSTALL COMPLETE',
+                'action' => UPGRADE_ACTION_UNINSTALL_SUCCEEDED,
+                'id' => $auditId,
+            ]]);
+        }
 
         // Test 1 - no plugins to uninstall
         $aPlugins = [];
