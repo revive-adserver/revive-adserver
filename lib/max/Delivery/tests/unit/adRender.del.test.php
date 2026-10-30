@@ -64,13 +64,19 @@ class Test_DeliveryAdRender extends UnitTestCase
     {
         require MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
 
+        $hadFoo = array_key_exists('foo', $_REQUEST);
+        $previousFoo = $_REQUEST['foo'] ?? null;
         $aBanner['url'] .= '/?foo={foo}&encoded={foo_enc}';
         $_REQUEST['foo'] = 'a b&c';
         MAX_adRender($aBanner);
 
         $this->assertEqual($aBanner['aMagicMacros']['{foo}'], 'a b&amp;c');
         $this->assertEqual($aBanner['aMagicMacros']['{foo_enc}'], 'a+b%26c');
-        unset($_REQUEST['foo']);
+        if ($hadFoo) {
+            $_REQUEST['foo'] = $previousFoo;
+        } else {
+            unset($_REQUEST['foo']);
+        }
     }
 
     /**
