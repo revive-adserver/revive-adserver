@@ -147,6 +147,41 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $this->assertEqual(count($aData), 0, 'Recordset should be empty');
     }
 
+    public function testGetZoneHourlyStatisticsInLocalTimezone()
+    {
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doPublisher = OA_Dal::factoryDO('affiliates');
+        $doZone = OA_Dal::factoryDO('zones');
+        $this->generateZoneWithParents($doAgency, $doPublisher, $doZone);
+        $doSummary = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doSummary->date_time = '2006-06-06 20:00:00';
+        $doSummary->impressions = 5;
+        $this->generateDataSummaryAdHourlyForZone($doSummary, $doZone);
+
+        $originalTimezone = (new Date())->tz->getID();
+        try {
+            foreach ([
+                ['Asia/Singapore', '2006-06-07', 4],
+                ['America/New_York', '2006-06-06', 16],
+                ['UTC', '2006-06-06', 20],
+            ] as [$timezone, $day, $hour]) {
+                Date_TimeZone::setDefault($timezone);
+                $data = $this->_dalZoneStatistics->getZoneHourlyStatistics(
+                    $doZone->zoneid,
+                    new Date($day),
+                    new Date($day),
+                    true,
+                );
+                $this->assertEqual(count($data), 1);
+                $this->assertEqual($data[0]['day'], $day);
+                $this->assertEqual($data[0]['hour'], $hour);
+                $this->assertEqual($data[0]['impressions'], 5);
+            }
+        } finally {
+            Date_TimeZone::setDefault($originalTimezone);
+        }
+    }
+
     /**
      * Test zone advertiser statistics.
      *
