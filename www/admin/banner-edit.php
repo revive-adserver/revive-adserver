@@ -16,6 +16,7 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Creative/File.php';
+require_once MAX_PATH . '/lib/OA/Dll/Banner.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
@@ -532,6 +533,11 @@ function bannerEditProcessForm($bannerid, $form, &$oComponent, $formDisabled = f
             $aBanner = $doBanners->toArray();
         }
     }
+
+    OA_Permission::enforceTrue(OA_Dll_Banner::isStorageTypeAllowed(
+        $aFields['type'],
+        $aBanner['storagetype'] ?? null,
+    ));
 
     $aVariables = [];
     $aVariables['campaignid'] = $aFields['campaignid'];

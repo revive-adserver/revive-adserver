@@ -40,6 +40,28 @@ class OA_Dll_Banner extends OA_Dll
      */
     public $oBackupImage;
 
+    public static function getAllowedStorageTypes(): array
+    {
+        $allowedBanners = $GLOBALS['_MAX']['CONF']['allowedBanners'];
+        $allowedBanners['txt'] = $allowedBanners['text'];
+        unset($allowedBanners['text']);
+
+        return array_keys(array_filter($allowedBanners));
+    }
+
+    /**
+     * Check banner storage configuration, allowing existing banners to retain their type.
+     */
+    public static function isStorageTypeAllowed($storageType, $currentStorageType = null): bool
+    {
+        if (!is_string($storageType) || $storageType === '') {
+            return false;
+        }
+
+        return $storageType === $currentStorageType
+            || in_array($storageType, self::getAllowedStorageTypes(), true);
+    }
+
     /**
      * This method sets BannerInfo from a data array.
      *
@@ -99,8 +121,6 @@ class OA_Dll_Banner extends OA_Dll
      */
     public function _validate(&$oBanner)
     {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-
         // Clean up
         $this->oImage = null;
         $this->oBackupImage = null;
@@ -122,20 +142,10 @@ class OA_Dll_Banner extends OA_Dll
             return false;
         }
 
-        // Prepare list of allowed storage types from allowed banners list
-        $aAllowedBanners = $aConf['allowedBanners'];
-        $aAllowedBanners['txt'] = $aAllowedBanners['text'];
-        unset($aAllowedBanners['text']);
-        foreach ($aAllowedBanners as $type => $allowed) {
-            if (!$allowed) {
-                unset($aAllowedBanners[$type]);
-            }
-        }
-
         // Check that storage type is allowed
         if (!isset($oBanner->bannerId)) {
-            if (!isset($oBanner->storageType) || empty($aAllowedBanners[$oBanner->storageType])) {
-                $storageTypes = array_keys($aAllowedBanners);
+            if (!self::isStorageTypeAllowed($oBanner->storageType ?? null)) {
+                $storageTypes = self::getAllowedStorageTypes();
                 $this->raiseError('Field \'storageType\' must be one of the enum: ' . implode(', ', $storageTypes));
                 return false;
             }

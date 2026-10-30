@@ -75,6 +75,65 @@ class OA_Dll_BannerTest extends DllUnitTestCase
         DataGenerator::cleanUp();
     }
 
+    public function testIsStorageTypeAllowed()
+    {
+        $allowedBanners = $GLOBALS['_MAX']['CONF']['allowedBanners'];
+        $types = ['web' => 'web', 'sql' => 'sql', 'url' => 'url', 'html' => 'html', 'txt' => 'text'];
+
+        try {
+            foreach ($types as $storageType => $configKey) {
+                $GLOBALS['_MAX']['CONF']['allowedBanners'] = array_fill_keys(array_values($types), false);
+
+                $this->assertFalse(OA_Dll_Banner::isStorageTypeAllowed($storageType));
+                $this->assertTrue(OA_Dll_Banner::isStorageTypeAllowed($storageType, $storageType));
+
+                $otherType = $storageType === 'web' ? 'sql' : 'web';
+                $this->assertFalse(OA_Dll_Banner::isStorageTypeAllowed($storageType, $otherType));
+
+                $GLOBALS['_MAX']['CONF']['allowedBanners'][$configKey] = true;
+                $this->assertEqual(OA_Dll_Banner::getAllowedStorageTypes(), [$storageType]);
+                $this->assertTrue(OA_Dll_Banner::isStorageTypeAllowed($storageType));
+                $this->assertTrue(OA_Dll_Banner::isStorageTypeAllowed($storageType, $otherType));
+            }
+
+            foreach (['', 'unknown', null, [], ['sql']] as $invalidType) {
+                $this->assertFalse(OA_Dll_Banner::isStorageTypeAllowed($invalidType));
+            }
+        } finally {
+            $GLOBALS['_MAX']['CONF']['allowedBanners'] = $allowedBanners;
+        }
+    }
+
+    public function testStorageTypeRestrictions()
+    {
+        $allowedBanners = $GLOBALS['_MAX']['CONF']['allowedBanners'];
+        $dllBanner = new OA_Dll_Banner();
+        $banner = new OA_Dll_BannerInfo();
+        $banner->campaignId = DataGenerator::generateOne('campaigns', true);
+        $banner->storageType = 'url';
+
+        try {
+            $GLOBALS['_MAX']['CONF']['allowedBanners']['url'] = false;
+            $this->assertFalse($dllBanner->_validate($banner));
+
+            $GLOBALS['_MAX']['CONF']['allowedBanners']['url'] = true;
+            $this->assertTrue($dllBanner->_validate($banner));
+
+            $doBanner = OA_Dal::factoryDO('banners');
+            $doBanner->campaignid = $banner->campaignId;
+            $doBanner->storagetype = 'url';
+            $banner->bannerId = DataGenerator::generateOne($doBanner);
+
+            // Existing banners keep their type even if it is disabled or another type is submitted.
+            $GLOBALS['_MAX']['CONF']['allowedBanners']['url'] = false;
+            $banner->storageType = 'sql';
+            $this->assertTrue($dllBanner->_validate($banner));
+            $this->assertEqual($banner->storageType, 'url');
+        } finally {
+            $GLOBALS['_MAX']['CONF']['allowedBanners'] = $allowedBanners;
+        }
+    }
+
     /**
      * A method to test Add, Modify and Delete.
      */
