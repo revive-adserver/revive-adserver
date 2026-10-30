@@ -36,6 +36,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Fixed successful plugin component uninstalls being recorded as failed installations in the upgrade audit ([#1741](https://github.com/revive-adserver/revive-adserver/pull/1741))
 - Fixed package upgrades potentially uninstalling retained components when component groups were reordered or an earlier group was removed ([#1739](https://github.com/revive-adserver/revive-adserver/pull/1739))
 - Fixed database upgrades continuing after a field or index migration hook reported failure ([#1738](https://github.com/revive-adserver/revive-adserver/pull/1738))
+- Fixed campaign impression distribution using another manager's timezone when managers have different timezone preferences ([#1737](https://github.com/revive-adserver/revive-adserver/pull/1737))
 
 ### Added
 

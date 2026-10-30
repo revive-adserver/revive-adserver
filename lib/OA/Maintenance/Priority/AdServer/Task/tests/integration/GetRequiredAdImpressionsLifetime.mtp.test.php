@@ -49,12 +49,16 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
      * @access private
      * @return OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime
      */
-    public function _getCurrentTask()
+    public function _getCurrentTask($campaignTimezones = [])
     {
         $oServiceLocator = OA_ServiceLocator::instance();
         $oDal = new MockMAX_Dal_Entities($this);
         $oServiceLocator->register('MAX_Dal_Entities', $oDal);
         $oDal = new MockOA_Dal_Maintenance_Priority($this);
+        foreach ($campaignTimezones as $campaignId => $timezone) {
+            $oDal->setReturnValue('getTimezoneForCampaign', new Date_TimeZone($timezone), [$campaignId]);
+        }
+        $oDal->setReturnValue('getTimezoneForCampaign', new Date_TimeZone('UTC'));
         $oDal->setReturnReference('_getDbConnection', OA_DB::singleton());
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
         $oTable = new MockOA_DB_Table_Priority($this);
@@ -361,6 +365,60 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $oGetRequiredAdImpressionsLifetime->distributeCampaignImpressions($aCampaigns);
 
         TestEnv::restoreConfig();
+    }
+
+    public function testDistributionUsesEachManagersTimezone()
+    {
+        $locator = OA_ServiceLocator::instance();
+        $previousNow = $locator->get('now');
+        $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] = 60;
+        $task = $this->_getCurrentTask([1 => 'Asia/Singapore', 2 => 'America/New_York']);
+        $now = new Date('2006-02-12 12:00:01');
+        $now->setTZbyID('UTC');
+        $locator->register('now', $now);
+
+        try {
+            $campaigns = [];
+            foreach ([1, 2] as $id) {
+                $campaign = new OX_Maintenance_Priority_Campaign(['campaignid' => $id]);
+                $campaign->impressionTargetDaily = 68;
+                $campaign->requiredImpressions = 68;
+                $campaign->aAds[] = new OA_Maintenance_Priority_Ad([
+                    'ad_id' => $id,
+                    'weight' => 1,
+                    'status' => OA_ENTITY_STATUS_RUNNING,
+                    'type' => 'sql',
+                ]);
+                $campaigns[] = $campaign;
+                $task->oDal->setReturnValue('getAdZoneAssociationsByAds', [$id => [['zone_id' => 1]]], [[$id]]);
+            }
+
+            // An even forecast makes allocation depend on hours left in the manager's day.
+            $forecast = [];
+            for ($interval = 0; $interval < OX_OperationInterval::operationIntervalsPerWeek(); $interval++) {
+                $forecast[] = ['operation_interval_id' => $interval, 'forecast_impressions' => 10];
+            }
+            $task->oDal->setReturnValue('getPreviousWeekZoneForcastImpressions', $forecast, [1]);
+
+            // Simulate the timezone left by the last campaign in the requirement loop.
+            $task->currentTz = new Date_TimeZone('America/New_York');
+            $task->distributeCampaignImpressions($campaigns);
+
+            // At 12:00 UTC, Singapore has 4 hours left; New York has 17.
+            $this->assertEqual(17, $campaigns[0]->aAds[0]->requiredImpressions);
+            $this->assertEqual(4, $campaigns[1]->aAds[0]->requiredImpressions);
+
+            // Changing campaign order must not change either allocation.
+            $task->distributeCampaignImpressions(array_reverse($campaigns));
+            $this->assertEqual(17, $campaigns[0]->aAds[0]->requiredImpressions);
+            $this->assertEqual(4, $campaigns[1]->aAds[0]->requiredImpressions);
+        } finally {
+            $locator->remove('now');
+            if ($previousNow !== false) {
+                $locator->register('now', $previousNow);
+            }
+            TestEnv::restoreConfig();
+        }
     }
 
     /**
