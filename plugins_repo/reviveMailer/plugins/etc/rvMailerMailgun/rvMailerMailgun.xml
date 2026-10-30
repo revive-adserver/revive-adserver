@@ -4,13 +4,13 @@
 <plugin>
     <name>rvMailerMailgun</name>
     <displayName>Mailgun Mailer Plugin</displayName>
-    <creationDate>2026-01-05</creationDate>
+    <creationDate>2026-10-30</creationDate>
     <author>Revive Adserver</author>
     <authorEmail>revive@revive-adserver.com</authorEmail>
     <authorUrl>http://www.revive-adserver.com</authorUrl>
     <license>LICENSE.txt</license>
     <description>Plugin that allows sending e-mails using Mailgun.</description>
-    <version>1.0.8</version>
+    <version>1.0.9</version>
     <oxversion>6.0.0-beta-rc3</oxversion>
     <extends>mailer</extends>
 
