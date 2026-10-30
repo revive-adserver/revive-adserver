@@ -60,10 +60,11 @@ class Test_OA_Algorithm_Dependency_Ordered extends UnitTestCase
         $source = new OA_Algorithm_Dependency_Source_HoA([
             'A' => ['B'],
             'B' => ['C'],
-            'C',
+            'C' => ['D'],
+            'D',
         ]);
         $dep = new OA_Algorithm_Dependency_Ordered($source);
-        $this->assertEqual(array_values($dep->schedule(['A'])), ['C', 'B', 'A']);
+        $this->assertEqual(array_values($dep->schedule(['A'])), ['D', 'C', 'B', 'A']);
     }
 
     public function testDependencyCycle()
