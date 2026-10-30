@@ -11,7 +11,7 @@
 */
 
 require_once MAX_PATH . '/lib/OX/Plugin/Component.php';
-require_once LIB_PATH . '/RV/Extension/Mailer/AbstractMailer.php';
+require_once MAX_PATH . '/lib/RV/Extension/Mailer/AbstractMailer.php';
 require_once dirname(dirname(dirname(__FILE__))) . '/Mailer.class.php';
 
 class Plugins_TestOfPlugins_Mailer_rvMailerSMTP_Mailer extends UnitTestCase
