@@ -269,6 +269,63 @@ class Test_DeliveryAdRender extends UnitTestCase
         }
     }
 
+    public function test_adRenderBuildChainedTrackingFlags()
+    {
+        require_once MAX_PATH . '/lib/max/Delivery/common.php';
+
+        $hadChain = array_key_exists('adChain', $GLOBALS['_MAX']);
+        $previousChain = $GLOBALS['_MAX']['adChain'] ?? null;
+        $previousDelimiter = $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'] ?? null;
+        $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'] = '|';
+        $GLOBALS['_MAX']['adChain'] = [
+            [
+                'ad_id' => 200, 'bannerid' => 200, 'placement_id' => 20, 'zoneid' => 2,
+                'block_ad' => '', 'cap_ad' => '', 'session_cap_ad' => '',
+                'block_campaign' => '', 'cap_campaign' => '', 'session_cap_campaign' => '',
+                'block_zone' => '', 'cap_zone' => '', 'session_cap_zone' => '',
+                'viewwindow' => false, 'tracker_status' => true, 'clickwindow' => false,
+            ],
+            [
+                'ad_id' => 300, 'bannerid' => 300, 'placement_id' => 30, 'zoneid' => 3,
+                'block_ad' => '', 'cap_ad' => '', 'session_cap_ad' => '',
+                'block_campaign' => '', 'cap_campaign' => '', 'session_cap_campaign' => '',
+                'block_zone' => '', 'cap_zone' => '', 'session_cap_zone' => '',
+                'viewwindow' => true, 'tracker_status' => true, 'clickwindow' => true,
+            ],
+        ];
+
+        $banner = [
+            'ad_id' => 100, 'bannerid' => 100, 'placement_id' => 10, 'url' => 'https://example.test/',
+            'block_ad' => '', 'cap_ad' => '', 'session_cap_ad' => '',
+            'block_campaign' => '', 'cap_campaign' => '', 'session_cap_campaign' => '',
+            'block_zone' => '', 'cap_zone' => '', 'session_cap_zone' => '',
+            'viewwindow' => true, 'tracker_status' => true, 'clickwindow' => true,
+        ];
+
+        $logUrl = _adRenderBuildLogURL($banner, 1, '', '', '', '&');
+        $this->assertPattern('/' . preg_quote($GLOBALS['_MAX']['CONF']['var']['lastView'] . '=1|0|1', '/') . '/', $logUrl);
+
+        $clickBanner = $banner;
+        unset($clickBanner['url']);
+        $clickQuery = _adRenderBuildClickQueryString($clickBanner, 1);
+        parse_str($clickQuery, $clickParams);
+        $this->assertEqual($clickParams[$GLOBALS['_MAX']['CONF']['var']['lastClick']], '1|0|1');
+
+        $params = _adRenderBuildParams($banner, 1);
+        $this->assertPattern('/__' . preg_quote($GLOBALS['_MAX']['CONF']['var']['lastClick'], '/') . '=1\|0\|1/', $params);
+
+        if ($hadChain) {
+            $GLOBALS['_MAX']['adChain'] = $previousChain;
+        } else {
+            unset($GLOBALS['_MAX']['adChain']);
+        }
+        if ($previousDelimiter === null) {
+            unset($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER']);
+        } else {
+            $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'] = $previousDelimiter;
+        }
+    }
+
     /**
      * @todo more test cases
      *     referer
