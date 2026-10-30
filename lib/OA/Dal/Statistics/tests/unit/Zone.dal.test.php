@@ -159,18 +159,24 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $this->generateDataSummaryAdHourlyForZone($doSummary, $doZone);
 
         $originalTimezone = (new Date())->tz->getID();
-        Date_TimeZone::setDefault('Asia/Singapore');
         try {
-            $data = $this->_dalZoneStatistics->getZoneHourlyStatistics(
-                $doZone->zoneid,
-                new Date('2006-06-07'),
-                new Date('2006-06-07'),
-                true,
-            );
-            $this->assertEqual(count($data), 1);
-            $this->assertEqual($data[0]['day'], '2006-06-07');
-            $this->assertEqual($data[0]['hour'], 4);
-            $this->assertEqual($data[0]['impressions'], 5);
+            foreach ([
+                ['Asia/Singapore', '2006-06-07', 4],
+                ['America/New_York', '2006-06-06', 16],
+                ['UTC', '2006-06-06', 20],
+            ] as [$timezone, $day, $hour]) {
+                Date_TimeZone::setDefault($timezone);
+                $data = $this->_dalZoneStatistics->getZoneHourlyStatistics(
+                    $doZone->zoneid,
+                    new Date($day),
+                    new Date($day),
+                    true,
+                );
+                $this->assertEqual(count($data), 1);
+                $this->assertEqual($data[0]['day'], $day);
+                $this->assertEqual($data[0]['hour'], $hour);
+                $this->assertEqual($data[0]['impressions'], 5);
+            }
         } finally {
             Date_TimeZone::setDefault($originalTimezone);
         }
