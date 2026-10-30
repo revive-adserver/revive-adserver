@@ -1187,14 +1187,73 @@ class Test_OX_Plugin_ComponentGroupManager extends UnitTestCase
         unset($GLOBALS['_MAX']['CONF']['pluginGroupComponents']['bar']);
     }
 
-    /**
-     * see integration test
-     */
-    /*function test_checkMenus()
+    private function createManagerWithEmptyMenus()
     {
-        $oManager = new OX_Plugin_ComponentGroupManager();
-        $this->assertTrue($oManager->_checkMenus('test'));
-    }*/
+        $manager = new OX_Plugin_ComponentGroupManager();
+        $manager->aMenuObjects = [
+            OA_ACCOUNT_ADMIN => new OA_Admin_Menu(),
+            OA_ACCOUNT_MANAGER => new OA_Admin_Menu(),
+        ];
+        return $manager;
+    }
+
+    public function test_checkMenusValidatesEveryAccountAndReturnsFirstMenu()
+    {
+        $manager = $this->createManagerWithEmptyMenus();
+        $menus = [
+            OA_ACCOUNT_ADMIN => [['add' => 'test-admin', 'value' => 'Admin', 'link' => 'admin.php']],
+            OA_ACCOUNT_MANAGER => [['add' => 'test-manager', 'value' => 'Manager', 'link' => 'manager.php']],
+        ];
+
+        $result = $manager->_checkMenus('testPlugin', $menus);
+
+        $this->assertTrue($result === $manager->aMenuObjects[OA_ACCOUNT_ADMIN]);
+        $this->assertIsA($manager->aMenuObjects[OA_ACCOUNT_ADMIN]->get('test-admin', false), 'OA_Admin_Menu_Section');
+        $this->assertIsA($manager->aMenuObjects[OA_ACCOUNT_MANAGER]->get('test-manager', false), 'OA_Admin_Menu_Section');
+    }
+
+    public function test_checkMenusRejectsInvalidMenuForLaterAccount()
+    {
+        $manager = $this->createManagerWithEmptyMenus();
+        $menus = [
+            OA_ACCOUNT_ADMIN => [['add' => 'test-admin', 'value' => 'Admin', 'link' => 'admin.php']],
+            OA_ACCOUNT_MANAGER => [[
+                'addto' => 'missing-parent',
+                'index' => 'test-manager',
+                'value' => 'Manager',
+                'link' => 'manager.php',
+            ]],
+        ];
+
+        $this->assertFalse($manager->_checkMenus('testPlugin', $menus));
+        $this->assertEqual(1, $manager->countErrors());
+    }
+
+    public function test_checkMenusSkipsCheckerMetadataBeforeAccountMenus()
+    {
+        $manager = $this->createManagerWithEmptyMenus();
+        $menus = [
+            'checkers' => [],
+            OA_ACCOUNT_ADMIN => [['add' => 'test-admin', 'value' => 'Admin', 'link' => 'admin.php']],
+            OA_ACCOUNT_MANAGER => [['add' => 'test-manager', 'value' => 'Manager', 'link' => 'manager.php']],
+        ];
+
+        $result = $manager->_checkMenus('testPlugin', $menus);
+
+        $this->assertTrue($result === $manager->aMenuObjects[OA_ACCOUNT_ADMIN]);
+        $this->assertIsA($manager->aMenuObjects[OA_ACCOUNT_ADMIN]->get('test-admin', false), 'OA_Admin_Menu_Section');
+        $this->assertIsA($manager->aMenuObjects[OA_ACCOUNT_MANAGER]->get('test-manager', false), 'OA_Admin_Menu_Section');
+        $this->assertFalse(isset($manager->aMenuObjects['checkers']));
+    }
+
+    public function test_checkMenusWithoutAccountMenusReturnsTrue()
+    {
+        $manager = $this->createManagerWithEmptyMenus();
+
+        $this->assertIdentical(true, $manager->_checkMenus('testPlugin'));
+        $this->assertIdentical(true, $manager->_checkMenus('testPlugin', ['checkers' => []]));
+        $this->assertFalse(isset($manager->aMenuObjects['checkers']));
+    }
 
     public function test_registerSchema()
     {
