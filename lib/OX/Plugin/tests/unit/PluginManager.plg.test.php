@@ -901,6 +901,37 @@ class Test_OX_PluginManager extends UnitTestCase
     }
 
 
+    public function testRetainedGroupsAreNotUninstalledWhenOrderChanges()
+    {
+        Mock::generatePartial('OX_PluginManager', $mockManager = 'OX_PluginManager_ReorderedGroupsTest' . rand(), [
+            '_canUpgradeComponentGroup', '_uninstallComponentGroups',
+        ]);
+        $manager = new $mockManager($this);
+        $manager->setReturnValue('_canUpgradeComponentGroup', true);
+        $manager->setReturnValue('_uninstallComponentGroups', true);
+        $manager->expectCallCount('_uninstallComponentGroups', 1);
+        $manager->expectAt(0, '_uninstallComponentGroups', [[0 => ['name' => 'removed']]]);
+
+        $old = [['name' => 'removed'], ['name' => 'retained']];
+        $new = [['name' => 'retained']];
+        $this->assertTrue($manager->_canUpgradeComponentGroups($new, $old));
+        $this->assertEqual([0 => ['name' => 'removed']], $old);
+        $this->assertTrue($manager->_upgradeComponentGroups($new, $old));
+
+        $old = [['name' => 'first'], ['name' => 'second']];
+        $new = [['name' => 'second'], ['name' => 'first']];
+        $this->assertTrue($manager->_canUpgradeComponentGroups($new, $old));
+        $this->assertEqual([], $old);
+        $this->assertTrue($manager->_upgradeComponentGroups($new, $old));
+
+        $old = [4 => ['name' => 'first'], 8 => ['name' => 'second']];
+        $new = [2 => ['name' => 'second'], 7 => ['name' => 'first']];
+        $this->assertTrue($manager->_canUpgradeComponentGroups($new, $old));
+        $this->assertEqual([], $old);
+        $this->assertTrue($manager->_upgradeComponentGroups($new, $old));
+        $manager->tally();
+    }
+
     public function test_upgradeComponentGroups()
     {
         Mock::generatePartial(
