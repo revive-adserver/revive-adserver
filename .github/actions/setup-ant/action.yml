@@ -5,7 +5,7 @@ runs:
   steps:
     - name: Install Ant 1.7.1 from cache
       id: ant-cache
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ${{ runner.temp }}/apache-ant-1.7.1
         key: ${{ runner.os }}-ant-1.7.1-6344bb150f22dc335462bafa87de45085d51a5be

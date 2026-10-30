@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Download from Crowdin
         if: env.CROWDIN_PROJECT_ID && env.CROWDIN_PERSONAL_TOKEN
