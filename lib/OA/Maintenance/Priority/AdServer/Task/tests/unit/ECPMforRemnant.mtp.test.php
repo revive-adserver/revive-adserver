@@ -123,9 +123,12 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends UnitTest
         $this->assertFalse($dataJustLoaded);
 
         $oEcpm->resetHelperProperties();
-        $dataJustLoaded = $oEcpm->preloadZonesAvailableImpressionsForAgency(123);
+        $oDal->setReturnValueAt(1, 'getZonesForecasts', [1 => 100, 2 => 200, 3 => 300]);
+        $dataJustLoaded = $oEcpm->preloadZonesAvailableImpressionsForAgency(152);
         $this->assertTrue($dataJustLoaded);
-        $this->assertEqual($aZonesExpectedContracts, $oEcpm->aZonesAvailableImpressions);
+        $this->assertEqual([1 => 90, 2 => 170, 3 => 300], $oEcpm->aZonesAvailableImpressions);
+        $oDal->expectCallCount('getZonesForecasts', 2);
+        $oDal->tally();
     }
 
     /**
