@@ -2440,7 +2440,7 @@ function MAX_commonConvertEncoding($content, $toEncoding, $fromEncoding = 'UTF-8
 if (($toEncoding == $fromEncoding) || empty($toEncoding)) {
 return $content;
 }
-$aExtensions ??= ['intl', 'iconv', 'mbstring', 'xml'];
+$aExtensions ??= ['intl', 'iconv', 'mbstring'];
 if (is_array($content)) {
 foreach ($content as $key => $value) {
 $content[$key] = MAX_commonConvertEncoding($value, $toEncoding, $fromEncoding, $aExtensions);
@@ -2456,9 +2456,6 @@ $aMap = [
 ],
 'mbstring' => [
 'WINDOWS-1255' => 'ISO-8859-8',
-],
-'xml' => [
-'ISO-8859-15' => 'ISO-8859-1',
 ],
 ];
 $converted = false;
@@ -2482,15 +2479,6 @@ break;
 case 'mbstring':
 if (function_exists('mb_convert_encoding')) {
 $converted = @mb_convert_encoding($content, $mappedToEncoding, $mappedFromEncoding);
-}
-break;
-case 'xml':
-if (function_exists('utf8_encode')) {
-if ($mappedToEncoding == 'UTF-8' && $mappedFromEncoding == 'ISO-8859-1') {
-$converted = @utf8_encode($content);
-} elseif ($mappedToEncoding == 'ISO-8859-1' && $mappedFromEncoding == 'UTF-8') {
-$converted = @utf8_decode($content);
-}
 }
 break;
 }
