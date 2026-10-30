@@ -23,6 +23,8 @@ contributions to the code:
  - Heiko Weber
  - Karen Mikaela Saavedra Chavez
  - Stefan Greiner
+ - Wu Shuwen
+ - Jiří Černý
 
 Please note: The Revive Adserver team does not have time to track every single
 pull request that is merged into the project. If you would like your name
