@@ -25,6 +25,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Fixed calendar language fallback when using legacy language names or no user language preference ([#1758](https://github.com/revive-adserver/revive-adserver/pull/1758))
 - Added missing installer state and authentication checks before finalising an up-to-date installation ([#1761](https://github.com/revive-adserver/revive-adserver/issues/1761))
 - Fixed date delivery limitations blocking delivery when no date was selected ([#1755](https://github.com/revive-adserver/revive-adserver/pull/1755))
+- Fixed SMTP authentication with usernames or passwords containing reserved URI characters ([#1754](https://github.com/revive-adserver/revive-adserver/pull/1754))
 
 ### Added
 
