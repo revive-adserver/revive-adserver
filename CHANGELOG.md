@@ -24,6 +24,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - The dashboard statistics graph could scan the whole `data_summary_ad_hourly` table for managers with a large number of banners ([#1775](https://github.com/revive-adserver/revive-adserver/issues/1775))
 - Fixed calendar language fallback when using legacy language names or no user language preference ([#1758](https://github.com/revive-adserver/revive-adserver/pull/1758))
 - Added missing installer state and authentication checks before finalising an up-to-date installation ([#1761](https://github.com/revive-adserver/revive-adserver/issues/1761))
+- Fixed date delivery limitations blocking delivery when no date was selected ([#1755](https://github.com/revive-adserver/revive-adserver/pull/1755))
 
 ### Added
 
