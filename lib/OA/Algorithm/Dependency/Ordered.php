@@ -67,7 +67,7 @@ class OA_Algorithm_Dependency_Ordered extends OA_Algorithm_Dependency
                 $missing = array_intersect($itemsIds, $missing);
             }
 
-            if ($missing) {
+            if ($missing !== []) {
                 if (!$errorMarker) {
                     $errorMarker = $id;
                 }
