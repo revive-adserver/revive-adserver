@@ -60,8 +60,10 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
     {
         $zone = new OA_Dll_Zone();
         $zone->clearErrors();
-        $this->assertTrue($zone->_validateZoneType(2));
-        $this->assertEqual($zone->getLastError(), '');
+        foreach ([0, 1, 2, 3, 4, null] as $type) {
+            $this->assertTrue($zone->_validateZoneType($type));
+            $this->assertEqual($zone->getLastError(), '');
+        }
         $this->assertFalse($zone->_validateZoneType(99));
         $this->assertEqual($zone->getLastError(), 'Zone type is wrong!');
     }
