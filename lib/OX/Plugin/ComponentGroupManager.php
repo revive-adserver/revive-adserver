@@ -1233,7 +1233,11 @@ class OX_Plugin_ComponentGroupManager
             return true;
         }
         $aCheckers = $this->_prepareMenuCheckers($name, $aMenus['checkers'] ?? [], $aFiles);
+        $firstMenu = null;
         foreach ($aMenus as $accountType => &$aMenu) {
+            if ($accountType === 'checkers') {
+                continue;
+            }
             if (empty($this->aMenuObjects[$accountType])) {
                 $oMenu = $this->_getMenuObject($accountType);
             } else {
@@ -1245,8 +1249,9 @@ class OX_Plugin_ComponentGroupManager
                 }
             }
             $this->aMenuObjects[$accountType] = $oMenu;
-            return $oMenu;
+            $firstMenu ??= $oMenu;
         }
+        return $firstMenu ?? true;
     }
 
     /**
