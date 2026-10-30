@@ -262,7 +262,7 @@ class OA_Dll_AuditTest extends DllUnitTestCase
             $doAudit = OA_Dal::factoryDO('audit');
             $doAudit->context = 'zones';
             $doAudit->contextid = $zoneId;
-            $doAudit->parentid = null;
+            $doAudit->parentid = OX_DATAOBJECT_NULL;
             $doAudit->actionid = OA_AUDIT_ACTION_UPDATE;
             $doAudit->details = serialize([]);
             DataGenerator::generateOne($doAudit);
