@@ -35,6 +35,6 @@ class Plugins_TestOfPlugins_Reports_oxStandard_LiveCampaignDeliveryReport extend
     public function test_calculateTodaysPercentDifferenceWithPriorHourImpressions()
     {
         $result = $this->oPlugin->_calculateTodaysPercentDifference(10, 30, 15, 2, 50, 100);
-        $this->assertEqual(-10, $result);
+        $this->assertWithinMargin(-10, $result, 0.000001);
     }
 }
