@@ -52,11 +52,11 @@ class OA_Dashboard_Widget_GraphOAP extends OA_Dashboard_Widget_Graph
 
         $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
         $doDsah->selectAdd();
-        $doDsah->selectAdd("DATE_FORMAT(date_time, '%Y-%m-%d') AS day");
+        $doDsah->selectAdd("DATE_FORMAT(" . $doDsah->tableName() . ".date_time, '%Y-%m-%d') AS day");
         $doDsah->selectAdd('SUM(' . $doDsah->tableName() . '.impressions) AS total_impressions');
         $doDsah->selectAdd('SUM(' . $doDsah->tableName() . '.clicks) AS total_clicks');
-        $doDsah->whereAdd("date_time >= '" . $doDsah->escape($oStart->format('%Y-%m-%d %H:%M:%S')) . "'");
-        $doDsah->whereAdd("date_time < '" . $doDsah->escape($oEnd->format('%Y-%m-%d %H:%M:%S')) . "'");
+        $doDsah->whereAdd($doDsah->tableName() . ".date_time >= '" . $doDsah->escape($oStart->format('%Y-%m-%d %H:%M:%S')) . "'");
+        $doDsah->whereAdd($doDsah->tableName() . ".date_time < '" . $doDsah->escape($oEnd->format('%Y-%m-%d %H:%M:%S')) . "'");
 
         if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $doBanners = OA_Dal::factoryDO('banners');
@@ -66,21 +66,7 @@ class OA_Dashboard_Widget_GraphOAP extends OA_Dashboard_Widget_Graph
             $doClients->agencyid = OA_Permission::getEntityId();
             $doCampaigns->joinAdd($doClients);
             $doBanners->joinAdd($doCampaigns);
-
-            $doBanners->selectAdd();
-            $doBanners->selectAdd("bannerid");
-            $doBanners->find();
-
-            $ad_ids = [];
-            while ($doBanners->fetch()) {
-                $ad_ids[] = $doBanners->bannerid;
-            }
-
-            if (empty($ad_ids)) {
-                return [];
-            }
-
-            $doDsah->whereAdd("ad_id IN (" . implode(",", $ad_ids) . ")");
+            $doDsah->joinAdd($doBanners);
         }
 
         $doDsah->groupBy('day');
