@@ -28,6 +28,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Fixed SMTP authentication with usernames or passwords containing reserved URI characters ([#1754](https://github.com/revive-adserver/revive-adserver/pull/1754))
 - Fixed the file delivery cache reporting success when writing or replacing a cache file failed ([#1753](https://github.com/revive-adserver/revive-adserver/pull/1753))
 - Fixed a division-by-zero error in the Campaign Delivery Report when no impressions were delivered during yesterday's comparison hours ([#1749](https://github.com/revive-adserver/revive-adserver/pull/1749))
+- Fixed incorrect conversion success rates in entity statistics and totals ([#1747](https://github.com/revive-adserver/revive-adserver/pull/1747))
 
 ### Added
 

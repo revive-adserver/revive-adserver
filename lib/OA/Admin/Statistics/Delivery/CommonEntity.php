@@ -206,9 +206,11 @@ abstract class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statis
         // Use $row keys instead of $this->column to preserve non visible data
         foreach (array_keys($row) as $s) {
             if (isset($row[$s])) {
-                $entity[$row[$key]][$s] ??= $row[$s];
                 if (!str_ends_with($s, '_id')) {
+                    $entity[$row[$key]][$s] ??= 0;
                     $entity[$row[$key]][$s] += $row[$s];
+                } else {
+                    $entity[$row[$key]][$s] ??= $row[$s];
                 }
             }
         }
