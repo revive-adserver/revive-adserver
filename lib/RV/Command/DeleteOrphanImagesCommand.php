@@ -97,7 +97,7 @@ class DeleteOrphanImagesCommand extends AbstractReviveCommand
     {
         return array_values(array_filter(
             [$banner['filename'] ?? null, $banner['alt_filename'] ?? null],
-            static fn ($filename): bool => null !== $filename && '' !== $filename,
+            static fn($filename): bool => null !== $filename && '' !== $filename,
         ));
     }
 }
