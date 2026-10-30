@@ -32,6 +32,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Fixed plugin installation only validating menu definitions for the first account type ([#1746](https://github.com/revive-adserver/revive-adserver/pull/1746))
 - Fixed a PHP warning when opening an unknown or expired password recovery link ([#1744](https://github.com/revive-adserver/revive-adserver/pull/1744))
 - Fixed plugin upgrades repeatedly applying preference batches and ignoring registration or removal failures ([#1743](https://github.com/revive-adserver/revive-adserver/pull/1743))
+- Fixed PHP warnings and schema paths being cleared during plugin upgrade integrity checks ([#1742](https://github.com/revive-adserver/revive-adserver/pull/1742))
 
 ### Added
 
