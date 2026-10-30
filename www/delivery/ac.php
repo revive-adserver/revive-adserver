@@ -2435,55 +2435,26 @@ array_walk($var, MAX_commonRemoveSpecialChars(...));
 }
 }
 }
-function MAX_commonConvertEncoding($content, $toEncoding, $fromEncoding = 'UTF-8', $aExtensions = null)
+function MAX_commonConvertEncoding($content, $toEncoding, $fromEncoding = 'UTF-8')
 {
 if (($toEncoding == $fromEncoding) || empty($toEncoding)) {
 return $content;
 }
-$aExtensions ??= ['intl', 'iconv', 'mbstring'];
 if (is_array($content)) {
 foreach ($content as $key => $value) {
-$content[$key] = MAX_commonConvertEncoding($value, $toEncoding, $fromEncoding, $aExtensions);
+$content[$key] = MAX_commonConvertEncoding($value, $toEncoding, $fromEncoding);
 }
 return $content;
 }
+$aliases = ['WINDOWS-1251' => 'CP1251', 'WINDOWS-1255' => 'CP1255'];
 $toEncoding = strtoupper($toEncoding);
 $fromEncoding = strtoupper($fromEncoding);
-$aMap = [
-'intl' => [
-'WINDOWS-1251' => 'CP1251',
-'WINDOWS-1255' => 'CP1255',
-],
-'mbstring' => [
-'WINDOWS-1255' => 'ISO-8859-8',
-],
-];
-$converted = false;
-foreach ($aExtensions as $extension) {
-if (false !== $converted) {
-break;
-}
-$mappedFromEncoding = $aMap[$extension][$fromEncoding] ?? $fromEncoding;
-$mappedToEncoding = $aMap[$extension][$toEncoding] ?? $toEncoding;
-switch ($extension) {
-case 'iconv':
-if (function_exists('iconv')) {
-$converted = @iconv($mappedFromEncoding, $mappedToEncoding, $content);
-}
-break;
-case 'intl':
-if (class_exists('UConverter')) {
-$converted = Uconverter::transcode($content, $mappedToEncoding, $mappedFromEncoding);
-}
-break;
-case 'mbstring':
-if (function_exists('mb_convert_encoding')) {
-$converted = @mb_convert_encoding($content, $mappedToEncoding, $mappedFromEncoding);
-}
-break;
-}
-return $converted ?: $content;
-}
+$converted = UConverter::transcode(
+$content,
+$aliases[$toEncoding] ?? $toEncoding,
+$aliases[$fromEncoding] ?? $fromEncoding,
+);
+return $converted === false ? $content : $converted;
 }
 function MAX_commonSendContentTypeHeader($type = 'text/html', $charset = null)
 {
