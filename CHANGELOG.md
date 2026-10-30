@@ -22,11 +22,19 @@ All notable changes to Revive Adserver will be documented in this file.
 - Improved ownership validation to prevent bypassing the restriction on moving trackers to a client belonging to a different manager ([#1773](https://github.com/revive-adserver/revive-adserver/issues/1773))
 - Disabled banner storage types could still be selected through modified form submissions ([#1777](https://github.com/revive-adserver/revive-adserver/issues/1777))
 - The dashboard statistics graph could scan the whole `data_summary_ad_hourly` table for managers with a large number of banners ([#1775](https://github.com/revive-adserver/revive-adserver/issues/1775))
+- Fixed calendar language fallback when using legacy language names or no user language preference ([#1758](https://github.com/revive-adserver/revive-adserver/pull/1758))
+- Added missing installer state and authentication checks before finalising an up-to-date installation ([#1761](https://github.com/revive-adserver/revive-adserver/issues/1761))
 
 ### Added
 
 - Added the disabled-by-default `security.allowLinkingExistingUsers` configuration option to allow managers to link existing users to other accounts and search all users in autocomplete. Enabling it is not recommended on shared instances ([#1765](https://github.com/revive-adserver/revive-adserver/issues/1765))
 - Added signed impression logging URLs with optional expiration through the `delivery.logUrlValidity` configuration setting ([#1687](https://github.com/revive-adserver/revive-adserver/issues/1687))
+
+### Changed
+
+- Revive Adserver now requires at least PHP 8.2.35.
+- The `ftp` PHP extension is now required to store banner files via FTP.
+- Replaced the legacy XML-RPC update check with a JSON API ([#1694](https://github.com/revive-adserver/revive-adserver/issues/1694)).
 
 ## [6.0.8] - 2026-06-25
 
