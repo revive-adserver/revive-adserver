@@ -21,6 +21,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Added missing HTML escaping to campaign names in the zone linked-banners view ([#1769](https://github.com/revive-adserver/revive-adserver/issues/1769))
 - Improved ownership validation to prevent bypassing the restriction on moving trackers to a client belonging to a different manager ([#1773](https://github.com/revive-adserver/revive-adserver/issues/1773))
 - Disabled banner storage types could still be selected through modified form submissions ([#1777](https://github.com/revive-adserver/revive-adserver/issues/1777))
+- The dashboard statistics graph could scan the whole `data_summary_ad_hourly` table for managers with a large number of banners ([#1775](https://github.com/revive-adserver/revive-adserver/issues/1775))
 
 ### Added
 
