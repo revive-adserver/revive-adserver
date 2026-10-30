@@ -34,6 +34,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Fixed plugin upgrades repeatedly applying preference batches and ignoring registration or removal failures ([#1743](https://github.com/revive-adserver/revive-adserver/pull/1743))
 - Fixed PHP warnings and schema paths being cleared during plugin upgrade integrity checks ([#1742](https://github.com/revive-adserver/revive-adserver/pull/1742))
 - Fixed successful plugin component uninstalls being recorded as failed installations in the upgrade audit ([#1741](https://github.com/revive-adserver/revive-adserver/pull/1741))
+- Fixed package upgrades potentially uninstalling retained components when component groups were reordered or an earlier group was removed ([#1739](https://github.com/revive-adserver/revive-adserver/pull/1739))
 
 ### Added
 
