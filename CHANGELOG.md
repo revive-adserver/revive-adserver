@@ -30,6 +30,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Fixed a division-by-zero error in the Campaign Delivery Report when no impressions were delivered during yesterday's comparison hours ([#1749](https://github.com/revive-adserver/revive-adserver/pull/1749))
 - Fixed incorrect conversion success rates in entity statistics and totals ([#1747](https://github.com/revive-adserver/revive-adserver/pull/1747))
 - Fixed plugin installation only validating menu definitions for the first account type ([#1746](https://github.com/revive-adserver/revive-adserver/pull/1746))
+- Fixed a PHP warning when opening an unknown or expired password recovery link ([#1744](https://github.com/revive-adserver/revive-adserver/pull/1744))
 
 ### Added
 
