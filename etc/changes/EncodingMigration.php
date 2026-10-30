@@ -19,8 +19,6 @@ require_once(MAX_PATH . '/lib/OA/Upgrade/Migration.php');
  */
 class EncodingMigration extends Migration
 {
-    public $extension = false;
-
     /**
      * This maps the existing encoding
      *
@@ -142,32 +140,12 @@ class EncodingMigration extends Migration
         return empty($this->aEncodingByAgency[$agencyId]) ? 'UTF-8' : $this->aEncodingByAgency[$agencyId];
     }
 
-    public function _setEncodingExtension()
-    {
-        $this->extension = false;
-
-        if (class_exists('UConverter')) {
-            $this->extension = 'intl';
-        } elseif (function_exists('mb_convert_encoding')) {
-            $this->extension = 'mbstring';
-        } elseif (function_exists('iconv')) {
-            $this->extension = 'iconv';
-        }
-
-        return $this->extension;
-    }
-
     public function convertEncoding()
     {
         if (!$this->init(OA_DB::singleton())) {
             return false;
         }
-        if (!$this->_setEncodingExtension()) {
-            $this->_log("convertEncoding will be skipped because no extension was found (intl, iconv, mbstring)");
-            return true;
-        }
         $this->_log("Starting convertEncoding");
-        $this->_log('Encoding extension set to ' . $this->extension);
         $upgradingFrom = $this->getOriginalApplicationVersion();
         if (!empty($upgradingFrom)) {
             switch ($upgradingFrom) {
@@ -350,7 +328,7 @@ class EncodingMigration extends Migration
      */
     public function _convertString($string, $toEncoding, $fromEncoding = 'UTF-8')
     {
-        return MAX_commonConvertEncoding($string, $toEncoding, $fromEncoding, [$this->extension]);
+        return MAX_commonConvertEncoding($string, $toEncoding, $fromEncoding);
     }
 
     public function getOriginalApplicationVersion()

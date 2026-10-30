@@ -125,89 +125,40 @@ function MAX_commonRemoveSpecialChars(&$var)
 }
 
 /**
- * A function to convert a string from one encoding to another using any available extensions
- * returns the string unchanged if no suitable libraries are available
+ * Convert a string's encoding using intl, returning the original on failure.
  *
  * The function will recursively walk arrays.
  *
- * @param string|array  $content The string to be converted, or an array
+ * @param string|array $content The string or array to be converted
  * @param string $toEncoding The destination encoding
- * @param string $fromEncoding The source encoding (if known)
- * @param string $aExtensions An array of engines to be used, currently supported are intl, iconv, mbstring.
- *
- * @return string|array The converted string
+ * @param string $fromEncoding The source encoding
+ * @return string|array The converted content
  */
-function MAX_commonConvertEncoding($content, $toEncoding, $fromEncoding = 'UTF-8', $aExtensions = null)
+function MAX_commonConvertEncoding($content, $toEncoding, $fromEncoding = 'UTF-8')
 {
-    // Sanity check :)
     if (($toEncoding == $fromEncoding) || empty($toEncoding)) {
         return $content;
     }
 
-    // Default extensions, sorted by accuracy and speed.
-    $aExtensions ??= ['intl', 'iconv', 'mbstring'];
-
-    // Walk arrays
     if (is_array($content)) {
         foreach ($content as $key => $value) {
-            $content[$key] = MAX_commonConvertEncoding($value, $toEncoding, $fromEncoding, $aExtensions);
+            $content[$key] = MAX_commonConvertEncoding($value, $toEncoding, $fromEncoding);
         }
 
         return $content;
     }
 
-    // Uppercase charsets
+    // Use unambiguous ICU aliases for Windows encodings.
+    $aliases = ['WINDOWS-1251' => 'CP1251', 'WINDOWS-1255' => 'CP1255'];
     $toEncoding = strtoupper($toEncoding);
     $fromEncoding = strtoupper($fromEncoding);
+    $converted = UConverter::transcode(
+        $content,
+        $aliases[$toEncoding] ?? $toEncoding,
+        $aliases[$fromEncoding] ?? $fromEncoding,
+    );
 
-    // Charset mapping
-    $aMap = [
-        'intl' => [
-            // Use unambiguous aliases
-            'WINDOWS-1251' => 'CP1251',
-            'WINDOWS-1255' => 'CP1255',
-        ],
-        'mbstring' => [
-            'WINDOWS-1255' => 'ISO-8859-8', // Best match to convert hebrew w/ mbstring
-        ],
-    ];
-
-    // Start conversion
-    $converted = false;
-    foreach ($aExtensions as $extension) {
-        if (false !== $converted) {
-            // Exit early if converted
-            break;
-        }
-
-        $mappedFromEncoding = $aMap[$extension][$fromEncoding] ?? $fromEncoding;
-        $mappedToEncoding = $aMap[$extension][$toEncoding] ?? $toEncoding;
-
-        switch ($extension) {
-            case 'iconv':
-                if (function_exists('iconv')) {
-                    $converted = @iconv($mappedFromEncoding, $mappedToEncoding, $content);
-                }
-
-                break;
-
-            case 'intl':
-                if (class_exists('UConverter')) {
-                    $converted = Uconverter::transcode($content, $mappedToEncoding, $mappedFromEncoding);
-                }
-
-                break;
-
-            case 'mbstring':
-                if (function_exists('mb_convert_encoding')) {
-                    $converted = @mb_convert_encoding($content, $mappedToEncoding, $mappedFromEncoding);
-                }
-
-                break;
-        }
-
-        return $converted ?: $content;
-    }
+    return $converted === false ? $content : $converted;
 }
 
 /**

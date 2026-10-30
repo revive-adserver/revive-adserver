@@ -20,6 +20,43 @@ require_once MAX_PATH . '/lib/max/Delivery/common.php';
  */
 class Test_DeliveryCommon extends UnitTestCase
 {
+    public function testConvertEncoding()
+    {
+        $this->assertIdentical("\xE9", MAX_commonConvertEncoding("\xC3\xA9", 'ISO-8859-1'));
+        $this->assertIdentical("\xC3\xA9", MAX_commonConvertEncoding("\xE9", 'UTF-8', 'ISO-8859-1'));
+        $this->assertIdentical('0', MAX_commonConvertEncoding('0', 'ISO-8859-1'));
+        $this->assertIdentical('0', MAX_commonConvertEncoding("\x30\x00", 'UTF-8', 'UTF-16LE'));
+        $this->assertIdentical('', MAX_commonConvertEncoding('', 'ISO-8859-1'));
+    }
+
+    public function testConvertEncodingReturnsOriginalContentOnFailure()
+    {
+        $this->expectError();
+        $this->assertIdentical('unchanged', MAX_commonConvertEncoding('unchanged', 'invalid-encoding'));
+    }
+
+    public function testConvertEncodingPreservesNestedArrayKeys()
+    {
+        $content = ['text' => "\xC3\xA9", 5 => ['nested' => "\xC3\xA9", 'empty' => '']];
+        $expected = ['text' => "\xE9", 5 => ['nested' => "\xE9", 'empty' => '']];
+        $this->assertIdentical($expected, MAX_commonConvertEncoding($content, 'ISO-8859-1'));
+    }
+
+    public function testConvertEncodingSkipsUnnecessaryConversions()
+    {
+        $content = ['text' => "\xC3\xA9"];
+        $this->assertIdentical($content, MAX_commonConvertEncoding($content, 'UTF-8'));
+        $this->assertIdentical($content, MAX_commonConvertEncoding($content, ''));
+    }
+
+    public function testConvertEncodingUsesWindowsAliasesInBothDirections()
+    {
+        foreach (['windows-1251' => ["\xC0", "\xD0\x90"], 'windows-1255' => ["\xE0", "\xD7\x90"]] as $encoding => [$encoded, $utf8]) {
+            $this->assertIdentical($utf8, MAX_commonConvertEncoding($encoded, 'UTF-8', $encoding));
+            $this->assertIdentical($encoded, MAX_commonConvertEncoding($utf8, $encoding));
+        }
+    }
+
     /** @var int */
     public $original_server_port;
 

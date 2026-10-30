@@ -45,12 +45,9 @@ class EncodingMigrationTest extends MigrationTest
         Mock::generatePartial(
             'EncodingMigration',
             $mockMigration = 'EncodingMigration' . rand(),
-            ['_setEncodingExtension', '_log'],
+            ['_log'],
         );
         $this->oEncodingMigration = new $mockMigration($this);
-
-        //$this->oEncodingMigration->setReturnValue('_setEncodingExtension', true);
-        //$this->oEncodingMigration->setReturnValue('_log', true);
     }
 
     /**
@@ -70,89 +67,29 @@ class EncodingMigrationTest extends MigrationTest
         return $buf;
     }
 
-    public function test_setEncodingExtension()
+    public function testConvertStrings()
     {
-        $migration = new EncodingMigration();
-        $expected = false;
-        if (class_exists('UConverter')) {
-            $expected = 'intl';
-        } elseif (function_exists('mb_convert_encoding')) {
-            $expected = 'mbstring';
-        } elseif (function_exists('iconv')) {
-            $expected = 'iconv';
-
-        }
-        $this->assertIdentical($migration->_setEncodingExtension(), $expected);
-        $this->assertIdentical($migration->extension, $expected);
+        $this->_testConvertStrings([
+            'big5' => "\xE4\xBF\x9D\xE5\xAD\x98\xE6\x9B\xB4\xE6\x94\xB9",
+            'gb2312' => "\xE4\xBF\x9D\xE5\xAD\x98\xE6\x9B\xB4\xE6\x94\xB9",
+            'iso-8859-2' => "\x50\xC5\x99\x69\x68\x6C\x61\xC5\xA1\x6F\x76\x61\x63\xC3\xAD\x20\xC3\xBA\x64\x61\x6A\x65",
+            'iso-8859-15' => "\x50\x72\xC3\xA9\x66\xC3\xA9\x72\x65\x6E\x63\x65\x73\x20\xE2\x82\xAC",
+            'windows-1255' => "\xD7\xA7\xD7\x93\xD7\x99\xD7\x9E\xD7\x95\xD7\x99\xD7\x95\xD7\xAA",
+            'EUC-KR' => "\xEB\xB0\x94\xEB\xA1\x9C\xEA\xB0\x80\xEA\xB8\xB0",
+            'windows-1251' => "\xD0\x92\xD0\xB5\xD1\x80\xD0\xBE\xD1\x8F\xD1\x82\xD0\xBD\xD0\xBE\xD1\x81\xD1\x82\xD1\x8C",
+            'koi8-r' => "\xD0\x92\xD0\xB5\xD1\x80\xD0\xBE\xD1\x8F\xD1\x82\xD0\xBD\xD0\xBE\xD1\x81\xD1\x82\xD1\x8C",
+        ]);
     }
 
-
-
-    /**
-     * A function to test the iconv conversion mechanism
-     * NOTE: The this test is only executed if the iconv extension is loaded
-     * and will not be tested otherwise
-     */
-    public function testIconv()
-    {
-        if (extension_loaded('iconv')) {
-            $this->oEncodingMigration->extension = 'iconv';
-            $this->_testConvertStrings('iconv', [
-                'big5' => "\xE4\xBF\x9D\xE5\xAD\x98\xE6\x9B\xB4\xE6\x94\xB9",
-                'gb2312' => "\xE4\xBF\x9D\xE5\xAD\x98\xE6\x9B\xB4\xE6\x94\xB9",
-                'iso-8859-2' => "\x50\xC5\x99\x69\x68\x6C\x61\xC5\xA1\x6F\x76\x61\x63\xC3\xAD\x20\xC3\xBA\x64\x61\x6A\x65",
-                'iso-8859-15' => "\x50\x72\xC3\xA9\x66\xC3\xA9\x72\x65\x6E\x63\x65\x73\x20\xE2\x82\xAC",
-                'windows-1255' => "\xD7\xA7\xD7\x93\xD7\x99\xD7\x9E\xD7\x95\xD7\x99\xD7\x95\xD7\xAA",
-                'EUC-KR' => "\xEB\xB0\x94\xEB\xA1\x9C\xEA\xB0\x80\xEA\xB8\xB0",
-                'windows-1251' => "\xD0\x92\xD0\xB5\xD1\x80\xD0\xBE\xD1\x8F\xD1\x82\xD0\xBD\xD0\xBE\xD1\x81\xD1\x82\xD1\x8C",
-                'koi8-r' => "\xD0\x92\xD0\xB5\xD1\x80\xD0\xBE\xD1\x8F\xD1\x82\xD0\xBD\xD0\xBE\xD1\x81\xD1\x82\xD1\x8C",
-            ]);
-        }
-    }
-
-    public function testIntl()
-    {
-        if (class_exists('UConverter')) {
-            $this->oEncodingMigration->extension = 'intl';
-            $this->_testConvertStrings('intl', [
-                'big5' => "\xE4\xBF\x9D\xE5\xAD\x98\xE6\x9B\xB4\xE6\x94\xB9",
-                'gb2312' => "\xE4\xBF\x9D\xE5\xAD\x98\xE6\x9B\xB4\xE6\x94\xB9",
-                'iso-8859-2' => "\x50\xC5\x99\x69\x68\x6C\x61\xC5\xA1\x6F\x76\x61\x63\xC3\xAD\x20\xC3\xBA\x64\x61\x6A\x65",
-                'iso-8859-15' => "\x50\x72\xC3\xA9\x66\xC3\xA9\x72\x65\x6E\x63\x65\x73\x20\xE2\x82\xAC",
-                'windows-1255' => "\xD7\xA7\xD7\x93\xD7\x99\xD7\x9E\xD7\x95\xD7\x99\xD7\x95\xD7\xAA",
-                'EUC-KR' => "\xEB\xB0\x94\xEB\xA1\x9C\xEA\xB0\x80\xEA\xB8\xB0",
-                'windows-1251' => "\xD0\x92\xD0\xB5\xD1\x80\xD0\xBE\xD1\x8F\xD1\x82\xD0\xBD\xD0\xBE\xD1\x81\xD1\x82\xD1\x8C",
-                'koi8-r' => "\xD0\x92\xD0\xB5\xD1\x80\xD0\xBE\xD1\x8F\xD1\x82\xD0\xBD\xD0\xBE\xD1\x81\xD1\x82\xD1\x8C",
-            ]);
-        }
-    }
-
-    public function testMbstring()
-    {
-        if ($this->assertTrue(extension_loaded('mbstring'))) {
-            $this->oEncodingMigration->extension = 'mbstring';
-            $this->_testConvertStrings('mbstring', [
-                'big5' => "\xE4\xBF\x9D\xE5\xAD\x98\xE6\x9B\xB4\xE6\x94\xB9",
-                'gb2312' => "\xE4\xBF\x9D\xE5\xAD\x98\xE6\x9B\xB4\xE6\x94\xB9",
-                'iso-8859-2' => "\x50\xC5\x99\x69\x68\x6C\x61\xC5\xA1\x6F\x76\x61\x63\xC3\xAD\x20\xC3\xBA\x64\x61\x6A\x65",
-                'iso-8859-15' => "\x50\x72\xC3\xA9\x66\xC3\xA9\x72\x65\x6E\x63\x65\x73\x20\xE2\x82\xAC",
-                'windows-1255' => "\xD7\xA7\xD7\x93\xD7\x99\xD7\x9E\xD7\x95\xD7\x99\xD7\x95\xD7\xAA",
-                'EUC-KR' => "\xEB\xB0\x94\xEB\xA1\x9C\xEA\xB0\x80\xEA\xB8\xB0",
-                'windows-1251' => "\xD0\x92\xD0\xB5\xD1\x80\xD0\xBE\xD1\x8F\xD1\x82\xD0\xBD\xD0\xBE\xD1\x81\xD1\x82\xD1\x8C",
-                'koi8-r' => "\xD0\x92\xD0\xB5\xD1\x80\xD0\xBE\xD1\x8F\xD1\x82\xD0\xBD\xD0\xBE\xD1\x81\xD1\x82\xD1\x8C",
-            ]);
-        }
-    }
-
-    public function _testConvertStrings($extension, $aStringsInUTF8)
+    public function _testConvertStrings($aStringsInUTF8)
     {
         // I used the following to create the base64 encoded strings
         // base64_encode($oEncodingMigration->_convertString($aStringsInUTF8['windows-1255'], 'windows-1255', 'UTF-8'))
 
         // Test that the converting of relevant encoded strings is working as expected
         foreach ($this->aOriginalStrings as $encoding => $origString) {
-            $converted = $this->oEncodingMigration->_convertString($origString, 'UTF-8', $encoding, $extension);
-            $this->assertEqual($converted, $aStringsInUTF8[$encoding], $encoding . ' string didn\'t convert correctly using ' . $extension . ':
+            $converted = $this->oEncodingMigration->_convertString($origString, 'UTF-8', $encoding);
+            $this->assertEqual($converted, $aStringsInUTF8[$encoding], $encoding . ' string didn\'t convert correctly:
                 expected "' . $this->_toHexString($aStringsInUTF8[$encoding]) . '", got "' . $this->_toHexString($converted) . '"
             ');
         }
