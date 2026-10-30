@@ -72,9 +72,9 @@ class OA_Dll_Zone extends OA_Dll
         $arType = [0, 1, 2, 3, 4];
 
         if (!isset($type) || in_array($type, $arType)) {
-            $this->raiseError("Zone type is wrong!");
             return true;
         }
+        $this->raiseError("Zone type is wrong!");
         return false;
     }
 
