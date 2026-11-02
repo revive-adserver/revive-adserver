@@ -90,6 +90,7 @@ $GLOBALS['strConvertThese'] = "De volgende gegevens zullen worden gewijzigd als 
 // Product Updates
 $GLOBALS['strSearchingUpdates'] = "Zoeken naar nieuwere versies, een moment geduld a.u.b...";
 $GLOBALS['strAvailableUpdates'] = "Beschikbare update";
+$GLOBALS['strAlternativeUpdateOptions'] = "Als het updaten naar een nieuwere grote of kleine release niet haalbaar is, overweeg dan deze optie:";
 $GLOBALS['strDownloadZip'] = "Downloaden (.zip)";
 $GLOBALS['strDownloadGZip'] = "Downloaden (.tar.gz)";
 

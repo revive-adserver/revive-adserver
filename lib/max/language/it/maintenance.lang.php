@@ -11,7 +11,7 @@
  */
 
 // Main strings
-$GLOBALS['strChooseSection'] = "Scgli sezione";
+$GLOBALS['strChooseSection'] = "Scegli sezione";
 $GLOBALS['strAppendCodes'] = "Accoda i codici";
 
 // Maintenance
@@ -78,6 +78,7 @@ $GLOBALS['strConvertThese'] = "Se continui, i seguenti dati saranno cambiati";
 // Product Updates
 $GLOBALS['strSearchingUpdates'] = "Ricerca aggiornamenti in corso. Attendere prego...";
 $GLOBALS['strAvailableUpdates'] = "Aggiornamenti disponibili";
+$GLOBALS['strAlternativeUpdateOptions'] = "In alternativa, se l'aggiornamento a una versione major/minor più recente non è fattibile, considerare questa opzione:";
 $GLOBALS['strDownloadZip'] = "Scarica (.zip)";
 $GLOBALS['strDownloadGZip'] = "Scarica (.tar.gz)";
 
