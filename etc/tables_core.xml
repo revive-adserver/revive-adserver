@@ -5,7 +5,7 @@
  <name>openads</name>
  <create>true</create>
  <overwrite>false</overwrite>
- <version>628</version>
+ <version>629</version>
  <status>final</status>
 
  <table>
@@ -481,6 +481,14 @@
     <name>ad_id</name>
     <field>
      <name>ad_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>ad_zone_assoc_link_type</name>
+    <field>
+     <name>link_type</name>
      <sorting>ascending</sorting>
     </field>
    </index>
@@ -1430,6 +1438,18 @@
     <name>banners_campaignid</name>
     <field>
      <name>campaignid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>banners_storagetype_filename</name>
+    <field>
+     <name>storagetype</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>filename</name>
      <sorting>ascending</sorting>
     </field>
    </index>

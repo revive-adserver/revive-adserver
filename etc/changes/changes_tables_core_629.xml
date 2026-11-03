@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>629</version>
+  <comments>Add indexes on banners (storagetype, filename) and ad_zone_assoc (link_type)</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>629</version>
+      <change>
+        <table>
+          <name>ad_zone_assoc</name>
+          <index>
+            <add>
+              <name>ad_zone_assoc_link_type</name>
+              <was>ad_zone_assoc_link_type</was>
+              <indexfield>
+                <name>link_type</name>
+                <sorting>ascending</sorting>
+              </indexfield>
+            </add>
+          </index>
+        </table>
+        <table>
+          <name>banners</name>
+          <index>
+            <add>
+              <name>banners_storagetype_filename</name>
+              <was>banners_storagetype_filename</was>
+              <indexfield>
+                <name>storagetype</name>
+                <sorting>ascending</sorting>
+              </indexfield>
+              <indexfield>
+                <name>filename</name>
+                <sorting>ascending</sorting>
+              </indexfield>
+            </add>
+          </index>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>629</version>
+    </changeset>
+  </destructive>
+</instructionset>
