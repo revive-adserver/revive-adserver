@@ -163,6 +163,6 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
                     WHERE b.campaignid = m.campaignid AND b.status IN ({$activeStatuses})
                 )";
 
-        return array_map('intval', $this->oDbh->queryCol($query));
+        return array_map(intval(...), $this->oDbh->queryCol($query));
     }
 }
