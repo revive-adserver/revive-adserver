@@ -11,6 +11,7 @@
 */
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/wact/db/db.inc.php';
 require_once MAX_PATH . '/lib/max/Dal/DataObjects/Clients.php';
 
@@ -123,5 +124,45 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
     public function getAllAdvertisersForAgency($agency_id, $listorder = 'name', $orderdirection = 'up', $aIncludeSystemTypes = [])
     {
         return $this->getAllAdvertisers($listorder, $orderdirection, $agency_id, $aIncludeSystemTypes);
+    }
+
+    /**
+     * Returns the IDs of the active advertisers, i.e. the advertisers with
+     * at least one running or awaiting campaign that has at least one
+     * running or awaiting banner.
+     *
+     * @param int|null $agencyId Only return advertisers of this agency, or
+     *                           advertisers of all agencies when null.
+     * @return int[]
+     */
+    public function getActiveAdvertiserIds($agencyId = null)
+    {
+        $tableM = $this->oDbh->quoteIdentifier($this->prefix . 'campaigns', true);
+        $tableB = $this->oDbh->quoteIdentifier($this->prefix . 'banners', true);
+        $activeStatuses = OA_ENTITY_STATUS_RUNNING . ', ' . OA_ENTITY_STATUS_AWAITING;
+
+        $query = "
+            SELECT DISTINCT
+                m.clientid
+            FROM
+                {$tableM} AS m";
+
+        if (isset($agencyId)) {
+            $tableC = $this->oDbh->quoteIdentifier($this->prefix . 'clients', true);
+
+            $query .= "
+                JOIN {$tableC} AS c ON (c.clientid = m.clientid AND c.agencyid = " . DBC::makeLiteral($agencyId) . ")";
+        }
+
+        $query .= "
+            WHERE
+                m.status IN ({$activeStatuses})
+                AND EXISTS (
+                    SELECT 1
+                    FROM {$tableB} AS b
+                    WHERE b.campaignid = m.campaignid AND b.status IN ({$activeStatuses})
+                )";
+
+        return array_map('intval', $this->oDbh->queryCol($query));
     }
 }
