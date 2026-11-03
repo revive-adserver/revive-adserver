@@ -72,6 +72,7 @@ $GLOBALS['strConvertThese'] = "Die folgenden Daten werden verändert wenn Sie fo
 // Product Updates
 $GLOBALS['strSearchingUpdates'] = "Suche nach neuen Updates. Bitte warten...";
 $GLOBALS['strAvailableUpdates'] = "Verfügbare Updates";
+$GLOBALS['strAlternativeUpdateOptions'] = "Wenn ein Update auf eine neuere größe oder kleine Version nicht möglich ist, könten Sie diese Option in Betracht ziehen:";
 $GLOBALS['strDownloadZip'] = "Download (.zip)";
 $GLOBALS['strDownloadGZip'] = "Download (.tar.gz)";
 
