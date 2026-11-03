@@ -4,17 +4,16 @@ namespace RV\Command\Installer;
 
 use RV\Admin\Install\RedirectException;
 use RV\Command\Installer\Model\ConfSetting;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: 'install', description: 'Install a Revive Adserver instance')]
 class InstallCommand extends AbstractInstallerCommand
 {
-    protected static $defaultName = 'install';
-    protected static $defaultDescription = 'Install a Revive Adserver instance';
-
     protected function configure()
     {
         parent::configure();

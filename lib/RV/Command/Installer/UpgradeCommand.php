@@ -3,6 +3,7 @@
 namespace RV\Command\Installer;
 
 use RV\Admin\Install\RedirectException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -10,11 +11,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: 'upgrade', description: 'Upgrade an existing Revive Adserver instance')]
 class UpgradeCommand extends AbstractInstallerCommand
 {
-    protected static $defaultName = 'upgrade';
-    protected static $defaultDescription = 'Upgrade an existing Revive Adserver instance';
-
     protected function configure()
     {
         parent::configure();
