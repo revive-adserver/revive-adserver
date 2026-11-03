@@ -24,11 +24,6 @@ require_once MAX_PATH . '/lib/OX/Admin/UI/ViewHooks.php';
 
 require_once RV_PATH . '/lib/RV/Admin/DateTimeFormat.php';
 
-function _isBannerAssignedToCampaign($aBannerData)
-{
-    return $aBannerData['campaignid'] > 0;
-}
-
 // Register input variables
 phpAds_registerGlobal('hideinactive', 'listorder', 'orderdirection');
 
@@ -86,28 +81,19 @@ $oTpl = new OA_Admin_Template('advertiser-index.html');
 //      is quite visible -- retrieving all items /then/ retrieving a count.
 // TODO: This looks like a perfect candidate for object "polymorphism"
 $dalClients = OA_Dal::factoryDAL('clients');
-$dalCampaigns = OA_Dal::factoryDAL('campaigns');
-$dalBanners = OA_Dal::factoryDAL('banners');
 
-$campaigns = [];
-$banners = [];
+$aActiveAdvertiserIds = [];
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     $clients = $dalClients->getAllAdvertisers($listorder, $orderdirection);
     if ($hideinactive) {
-        $campaigns = $dalCampaigns->getAllCampaigns($listorder, $orderdirection);
-        $banners = $dalBanners->getAllBanners($listorder, $orderdirection);
+        $aActiveAdvertiserIds = $dalClients->getActiveAdvertiserIds();
     }
 } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     $agency_id = OA_Permission::getEntityId();
     $clients = $dalClients->getAllAdvertisersForAgency($agency_id, $listorder, $orderdirection);
     if ($hideinactive) {
-        $campaigns = $dalCampaigns->getAllCampaignsUnderAgency($agency_id, $listorder, $orderdirection);
-        $banners = $dalBanners->getAllBannersUnderAgency($agency_id, $listorder, $orderdirection);
-        foreach ($banners as &$banner) {
-            $banner['status'] = $banner['active'];
-        }
-        unset($banner);
+        $aActiveAdvertiserIds = $dalClients->getActiveAdvertiserIds($agency_id);
     }
 }
 
@@ -125,32 +111,12 @@ $aCount = [
 ];
 
 
-if ($hideinactive && !empty($clients) && !empty($campaigns) && !empty($banners)) {
-    // Inactive Advertisers should be hidden
-    foreach ($banners as $bkey => $banner) {
-        if (
-            _isBannerAssignedToCampaign($banner) &&
-            (OA_ENTITY_STATUS_RUNNING == $banner['status'] || OA_ENTITY_STATUS_AWAITING == $banner['status'])
-        ) {
-            // This Banner is in the Running or Awaiting state - update the list of
-            // Campaigns to record that this Campaign has an active Banner
-            $campaigns[$banner['campaignid']]['has_active_banners'] = true;
-        }
-    }
-    foreach ($campaigns as $ckey => $campaign) {
-        if (
-            array_key_exists('has_active_banners', $campaign) &&
-            (OA_ENTITY_STATUS_RUNNING == $campaign['status'] || OA_ENTITY_STATUS_AWAITING == $campaign['status'])
-        ) {
-            // This Campaign has at least one active Banner AND is in the Running or Awaiting state -
-            // update the list of Advertisers to record that this Advertiser has an active Campaign
-            $clients[$campaign['clientid']]['has_active_campaigns'] = true;
-        }
-    }
-    // Update the list of Advertisers to hide those not marked as active by the above
+if ($hideinactive && !empty($clients)) {
+    // Inactive Advertisers, i.e. without a Running or Awaiting Campaign that has
+    // at least one Running or Awaiting Banner, should be hidden
+    $aActiveAdvertiserIds = array_flip($aActiveAdvertiserIds);
     foreach (array_keys($clients) as $clientid) {
-        $client = &$clients[$clientid];
-        if (!array_key_exists('has_active_campaigns', $client)) {
+        if (!isset($aActiveAdvertiserIds[$clientid])) {
             unset($clients[$clientid]);
             $aCount['advertisers_hidden']++;
         }
