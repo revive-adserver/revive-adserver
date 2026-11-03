@@ -335,6 +335,9 @@ class MDB2_Schema_Writer
                                 $buffer.= "    <field>$eol     <name>$field_name</name>$eol";
                                 if (!empty($field) && is_array($field)) {
                                     $buffer.= '     <sorting>'.$field['sorting']."</sorting>$eol";
+                                    if (!empty($field['length'])) {
+                                        $buffer.= '     <length>'.$field['length']."</length>$eol";
+                                    }
                                 }
                                 $buffer.= "    </field>$eol";
                             }

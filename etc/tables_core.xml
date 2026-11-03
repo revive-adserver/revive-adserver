@@ -1451,6 +1451,7 @@
     <field>
      <name>filename</name>
      <sorting>ascending</sorting>
+     <length>128</length>
     </field>
    </index>
 
