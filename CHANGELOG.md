@@ -37,6 +37,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Fixed package upgrades potentially uninstalling retained components when component groups were reordered or an earlier group was removed ([#1739](https://github.com/revive-adserver/revive-adserver/pull/1739))
 - Fixed database upgrades continuing after a field or index migration hook reported failure ([#1738](https://github.com/revive-adserver/revive-adserver/pull/1738))
 - Fixed campaign impression distribution using another manager's timezone when managers have different timezone preferences ([#1737](https://github.com/revive-adserver/revive-adserver/pull/1737))
+- Fixed the remnant eCPM algorithm using default zone forecasts after processing the first agency ([#1736](https://github.com/revive-adserver/revive-adserver/pull/1736))
 - The Advertisers list with "Hide inactive" loaded every banner of the account, which was slow and could exceed the memory limit with a large number of banners ([#1785](https://github.com/revive-adserver/revive-adserver/issues/1785))
 
 ### Added

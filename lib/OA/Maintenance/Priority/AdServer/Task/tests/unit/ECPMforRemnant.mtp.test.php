@@ -121,6 +121,15 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ECPMforRemnant extends UnitTest
         $dataJustLoaded = $oEcpm->preloadZonesAvailableImpressionsForAgency(152);
         $this->assertEqual($aZonesExpectedContracts, $oEcpm->aZonesAvailableImpressions);
         $this->assertFalse($dataJustLoaded);
+
+        // Reset the agency-specific values without reloading the shared forecast.
+        $oEcpm->resetHelperProperties();
+        $oDal->setReturnValueAt(2, 'getZonesAllocationsForEcpmRemnantByAgency', [1 => 1, 2 => 2]);
+        $dataJustLoaded = $oEcpm->preloadZonesAvailableImpressionsForAgency(152);
+        $this->assertFalse($dataJustLoaded);
+        $this->assertEqual([1 => 9, 2 => 18, 3 => 50], $oEcpm->aZonesAvailableImpressions);
+        $oDal->expectCallCount('getZonesForecasts', 1);
+        $oDal->tally();
     }
 
     /**
