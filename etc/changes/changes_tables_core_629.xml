@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>629</version>
+  <comments>Remove unused ad category data and fields</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>629</version>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>629</version>
+      <change>
+        <table>
+          <name>affiliates</name>
+          <remove>
+            <field><name>oac_country_code</name></field>
+            <field><name>oac_language_id</name></field>
+            <field><name>oac_category_id</name></field>
+          </remove>
+        </table>
+        <table>
+          <name>affiliates_extra</name>
+          <remove>
+            <field><name>category</name></field>
+          </remove>
+        </table>
+        <table>
+          <name>zones</name>
+          <remove>
+            <field><name>oac_category_id</name></field>
+            <field><name>category</name></field>
+          </remove>
+        </table>
+      </change>
+      <remove>
+        <table>ad_category_assoc</table>
+        <table>category</table>
+      </remove>
+    </changeset>
+  </destructive>
+</instructionset>

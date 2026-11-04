@@ -1577,20 +1577,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         }
         $currentOperationIntervalID = OX_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = OX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        // Delete all category-based (ie. link_type = MAX_AD_ZONE_LINK_CATEGORY) priorities
-        // from ad_zone_assoc
-        OA::debug('  - Zeroing category-based priorities', PEAR_LOG_DEBUG);
-        $table = $this->_getTablename('ad_zone_assoc');
-        $query = "
-            DELETE FROM
-            {$table}
-            WHERE
-                link_type = " . MAX_AD_ZONE_LINK_CATEGORY;
-        $rows = $this->oDbh->exec($query);
-        if (PEAR::isError($rows)) {
-            OA::debug('  - Error zeroing category-based priorities', PEAR_LOG_DEBUG);
-            return false;
-        }
         // Does the database in use support transactions?
         if ((strcasecmp($aConf['database']['type'], 'mysql') === 0 || strcasecmp($aConf['database']['type'], 'mysqli') === 0)
                 && strcasecmp($aConf['table']['type'], 'myisam') === 0
@@ -1608,7 +1594,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 FROM
                 {$table}
                 WHERE
-                    link_type = " . MAX_AD_ZONE_LINK_CATEGORY;
+                    link_type = " . MAX_AD_ZONE_LINK_NORMAL;
             $aRows = $this->oDbh->queryAll($query);
             if (PEAR::isError($aRows)) {
                 OA::debug('  - Error getting all existing ad/zone pairs with priorities', PEAR_LOG_DEBUG);
@@ -1621,7 +1607,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             $aSetToZero = [];
             reset($aRows);
             foreach ($aRows as $aRow) {
-                if (is_null($aData[$aRow['zone_id']][$aRow['ad_id']])) {
+                if (!isset($aData[$aRow['zone_id']][$aRow['ad_id']])) {
                     // There is no new priority value for this existing ad/zone pair
                     $aSetToZero[$aRow['zone_id']][$aRow['ad_id']] = true;
                 }
@@ -1989,7 +1975,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     /**
      * A method to get the ad/zone associations, based on a list of advertisement IDs.
      * Only returns normal ad/zone associations (ie. link_type = MAX_AD_ZONE_LINK_NORMAL),
-     * not special direct selection associations, or category associations.
+     * not special direct selection associations.
      *
      * @param array $aAdvertID An array of advertisement IDs.
      * @return mixed An array of arrays, indexed by advertisement ID, with each

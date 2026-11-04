@@ -52,10 +52,6 @@ class SqlBuilder
                 }
                 break;
 
-            case 'ad_category_assoc':
-                $aColumns += ['ac.ad_category_assoc_id' => 'ad_category_assoc_id', 'ac.ad_id' => 'ad_id', 'ac.category_id' => 'category_id'];
-                break;
-
             case 'ad_zone_assoc':
                 $aColumns += ['az.ad_zone_assoc_id' => 'ad_zone_assoc_id', 'az.ad_id' => 'ad_id', 'az.zone_id' => 'zone_id', 'az.priority' => 'priority'];
                 break;
@@ -76,10 +72,6 @@ class SqlBuilder
                 if ($allFields) {
                     $aColumns += ['cam.campaignid' => 'campaign_id', 'cam.campaignname' => 'campaignname', 'cam.clientid' => 'client_id', 'cam.views' => 'views', 'cam.clicks' => 'clicks', 'cam.conversions' => 'conversions', 'cam.priority' => 'priority', 'cam.weight' => 'weight', 'cam.target_impression' => 'target_impression', 'cam.target_click' => 'target_click', 'cam.target_conversion' => 'target_conversion', 'cam.anonymous' => 'anonymous', 'cam.companion' => 'companion', 'cam.comments' => 'comments', 'cam.revenue' => 'revenue', 'cam.revenue_type' => 'revenue_type', 'cam.updated' => 'updated', 'cam.block' => 'block', 'cam.capping' => 'capping', 'cam.session_capping' => 'session_capping', 'cam.activate_time' => 'activate_time', 'cam.expire_time' => 'expire_time', 'cam.show_capped_no_cookie' => 'show_capped_no_cookie'];
                 }
-                break;
-
-            case 'category':
-                $aColumns += ['cat.category_id' => 'category_id', 'cat.name' => 'name'];
                 break;
 
             case 'channel':
@@ -251,7 +243,7 @@ class SqlBuilder
             case 'zone':
                 $aColumns += ['z.zoneid' => 'zone_id', 'z.affiliateid' => 'publisher_id', 'z.zonename' => 'name', 'z.delivery' => 'type'];
                 if ($allFields) {
-                    $aColumns += ['z.description' => 'description', 'z.width' => 'width', 'z.height' => 'height', 'z.chain' => 'chain', 'z.prepend' => 'prepend', 'z.append' => 'append', 'z.appendtype' => 'appendtype', 'z.forceappend' => 'forceappend', 'z.inventory_forecast_type' => 'inventory_forecast_type', 'z.comments' => 'comments', 'z.block' => 'block', 'z.capping' => 'capping', 'z.session_capping' => 'session_capping', 'z.category' => 'category', 'z.ad_selection' => 'ad_selection', 'z.rate' => 'rate', 'z.pricing' => 'pricing', 'z.show_capped_no_cookie' => 'show_capped_no_cookie'];
+                    $aColumns += ['z.description' => 'description', 'z.width' => 'width', 'z.height' => 'height', 'z.chain' => 'chain', 'z.prepend' => 'prepend', 'z.append' => 'append', 'z.appendtype' => 'appendtype', 'z.forceappend' => 'forceappend', 'z.inventory_forecast_type' => 'inventory_forecast_type', 'z.comments' => 'comments', 'z.block' => 'block', 'z.capping' => 'capping', 'z.session_capping' => 'session_capping', 'z.ad_selection' => 'ad_selection', 'z.rate' => 'rate', 'z.pricing' => 'pricing', 'z.show_capped_no_cookie' => 'show_capped_no_cookie'];
                 }
                 break;
 
@@ -364,37 +356,6 @@ class SqlBuilder
                 }
                 break;
 
-            case 'ad_category_assoc':
-                $aTables += [$conf['table']['prefix'] . $conf['table']['ad_category_assoc'] => 'ac'];
-                if (!empty($aParams['agency_id'])) {
-                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['campaigns'] => 'm', $conf['table']['prefix'] . $conf['table']['clients'] = 'a'];
-                }
-                if (!empty($aParams['advertiser_id'])) {
-                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-                }
-                if (!empty($aParams['placement_id'])) {
-                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-                }
-                if (!empty($aParams['placement_active'])) {
-                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-                }
-                if (!empty($aParams['placement_anonymous'])) {
-                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd', $conf['table']['prefix'] . $conf['table']['campaigns'] => 'm'];
-                }
-                if (isset($aParams['ad_width'])) {
-                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-                }
-                if (isset($aParams['ad_height'])) {
-                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-                }
-                if (!empty($aParams['ad_type'])) {
-                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-                }
-                if (!empty($aParams['ad_active'])) {
-                    $aTables += [$conf['table']['prefix'] . $conf['table']['banners'] => 'd'];
-                }
-                break;
-
             case 'ad_zone_assoc':
                 $aTables += [$conf['table']['prefix'] . $conf['table']['ad_zone_assoc'] => 'az'];
                 if (!empty($aParams['agency_id'])) {
@@ -474,10 +435,6 @@ class SqlBuilder
 
             case 'campaign':
                 $aTables += [$conf['table']['prefix'] . $conf['table']['campaigns'] => 'cam'];
-
-                // no break
-            case 'category':
-                $aTables += [$conf['table']['prefix'] . $conf['table']['category'] => 'cat'];
                 break;
 
             case 'channel':
@@ -803,24 +760,6 @@ class SqlBuilder
                 }
                 break;
 
-            case 'ad_category_assoc':
-                if (!empty($aParams['agency_id'])) {
-                    SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'c.agencyid', $aParams['agency_id']);
-                }
-                if (!empty($aParams['advertiser_id'])) {
-                    SqlBuilder::_addLimitation($aLimitations, 'advertiser_id', 'm.clientid', $aParams['advertiser_id']);
-                }
-                if (!empty($aParams['placement_id'])) {
-                    SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'd.campaignid', $aParams['placement_id']);
-                }
-                if (!empty($aParams['ad_id'])) {
-                    SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'ac.ad_id', $aParams['ad_id']);
-                }
-                if (!empty($aParams['ad_category_assoc_id'])) {
-                    SqlBuilder::_addLimitation($aLimitations, 'ad_category_assoc_id', 'ac.ad_category_assoc_id', $aParams['ad_category_assoc_id']);
-                }
-                break;
-
             case 'ad_zone_assoc':
                 if (!empty($aParams['agency_id'])) {
                     SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'p.agencyid', $aParams['agency_id']);
@@ -870,12 +809,6 @@ class SqlBuilder
             case 'campaign':
                 if (!empty($aParams['client_id'])) {
                     SqlBuilder::_addLimitation($aLimitations, 'client_id', 'cam.clientid', $aParams['client_id']);
-                }
-                break;
-
-            case 'category':
-                if (!empty($aParams['name'])) {
-                    SqlBuilder::_addLimitation($aLimitations, 'name', 'cat.name', $aParams['name']);
                 }
                 break;
 
@@ -1231,9 +1164,6 @@ class SqlBuilder
         }
         if (!empty($aTables[$conf['table']['prefix'] . $conf['table']['banners']]) && (!empty($aTables[$conf['table']['prefix'] . $conf['table']['data_intermediate_ad_connection']]))) {
             $aTableLimitations[] = 'd.bannerid=s.ad_id';
-        }
-        if (!empty($aTables[$conf['table']['prefix'] . $conf['table']['banners']]) && (!empty($aTables[$conf['table']['prefix'] . $conf['table']['ad_category_assoc']]))) {
-            $aTableLimitations[] = 'd.bannerid=ac.ad_id';
         }
         if (!empty($aTables[$conf['table']['prefix'] . $conf['table']['banners']]) && (!empty($aTables[$conf['table']['prefix'] . $conf['table']['ad_zone_assoc']]))) {
             $aTableLimitations[] = 'd.bannerid=az.ad_id';

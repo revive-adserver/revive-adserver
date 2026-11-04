@@ -34,26 +34,23 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
      */
     public $_aWebsitesAndZones = [ 1 => [
         'name' => 'website 1',
-        'oac_category_id' => 6510,
         'zones' =>
              [
-                 1 => [ 'zonename' => 'zone 1 on web 1', 'oac_category_id' => 6510 ],
-                 2 => [ 'zonename' => 'zone 2 on web 1', 'oac_category_id' => 6502 ],
-                 3 => [ 'zonename' => 'zone 3 on web 1', 'oac_category_id' => 'null' ],
+                 1 => [ 'zonename' => 'zone 1 on web 1' ],
+                 2 => [ 'zonename' => 'zone 2 on web 1' ],
+                 3 => [ 'zonename' => 'zone 3 on web 1' ],
              ],
     ],
         2 => [
             'name' => 'website 2',
-            'oac_category_id' => 'null',
             'zones' =>
                  [
-                     1 => [ 'zonename' => 'zone 1 on web 2', 'oac_category_id' => 6581 ],
-                     2 => [ 'zonename' => 'zone 2 on web 2', 'oac_category_id' => 6502 ],
+                     1 => [ 'zonename' => 'zone 1 on web 2' ],
+                     2 => [ 'zonename' => 'zone 2 on web 2' ],
                  ],
         ],
         3 => [
             'name' => 'website 3',
-            'oac_category_id' => 6581,
             'zones' => 'null',
         ],
     ];
@@ -79,22 +76,6 @@ class MAX_Dal_Admin_ZonesTest extends DalUnitTestCase
                  ],
         ],
     ];
-    /**
-     * A sample structure for tests containing categories
-     *
-     * @var array
-     */
-    public $_aCategories = [
-        65 => [
-            'name' => 'Micro processor',
-            'subcategories' => [
-                6502 => 'Apple II',
-                6510 => 'Commedore 64',
-                6581 => 'C64 SID',
-            ],
-        ],
-    ];
-
     public function __construct()
     {
         parent::__construct();

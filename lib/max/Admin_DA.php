@@ -838,21 +838,6 @@ class Admin_DA
     }
 
     // +---------------------------------------+
-    // | generic DA methods                    |
-    // |                                       |
-    // +---------------------------------------+
-
-    public static function addCategory($aVariables)
-    {
-        return Admin_DA::_addEntity('category', $aVariables);
-    }
-
-    public static function addAdCategory($aVariables)
-    {
-        return Admin_DA::_addEntity('ad_category_assoc', $aVariables);
-    }
-
-    // +---------------------------------------+
     // | ad - zone associations                |
     // +---------------------------------------+
     public static function addAdZone($aVariables)

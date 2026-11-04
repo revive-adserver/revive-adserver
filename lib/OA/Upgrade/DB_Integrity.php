@@ -91,7 +91,7 @@ class OA_DB_Integrity
     public function dumpData($aVariables)
     {
         $aResult = [];
-        $aVariables['exclude']['hack'] = "(ad_category_assoc|campaigns_trackers|category|password_recovery|placement_zone_assoc|plugins_channel_delivery_assoc|plugins_channel_delivery_domains|plugins_channel_delivery_rules|targetstats|variable_publisher)";
+        $aVariables['exclude']['hack'] = "(campaigns_trackers|password_recovery|placement_zone_assoc|plugins_channel_delivery_assoc|plugins_channel_delivery_domains|plugins_channel_delivery_rules|targetstats|variable_publisher)";
         foreach ($aVariables['exclude'] as $k => $pattern) {
             foreach ($this->oDBUpgrader->aDefinitionNew['tables'] as $table => $aDef) {
                 if (preg_match('/' . $pattern . '/', $table)) {

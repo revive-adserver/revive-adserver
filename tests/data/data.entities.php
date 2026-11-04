@@ -62,11 +62,6 @@
                   'a.reportlastdate' => 'report_last_date',
                   'a.reportdeactivate' => 'report_deactivate'
                 ),
-         'ad_category_assoc' => array (
-                  'ac.ad_category_assoc_id' => 'ad_category_assoc_id',
-                  'ac.ad_id' => 'ad_id',
-                  'ac.category_id' => 'category_id'
-                ),
          'ad_zone_assoc' => array (
                   'az.ad_zone_assoc_id' => 'ad_zone_assoc_id',
                   'az.ad_id' => 'ad_id',
@@ -84,10 +79,6 @@
                   'g.language' => 'language',
                   'g.logout_url' => 'logout_url',
                   'g.active' => 'active'
-                ),
-         'category' => array (
-                  'cat.category_id' => 'category_id',
-                  'cat.name' => 'name'
                 ),
          'image' => array (
                   'i.filename' => 'file_name',
@@ -196,7 +187,6 @@
                   'z.block' => 'block',
                   'z.capping' => 'capping',
                   'z.session_capping' => 'session_capping',
-                  'z.category' => 'category',
                   'z.ad_selection' => 'ad_selection'
                 )
          );

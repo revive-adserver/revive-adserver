@@ -447,17 +447,15 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
                 " . $oDbh->quoteIdentifier($aConf['table']['prefix'] . $aConf['table']['zones'], true) . "
                 (
                     zoneid,
-                    category,
                     ad_selection,
                     chain,
                     prepend,
                     append
                 )
             VALUES
-                (?, ?, ?, ?, ?, ?)";
+                (?, ?, ?, ?, ?)";
         $aTypes = [
             'integer',
-            'text',
             'text',
             'text',
             'text',
@@ -465,27 +463,27 @@ class Test_OX_Dal_Maintenance_Statistics_saveSummary extends UnitTestCase
         ];
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = [
-            1, '', '', '', '', '',
+            1, '', '', '', '',
         ];
         $rows = $st->execute($aData);
         $aData = [
-            2, '', '', '', '', '',
+            2, '', '', '', '',
         ];
         $rows = $st->execute($aData);
         $aData = [
-            3, '', '', '', '', '',
+            3, '', '', '', '',
         ];
         $rows = $st->execute($aData);
         $aData = [
-            4, '', '', '', '', '',
+            4, '', '', '', '',
         ];
         $rows = $st->execute($aData);
         $aData = [
-            5, '', '', '', '', '',
+            5, '', '', '', '',
         ];
         $rows = $st->execute($aData);
         $aData = [
-            6, '', '', '', '', '',
+            6, '', '', '', '',
         ];
         $rows = $st->execute($aData);
     }

@@ -452,7 +452,6 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
         $doZones->description = '';
         $doZones->delivery = 0;
         $doZones->zonetype = 3;
-        $doZones->category = '';
         $doZones->width = 728;
         $doZones->height = 90;
         $doZones->ad_selection = '';

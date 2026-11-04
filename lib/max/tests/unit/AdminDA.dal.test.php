@@ -152,7 +152,6 @@ class Admin_DaTest extends DalUnitTestCase
             'affiliateid' => 23,
             'zonename' => 'foo',
             'description' => 'this is the desc',
-            'category' => 0,
             'ad_selection' => 0,
             'chain' => 0,
             'prepend' => 0,
@@ -620,7 +619,6 @@ class Admin_DaTest extends DalUnitTestCase
             'publisher_id' => rand(1, 999),
             'type' => rand(0, 4),
             'name' => 'myzone',
-            'category' => 'hard',
             'ad_selection' => '',
             'chain' => '',
             'prepend' => '',
@@ -736,7 +734,6 @@ class Admin_DaTest extends DalUnitTestCase
         unset($aZone1['block']);
         unset($aZone1['capping']);
         unset($aZone1['session_capping']);
-        unset($aZone1['category']);
         unset($aZone1['rate']);
         unset($aZone1['pricing']);
         unset($aZone1['show_capped_no_cookie']);
@@ -797,30 +794,6 @@ class Admin_DaTest extends DalUnitTestCase
         unset($aZone1['updated']);
         unset($aZone2['updated']);
         $this->assertEqual($aZone1, $aZone2);
-    }
-
-    public function testAddCategory()
-    {
-        $name = new Text_Password();
-
-        TestEnv::startTransaction();
-
-        $ret = Admin_DA::addCategory(['name' => $name->create()]);
-        $this->assertTrue(is_int($ret));
-        $this->assertTrue($ret > 0);
-
-        TestEnv::rollbackTransaction();
-    }
-
-    public function testAddAdCategory()
-    {
-        TestEnv::startTransaction();
-
-        $ret = Admin_DA::addAdCategory(['ad_id' => 1, 'category_id' => 2]);
-        $this->assertTrue(is_int($ret));
-        $this->assertTrue($ret > 0);
-
-        TestEnv::rollbackTransaction();
     }
 
     public function testAddAdZone()

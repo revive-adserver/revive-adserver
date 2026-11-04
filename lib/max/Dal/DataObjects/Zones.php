@@ -30,7 +30,6 @@ class DataObjects_Zones extends DB_DataObjectCommon
     public $description;                     // VARCHAR(255) => openads_varchar => 130
     public $delivery;                        // SMALLINT(6) => openads_smallint => 129
     public $zonetype;                        // SMALLINT(6) => openads_smallint => 129
-    public $category;                        // TEXT() => openads_text => 162
     public $width;                           // SMALLINT(6) => openads_smallint => 129
     public $height;                          // SMALLINT(6) => openads_smallint => 129
     public $ad_selection;                    // TEXT() => openads_text => 162
@@ -53,7 +52,6 @@ class DataObjects_Zones extends DB_DataObjectCommon
     public $what;                            // TEXT() => openads_text => 162
     public $rate;                            // DECIMAL(19,2) => openads_decimal => 1
     public $pricing;                         // VARCHAR(50) => openads_varchar => 130
-    public $oac_category_id;                 // INT(11) => openads_int => 1
     public $ext_adselection;                 // VARCHAR(255) => openads_varchar => 2
     public $show_capped_no_cookie;           // TINYINT(4) => openads_tinyint => 129
 
@@ -68,7 +66,6 @@ class DataObjects_Zones extends DB_DataObjectCommon
         'description' => '',
         'delivery' => 0,
         'zonetype' => 0,
-        'category' => '',
         'width' => 0,
         'height' => 0,
         'ad_selection' => '',

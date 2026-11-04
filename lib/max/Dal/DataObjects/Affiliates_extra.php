@@ -36,7 +36,6 @@ class DataObjects_Affiliates_extra extends DB_DataObjectCommon
     public $unique_users;                    // INT(11) => openads_int => 1
     public $unique_views;                    // INT(11) => openads_int => 1
     public $page_rank;                       // INT(11) => openads_int => 1
-    public $category;                        // VARCHAR(255) => openads_varchar => 2
     public $help_file;                       // VARCHAR(255) => openads_varchar => 2
 
     /* Static get */

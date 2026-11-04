@@ -87,7 +87,6 @@ function setupConstants()
     // Ad/Zone association link types
     define('MAX_AD_ZONE_LINK_DIRECT', 0);
     define('MAX_AD_ZONE_LINK_NORMAL', 1);
-    define('MAX_AD_ZONE_LINK_CATEGORY', 2);
 
     // URL construction constants
     define('MAX_URL_ADMIN', 0);

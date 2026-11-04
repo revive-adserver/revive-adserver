@@ -22039,16 +22039,6 @@
     </field>
 
     <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>37</value>
     </field>
@@ -22100,21 +22090,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -22172,21 +22147,6 @@
     </field>
 
     <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>39</value>
     </field>
@@ -22238,21 +22198,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -22310,21 +22255,6 @@
     </field>
 
     <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>41</value>
     </field>
@@ -22376,21 +22306,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -22448,21 +22363,6 @@
     </field>
 
     <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>43</value>
     </field>
@@ -22514,21 +22414,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -22586,21 +22471,6 @@
     </field>
 
     <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>45</value>
     </field>
@@ -22652,21 +22522,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:13</value>
-    </field>
-
-    <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -22724,21 +22579,6 @@
     </field>
 
     <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>47</value>
     </field>
@@ -22790,21 +22630,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:14</value>
-    </field>
-
-    <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -22862,21 +22687,6 @@
     </field>
 
     <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>49</value>
     </field>
@@ -22928,21 +22738,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:14</value>
-    </field>
-
-    <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -23000,21 +22795,6 @@
     </field>
 
     <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>51</value>
     </field>
@@ -23066,21 +22846,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:14</value>
-    </field>
-
-    <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -23138,21 +22903,6 @@
     </field>
 
     <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>53</value>
     </field>
@@ -23204,21 +22954,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:14</value>
-    </field>
-
-    <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -23276,21 +23011,6 @@
     </field>
 
     <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>55</value>
     </field>
@@ -23342,21 +23062,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:14</value>
-    </field>
-
-    <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -23414,21 +23119,6 @@
     </field>
 
     <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>57</value>
     </field>
@@ -23483,21 +23173,6 @@
     </field>
 
     <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
      <name>account_id</name>
      <value>58</value>
     </field>
@@ -23549,21 +23224,6 @@
     <field>
      <name>updated</name>
      <value>2008-01-29 11:05:14</value>
-    </field>
-
-    <field>
-     <name>oac_country_code</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_language_id</name>
-     <value>1</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
     <field>
@@ -82370,11 +82030,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -82482,11 +82137,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -82524,11 +82174,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -82636,11 +82281,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -82678,11 +82318,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -82790,11 +82425,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -82832,11 +82462,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -82944,11 +82569,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -82986,11 +82606,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -83098,11 +82713,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -83140,11 +82750,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>0</value>
     </field>
@@ -83252,11 +82857,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -83294,11 +82894,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>0</value>
     </field>
@@ -83408,11 +83003,6 @@
      <value>CPM</value>
     </field>
 
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
    </insert>
 
    <insert>
@@ -83445,11 +83035,6 @@
     <field>
      <name>zonetype</name>
      <value>3</value>
-    </field>
-
-    <field>
-     <name>category</name>
-     <value></value>
     </field>
 
     <field>
@@ -83560,11 +83145,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -83602,11 +83182,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -83714,11 +83289,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -83756,11 +83326,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -83868,11 +83433,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -83910,11 +83470,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -84022,11 +83577,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -84064,11 +83614,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>0</value>
     </field>
@@ -84176,11 +83721,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -84218,11 +83758,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -84330,11 +83865,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -84372,11 +83902,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -84484,11 +84009,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -84526,11 +84046,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -84640,11 +84155,6 @@
      <value>CPM</value>
     </field>
 
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
    </insert>
 
    <insert>
@@ -84677,11 +84187,6 @@
     <field>
      <name>zonetype</name>
      <value>3</value>
-    </field>
-
-    <field>
-     <name>category</name>
-     <value></value>
     </field>
 
     <field>
@@ -84792,11 +84297,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -84834,11 +84334,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -84946,11 +84441,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -84988,11 +84478,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -85100,11 +84585,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -85142,11 +84622,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -85254,11 +84729,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -85296,11 +84766,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -85408,11 +84873,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -85450,11 +84910,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -85564,11 +85019,6 @@
      <value>CPM</value>
     </field>
 
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
    </insert>
 
    <insert>
@@ -85601,11 +85051,6 @@
     <field>
      <name>zonetype</name>
      <value>3</value>
-    </field>
-
-    <field>
-     <name>category</name>
-     <value></value>
     </field>
 
     <field>
@@ -85718,11 +85163,6 @@
      <value>CPM</value>
     </field>
 
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
    </insert>
 
    <insert>
@@ -85755,11 +85195,6 @@
     <field>
      <name>zonetype</name>
      <value>3</value>
-    </field>
-
-    <field>
-     <name>category</name>
-     <value></value>
     </field>
 
     <field>
@@ -85872,11 +85307,6 @@
      <value>CPM</value>
     </field>
 
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
    </insert>
 
    <insert>
@@ -85909,11 +85339,6 @@
     <field>
      <name>zonetype</name>
      <value>3</value>
-    </field>
-
-    <field>
-     <name>category</name>
-     <value></value>
     </field>
 
     <field>
@@ -86024,11 +85449,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -86066,11 +85486,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -86178,11 +85593,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -86220,11 +85630,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -86332,11 +85737,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -86374,11 +85774,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -86486,11 +85881,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -86528,11 +85918,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -86640,11 +86025,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -86682,11 +86062,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -86794,11 +86169,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -86836,11 +86206,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -86948,11 +86313,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -86990,11 +86350,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>0</value>
     </field>
@@ -87102,11 +86457,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -87144,11 +86494,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -87256,11 +86601,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -87298,11 +86638,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -87410,11 +86745,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -87452,11 +86782,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -87564,11 +86889,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -87606,11 +86926,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -87718,11 +87033,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -87760,11 +87070,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -87872,11 +87177,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -87914,11 +87214,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -88028,11 +87323,6 @@
      <value>CPM</value>
     </field>
 
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
    </insert>
 
    <insert>
@@ -88065,11 +87355,6 @@
     <field>
      <name>zonetype</name>
      <value>3</value>
-    </field>
-
-    <field>
-     <name>category</name>
-     <value></value>
     </field>
 
     <field>
@@ -88182,11 +87467,6 @@
      <value>CPM</value>
     </field>
 
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
    </insert>
 
    <insert>
@@ -88219,11 +87499,6 @@
     <field>
      <name>zonetype</name>
      <value>3</value>
-    </field>
-
-    <field>
-     <name>category</name>
-     <value></value>
     </field>
 
     <field>
@@ -88334,11 +87609,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -88376,11 +87646,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -88490,11 +87755,6 @@
      <value>CPM</value>
     </field>
 
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
    </insert>
 
    <insert>
@@ -88527,11 +87787,6 @@
     <field>
      <name>zonetype</name>
      <value>3</value>
-    </field>
-
-    <field>
-     <name>category</name>
-     <value></value>
     </field>
 
     <field>
@@ -88644,11 +87899,6 @@
      <value>CPM</value>
     </field>
 
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
    </insert>
 
    <insert>
@@ -88681,11 +87931,6 @@
     <field>
      <name>zonetype</name>
      <value>3</value>
-    </field>
-
-    <field>
-     <name>category</name>
-     <value></value>
     </field>
 
     <field>
@@ -88798,11 +88043,6 @@
      <value>CPM</value>
     </field>
 
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
    </insert>
 
    <insert>
@@ -88835,11 +88075,6 @@
     <field>
      <name>zonetype</name>
      <value>3</value>
-    </field>
-
-    <field>
-     <name>category</name>
-     <value></value>
     </field>
 
     <field>
@@ -88952,11 +88187,6 @@
      <value>CPM</value>
     </field>
 
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
    </insert>
 
    <insert>
@@ -88989,11 +88219,6 @@
     <field>
      <name>zonetype</name>
      <value>3</value>
-    </field>
-
-    <field>
-     <name>category</name>
-     <value></value>
     </field>
 
     <field>
@@ -89106,11 +88331,6 @@
      <value>CPM</value>
     </field>
 
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
    </insert>
 
    <insert>
@@ -89143,11 +88363,6 @@
     <field>
      <name>zonetype</name>
      <value>3</value>
-    </field>
-
-    <field>
-     <name>category</name>
-     <value></value>
     </field>
 
     <field>
@@ -89258,11 +88473,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -89300,11 +88510,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>1</value>
     </field>
@@ -89412,11 +88617,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -89454,11 +88654,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -89566,11 +88761,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -89608,11 +88798,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>0</value>
     </field>
@@ -89720,11 +88905,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -89762,11 +88942,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -89874,11 +89049,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -89916,11 +89086,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -90028,11 +89193,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -90070,11 +89230,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -90182,11 +89337,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -90224,11 +89374,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>0</value>
     </field>
@@ -90336,11 +89481,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -90378,11 +89518,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -90490,11 +89625,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -90532,11 +89662,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -90644,11 +89769,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -90686,11 +89806,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>0</value>
     </field>
@@ -90798,11 +89913,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -90840,11 +89950,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -90952,11 +90057,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -90994,11 +90094,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -91106,11 +90201,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -91148,11 +90238,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>0</value>
     </field>
@@ -91260,11 +90345,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -91302,11 +90382,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>0</value>
     </field>
@@ -91414,11 +90489,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -91456,11 +90526,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -91568,11 +90633,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -91610,11 +90670,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>0</value>
     </field>
@@ -91722,11 +90777,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -91764,11 +90814,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -91878,11 +90923,6 @@
      <value>CPM</value>
     </field>
 
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
-    </field>
-
    </insert>
 
    <insert>
@@ -91915,11 +90955,6 @@
     <field>
      <name>zonetype</name>
      <value>3</value>
-    </field>
-
-    <field>
-     <name>category</name>
-     <value></value>
     </field>
 
     <field>
@@ -92030,11 +91065,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -92072,11 +91102,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -92184,11 +91209,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -92226,11 +91246,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -92338,11 +91353,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -92380,11 +91390,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -92492,11 +91497,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -92534,11 +91534,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -92646,11 +91641,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -92688,11 +91678,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -92800,11 +91785,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>
@@ -92842,11 +91822,6 @@
     </field>
 
     <field>
-     <name>category</name>
-     <value></value>
-    </field>
-
-    <field>
      <name>width</name>
      <value>468</value>
     </field>
@@ -92954,11 +91929,6 @@
     <field>
      <name>pricing</name>
      <value>CPM</value>
-    </field>
-
-    <field>
-     <name>oac_category_id</name>
-     <value>1</value>
     </field>
 
    </insert>

@@ -435,42 +435,6 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         DataGenerator::cleanUp(['accounts', 'affiliates', 'channel', 'audit']);
     }
 
-    /**
-     * NOTE: Test disabled, category auditing disabled...
-     */
-    public function XXXtestAuditCategory()
-    {
-        $doCategory = OA_Dal::factoryDO('category');
-        $context = 'category';
-
-        $doCategory->name = 'Category A';
-        $categoryId = DataGenerator::generateOne($doCategory);
-        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
-        $aAudit = unserialize($oAudit->details);
-        $this->assertEqual($oAudit->username, OA_TEST_AUDIT_USERNAME);
-        $this->assertEqual($oAudit->contextid, $categoryId);
-        $this->assertEqual($aAudit['key_desc'], $doCategory->name);
-        $this->assertEqual($aAudit['category_id'], $categoryId);
-        $this->assertEqual($aAudit['name'], $doCategory->name);
-
-        $doCategory = OA_Dal::staticGetDO('category', $categoryId);
-        $doCategory->name = 'Category B';
-        $doCategory->update();
-        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
-        $aAudit = unserialize($oAudit->details);
-        $this->assertEqual($oAudit->username, OA_TEST_AUDIT_USERNAME);
-        $this->assertEqual($aAudit['name']['is'], $doCategory->name);
-        $this->assertEqual($aAudit['name']['was'], 'Category A');
-
-        $doCategory->delete();
-        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_DELETE);
-        $aAudit = unserialize($oAudit->details);
-        $this->assertEqual($oAudit->username, OA_TEST_AUDIT_USERNAME);
-        $this->assertEqual($aAudit['category_id'], $categoryId);
-
-        DataGenerator::cleanUp(['accounts', 'category', 'audit']);
-    }
-
     public function testAuditClient()
     {
         $doClients = OA_Dal::factoryDO($context = 'clients');

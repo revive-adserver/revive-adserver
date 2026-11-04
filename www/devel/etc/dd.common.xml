@@ -77,15 +77,6 @@
         <unsigned>1</unsigned>
     </field>
     <field>
-        <name>category_id</name>
-        <type>integer</type>
-        <length>11</length>
-        <notnull>1</notnull>
-        <default></default>
-        <autoincrement>0</autoincrement>
-        <unsigned>1</unsigned>
-    </field>
-    <field>
         <name>tracker_id</name>
         <type>integer</type>
         <length>11</length>
@@ -363,8 +354,6 @@
     </field>
 
 	<!-- acls_channel: uses acl types -->
-
-	<!-- ad_category_assoc -->
 
 	<!-- ad_zone_assoc -->
     <field>

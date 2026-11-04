@@ -17,7 +17,6 @@
 <max03trunk>
   <!-- Table acls -->
   <!-- Table acls_channel -->
-  <!-- Table ad_category_assoc -->
   <!-- Table ad_zone_assoc -->
   <!-- Table affiliates -->
   <!-- Table affiliates_extra -->
@@ -30,7 +29,6 @@
   <!-- Table banners -->
   <!-- Table campaigns -->
   <!-- Table campaigns_trackers -->
-  <!-- Table category -->
   <!-- Table channel -->
   <!-- Table clients -->
   <!-- Table data_intermediate_ad -->

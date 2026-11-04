@@ -358,10 +358,6 @@ function processForm($form, $oComponent = null)
             break;
     }
 
-    if (!(is_numeric($aFields['oac_category_id'])) || ($aFields['oac_category_id'] <= 0)) {
-        $aFields['oac_category_id'] = 'NULL';
-    }
-
     // Edit
     if (!empty($aFields['zoneid'])) {
         // before we commit any changes to db, store whether the size has changed
@@ -381,7 +377,6 @@ function processForm($form, $oComponent = null)
             $doZones->append = '';
         }
 
-        $doZones->oac_category_id = $aFields['oac_category_id'];
         $doZones->zoneid = $aFields['zoneid'];
         $doZones->update();
 
@@ -478,11 +473,9 @@ function processForm($form, $oComponent = null)
         $doZones->width = $aFields['width'];
         $doZones->height = $aFields['height'];
         $doZones->delivery = $aFields['delivery'];
-        $doZones->oac_category_id = $aFields['oac_category_id'];
 
         // The following fields are NOT NULL but do not get values set in the form.
         // Should these fields be changed to NULL in the schema or should they have a default value?
-        $doZones->category = '';
         $doZones->ad_selection = '';
         $doZones->chain = '';
         $doZones->prepend = '';

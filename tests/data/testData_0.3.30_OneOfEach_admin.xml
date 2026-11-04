@@ -17,7 +17,6 @@
 <max03trunk>
   <!-- Table acls -->
   <!-- Table acls_channel -->
-  <!-- Table ad_category_assoc -->
   <!-- Table ad_zone_assoc -->
   <!-- Table affiliates -->
     <affiliates>
@@ -114,7 +113,6 @@
         <updated>2006-11-15 11:01:51</updated>
     </campaigns>
   <!-- Table campaigns_trackers -->
-  <!-- Table category -->
   <!-- Table channel -->
   <!-- Table clients -->
     <clients>
@@ -187,7 +185,6 @@
         <description></description>
         <delivery>0</delivery>
         <zonetype>3</zonetype>
-        <category></category>
         <width>468</width>
         <height>60</height>
         <ad_selection></ad_selection>

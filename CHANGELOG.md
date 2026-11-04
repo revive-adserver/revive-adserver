@@ -50,6 +50,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - The `ftp` PHP extension is now required to store banner files via FTP.
 - Simplified character encoding conversion to use the required `intl` extension.
 - Replaced the legacy XML-RPC update check with a JSON API ([#1694](https://github.com/revive-adserver/revive-adserver/issues/1694)).
+- Removed unused ad categories and OpenX category metadata from affiliates and zones, completing the previously deferred database cleanup ([#1787](https://github.com/revive-adserver/revive-adserver/issues/1787)).
 
 ## [6.0.8] - 2026-06-25
 
