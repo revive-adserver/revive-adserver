@@ -447,7 +447,6 @@ $GLOBALS['strZoneProbListChainLoop'] = "Byddai dilyn y gadwyn ardal yn achosi do
 $GLOBALS['strSelectZoneType'] = "Dewiswch beth i gysylltu i'r ardal hon";
 $GLOBALS['strLinkedBanners'] = "Cysylltu baneri unigol";
 $GLOBALS['strCampaignDefaults'] = "Cysylltu baneri wrth yr ymgyrch rhiant";
-$GLOBALS['strLinkedCategories'] = "Cysylltu baneri wrth y categori";
 $GLOBALS['strRawQueryString'] = "Allweddair";
 $GLOBALS['strIncludedBanners'] = "Baneri Cysylltiedig";
 $GLOBALS['strMatchingBanners'] = "{count} baner sy'n cydweddu";

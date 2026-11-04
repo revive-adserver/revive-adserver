@@ -496,7 +496,6 @@ $GLOBALS['strZoneAppendHTMLCode'] = "Codi HTML";
 
 // Linked banners/campaigns/trackers
 $GLOBALS['strLinkedBanners'] = "Vincula bàners individuals";
-$GLOBALS['strLinkedCategories'] = "Vincula bàners per categoria";
 $GLOBALS['strRawQueryString'] = "Paraula clau";
 $GLOBALS['strIncludedBanners'] = "Bàners vinculats";
 $GLOBALS['strSelectAdvertiser'] = "Selecciona anunciant";

@@ -503,7 +503,6 @@ $GLOBALS['strZoneAppendZoneSelection'] = "نافذة منبثقة أو ضمن ا
 // Linked banners/campaigns/trackers
 $GLOBALS['strLinkedBanners'] = "ربط بنرات منفردة";
 $GLOBALS['strCampaignDefaults'] = "ربط بنرات عبر الحملة الاعلانية";
-$GLOBALS['strLinkedCategories'] = "ربط بنرات حسب التصنيف";
 $GLOBALS['strRawQueryString'] = "كلمة مفتاحية";
 $GLOBALS['strIncludedBanners'] = "البنرات المرتبطة";
 $GLOBALS['strMatchingBanners'] = "{count} بنرات مطابقة";

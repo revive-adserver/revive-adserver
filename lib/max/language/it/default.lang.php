@@ -709,7 +709,6 @@ $GLOBALS['strZoneProbListChainLoop'] = "Si è verificato un ciclo infinito segue
 $GLOBALS['strSelectZoneType'] = "Scegli la tipologia di collegamento con i banner";
 $GLOBALS['strLinkedBanners'] = "Collega banner individuali";
 $GLOBALS['strCampaignDefaults'] = "Collega banner per campagna di appartenenza";
-$GLOBALS['strLinkedCategories'] = "Collega banner per categoria";
 $GLOBALS['strWithXBanners'] = "Banner %d";
 $GLOBALS['strRawQueryString'] = "Parola chiave";
 $GLOBALS['strIncludedBanners'] = "Banner collegati";

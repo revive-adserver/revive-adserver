@@ -539,7 +539,6 @@ $GLOBALS['strZoneProbListChainLoop'] = "代替バナーがループになって�
 $GLOBALS['strSelectZoneType'] = "リンク済のバナーの表示方法を選択してください";
 $GLOBALS['strLinkedBanners'] = "各々のバナーをリンクする";
 $GLOBALS['strCampaignDefaults'] = "親キャンペーンでバナーをリンクする";
-$GLOBALS['strLinkedCategories'] = "カテゴリでバナーをリンクする";
 $GLOBALS['strWithXBanners'] = "%d バナー";
 $GLOBALS['strRawQueryString'] = "キーワード";
 $GLOBALS['strIncludedBanners'] = "リンク済バナー";

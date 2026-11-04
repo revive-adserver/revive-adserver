@@ -519,7 +519,6 @@ $GLOBALS['strZoneProbListChainLoop'] = "Urmărind lanţul zonei va cauza o repet
 $GLOBALS['strSelectZoneType'] = "Te rugăm să alegi ce doreşti să asociezi acestei zone";
 $GLOBALS['strLinkedBanners'] = "Asociază bannere individuale";
 $GLOBALS['strCampaignDefaults'] = "Asociază bannere după campania părinte";
-$GLOBALS['strLinkedCategories'] = "Asociază bannere după categorie";
 $GLOBALS['strWithXBanners'] = "%d banner(e)";
 $GLOBALS['strRawQueryString'] = "Cuvânt cheie";
 $GLOBALS['strIncludedBanners'] = "Bannere asociate";

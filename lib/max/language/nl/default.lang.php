@@ -703,7 +703,6 @@ $GLOBALS['strZoneProbListChainLoop'] = "Het volgen van de zone-ketting zou leide
 $GLOBALS['strSelectZoneType'] = "Kies alstublieft wat u wilt koppelen aan deze zone";
 $GLOBALS['strLinkedBanners'] = "Koppel individuele banners";
 $GLOBALS['strCampaignDefaults'] = "Koppeling banners via bovenliggende campagne";
-$GLOBALS['strLinkedCategories'] = "Koppeling banners via categorie";
 $GLOBALS['strWithXBanners'] = "%d banner(s)";
 $GLOBALS['strRawQueryString'] = "Sleutelwoord";
 $GLOBALS['strIncludedBanners'] = "Gekoppelde banners";

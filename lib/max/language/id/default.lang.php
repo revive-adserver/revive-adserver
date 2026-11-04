@@ -684,7 +684,6 @@ $GLOBALS['strZoneProbListChainLoop'] = "Ikuti rantai zona akan mengakibatkan lik
 $GLOBALS['strSelectZoneType'] = "Silakan pilih jenis hubungan banner";
 $GLOBALS['strLinkedBanners'] = "Hubungkan banner individual";
 $GLOBALS['strCampaignDefaults'] = "Hubungkan banner berdasarkan kampanye induk";
-$GLOBALS['strLinkedCategories'] = "Hubungkan banner berdasarkan kategori induk";
 $GLOBALS['strWithXBanners'] = "%d spanduk(s)";
 $GLOBALS['strRawQueryString'] = "Kata Kunci";
 $GLOBALS['strIncludedBanners'] = "Banner yang di-link";

@@ -576,7 +576,6 @@ $GLOBALS['strZoneProbListChainLoop'] = "Указанная цепочка ген
 $GLOBALS['strSelectZoneType'] = "Пожалуйста, выберите тип связи баннеров";
 $GLOBALS['strLinkedBanners'] = "Связь отдельных баннеров";
 $GLOBALS['strCampaignDefaults'] = "Связь баннеров по кампаниям";
-$GLOBALS['strLinkedCategories'] = "Связь баннеров по категориям";
 $GLOBALS['strWithXBanners'] = "%d баннер(ы)";
 $GLOBALS['strRawQueryString'] = "Строка запроса 'как есть'";
 $GLOBALS['strIncludedBanners'] = "Связанные баннеры";
