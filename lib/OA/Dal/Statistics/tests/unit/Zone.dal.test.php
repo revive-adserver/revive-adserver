@@ -177,6 +177,34 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
                 $this->assertEqual($data[0]['hour'], $hour);
                 $this->assertEqual($data[0]['impressions'], 5);
             }
+
+            Date_TimeZone::setDefault('America/New_York');
+            foreach ([
+                ['2026-11-01 05:00:00', 7],
+                ['2026-11-01 06:00:00', 11],
+            ] as [$dateTime, $impressions]) {
+                $doSummary = OA_Dal::factoryDO('data_summary_ad_hourly');
+                $doSummary->date_time = $dateTime;
+                $doSummary->impressions = $impressions;
+                $doSummary->requests = $impressions * 2;
+                $doSummary->clicks = $impressions - 1;
+                $doSummary->total_revenue = $impressions * 3;
+                $this->generateDataSummaryAdHourlyForZone($doSummary, $doZone);
+            }
+
+            $data = $this->_dalZoneStatistics->getZoneHourlyStatistics(
+                $doZone->zoneid,
+                new Date('2026-11-01'),
+                new Date('2026-11-01'),
+                true,
+            );
+            $this->assertEqual(count($data), 1);
+            $this->assertEqual($data[0]['day'], '2026-11-01');
+            $this->assertEqual($data[0]['hour'], 1);
+            $this->assertEqual($data[0]['impressions'], 18);
+            $this->assertEqual($data[0]['requests'], 36);
+            $this->assertEqual($data[0]['clicks'], 16);
+            $this->assertEqual($data[0]['revenue'], 54);
         } finally {
             Date_TimeZone::setDefault($originalTimezone);
         }
