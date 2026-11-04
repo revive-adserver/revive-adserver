@@ -234,7 +234,18 @@ class DataObjects_Banners extends DB_DataObjectCommon
      */
     public function _imageDuplicate($storagetype, $filename)
     {
-        return phpAds_ImageDuplicate($storagetype, $filename);
+        $auditAccountIds = null;
+        if ($storagetype === 'sql' && !empty($GLOBALS['_MAX']['CONF']['audit']['enabled'])) {
+            // Use the destination campaign: the new banner has not been inserted yet.
+            $doCampaign = OA_Dal::staticGetDO('campaigns', $this->campaignid);
+            if ($doCampaign) {
+                $accountIds = $doCampaign->getOwningAccountIds();
+                if (is_array($accountIds)) {
+                    $auditAccountIds = $accountIds;
+                }
+            }
+        }
+        return phpAds_ImageDuplicate($storagetype, $filename, $auditAccountIds);
     }
 
     public function _auditEnabled()

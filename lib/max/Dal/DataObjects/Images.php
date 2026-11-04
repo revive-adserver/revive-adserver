@@ -17,6 +17,26 @@ require_once 'DB_DataObjectCommon.php';
 
 class DataObjects_Images extends DB_DataObjectCommon
 {
+    private ?array $auditAccountIds = null;
+    private ?array $auditBannerCache = null;
+
+    /** Supply ownership for the next audit when the caller already knows the parent. */
+    public function setAuditAccountIds(array $accountIds): void
+    {
+        $this->auditAccountIds = $accountIds;
+    }
+
+    public function audit($actionid, $oDataObject = null, $parentid = null)
+    {
+        $this->auditBannerCache = [];
+        try {
+            return parent::audit($actionid, $oDataObject, $parentid);
+        } finally {
+            $this->auditBannerCache = null;
+            $this->auditAccountIds = null;
+        }
+    }
+
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -177,6 +197,10 @@ class DataObjects_Images extends DB_DataObjectCommon
      */
     public function getOwningAccountIds($resetCache = false)
     {
+        if ($this->auditAccountIds !== null) {
+            return $this->auditAccountIds;
+        }
+
         // Find the banner that contains this image, if possible
         $doBanners = $this->getBanner();
 
@@ -224,17 +248,24 @@ class DataObjects_Images extends DB_DataObjectCommon
 
     private function getBanner(): ?DataObjects_Banners
     {
+        if ($this->auditBannerCache !== null && array_key_exists($this->filename, $this->auditBannerCache)) {
+            return $this->auditBannerCache[$this->filename];
+        }
+
         /** @var DataObjects_Banners $doBanners */
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->storagetype = 'sql';
         $doBanners->filename = $this->filename;
 
-        if (!$doBanners->find()) {
-            return null;
+        $banner = null;
+        if ($doBanners->find()) {
+            $doBanners->fetch();
+            $banner = $doBanners;
         }
 
-        $doBanners->fetch();
-
-        return $doBanners;
+        if ($this->auditBannerCache !== null) {
+            $this->auditBannerCache[$this->filename] = $banner;
+        }
+        return $banner;
     }
 }
