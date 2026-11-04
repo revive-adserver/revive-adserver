@@ -40,6 +40,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Fixed the remnant eCPM algorithm using default zone forecasts after processing the first agency ([#1736](https://github.com/revive-adserver/revive-adserver/pull/1736))
 - Fixed local hourly statistics showing mismatched dates and hours and splitting totals during the end of daylight saving time ([#1735](https://github.com/revive-adserver/revive-adserver/pull/1735))
 - Fixed installer task exceptions not being reported by the final installation step ([#1734](https://github.com/revive-adserver/revive-adserver/pull/1734))
+- Fixed Zone API validation reporting errors for accepted types and failing to report invalid types ([#1732](https://github.com/revive-adserver/revive-adserver/pull/1732))
 - The Advertisers list with "Hide inactive" loaded every banner of the account, which was slow and could exceed the memory limit with a large number of banners ([#1785](https://github.com/revive-adserver/revive-adserver/issues/1785))
 
 ### Added
