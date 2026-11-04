@@ -69,6 +69,11 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
     public $aZonesAvailableImpressions = null;
 
     /**
+     * @var array|null Forecasts before agency-specific allocations are deducted
+     */
+    public $aZonesForecasts = null;
+
+    /**
      * The array of dates when the MPE last ran
      * Array of Date strings relating to the last run info
      * (contains 'start_run' and 'now' indexes with the PEAR_Dates)
@@ -190,17 +195,19 @@ abstract class OA_Maintenance_Priority_AdServer_Task_ECPMCommon extends OA_Maint
     public function preloadZonesAvailableImpressionsForAgency($agencyId)
     {
         $dataJustFetched = false;
-        // because the query is the same for all agencies, we run it only once
-        if (is_null($this->aZonesAvailableImpressions)) {
+        // The forecast query is the same for all agencies, so cache its raw result.
+        if (is_null($this->aZonesForecasts)) {
             $startDateString = $this->aOIDates['start']->format(self::DATE_FORMAT);
             $endDateString = $this->aOIDates['end']->format(self::DATE_FORMAT);
 
-            $this->aZonesAvailableImpressions = $this->oDal->getZonesForecasts($startDateString, $endDateString);
-            if (!$this->aZonesAvailableImpressions) {
-                $this->aZonesAvailableImpressions = [];
+            $this->aZonesForecasts = $this->oDal->getZonesForecasts($startDateString, $endDateString);
+            if (!$this->aZonesForecasts) {
+                $this->aZonesForecasts = [];
             }
             $dataJustFetched = true;
         }
+        // Start each agency from the same baseline before deducting its allocations.
+        $this->aZonesAvailableImpressions = $this->aZonesForecasts;
         $aZonesAllocations = $this->getZonesAllocationByAgency($agencyId);
         // Substract allocations from forecasts to get the number of available impressions
         // in each of the zone
