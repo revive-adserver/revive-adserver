@@ -471,7 +471,6 @@ $GLOBALS['strZoneProbListChainLoop'] = "Resultatet ved at anvende zone kæden er
 $GLOBALS['strSelectZoneType'] = "Venligst vælg hvad som ønskes tilknyttet til denne zone";
 $GLOBALS['strLinkedBanners'] = "Tilknyt individuelle bannere";
 $GLOBALS['strCampaignDefaults'] = "Tilknyt banner til oprindelig kampagne";
-$GLOBALS['strLinkedCategories'] = "Tilknyt bannere ved kategori";
 $GLOBALS['strRawQueryString'] = "Nøgleord";
 $GLOBALS['strIncludedBanners'] = "Tilknyttede bannere";
 $GLOBALS['strMatchingBanners'] = "{count} matchende bannere";

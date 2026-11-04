@@ -692,7 +692,6 @@ $GLOBALS['strZoneProbListChainLoop'] = "Die Verkettung dieser Zone(n) ist eine E
 $GLOBALS['strSelectZoneType'] = "Einbindungsmöglichkeiten für Banner ";
 $GLOBALS['strLinkedBanners'] = "Werbemittel individuell verlinken";
 $GLOBALS['strCampaignDefaults'] = "Werbemittel aufgrund zugehöriger Kampagne verlinken";
-$GLOBALS['strLinkedCategories'] = "Werbemittel nach Kategorien verlinken";
 $GLOBALS['strWithXBanners'] = "%d Banner";
 $GLOBALS['strRawQueryString'] = "Schlüsselwort";
 $GLOBALS['strIncludedBanners'] = "Verknüpfte Banner";

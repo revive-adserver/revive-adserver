@@ -771,7 +771,6 @@ $GLOBALS['strZoneProbListChainLoop'] = "تحویل متوقف شده است چو
 $GLOBALS['strSelectZoneType'] = "لطفا انتخاب کنید چه چیزی به این منطقه لینک شود";
 $GLOBALS['strLinkedBanners'] = "لینک کردن بنرهای تکی";
 $GLOBALS['strCampaignDefaults'] = "لینک کردن به وسیله کمپین والد";
-$GLOBALS['strLinkedCategories'] = "لینک کردن توسط دسته بندی";
 $GLOBALS['strWithXBanners'] = "%d بنر(s)";
 $GLOBALS['strRawQueryString'] = "کلید واژه";
 $GLOBALS['strIncludedBanners'] = "بنرهای لینک شده";

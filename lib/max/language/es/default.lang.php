@@ -662,7 +662,6 @@ $GLOBALS['strZoneProbListChainLoop'] = "Continuar con la cadena de zonas provoca
 $GLOBALS['strSelectZoneType'] = "Por favor, elija qué enlazar a esta zona";
 $GLOBALS['strLinkedBanners'] = "Enlazar banners individuales";
 $GLOBALS['strCampaignDefaults'] = "Enlazar banners por campaña padre";
-$GLOBALS['strLinkedCategories'] = "Enlazar banners por categoría";
 $GLOBALS['strWithXBanners'] = "%d banner(s)";
 $GLOBALS['strRawQueryString'] = "Palabra clave";
 $GLOBALS['strIncludedBanners'] = "Banners relacionados";

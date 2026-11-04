@@ -466,7 +466,6 @@ $GLOBALS['strZoneProbListChainLoop'] = "Sekant zonos grandinę galimas uždaras 
 $GLOBALS['strSelectZoneType'] = "Prašome pasirinkti ką norite susieti su šia zona";
 $GLOBALS['strLinkedBanners'] = "Susieti individualius banerius";
 $GLOBALS['strCampaignDefaults'] = "Susieti  banerius su pagrindine kampanija";
-$GLOBALS['strLinkedCategories'] = "Susieti banerius pagal kategorijas";
 $GLOBALS['strWithXBanners'] = "baneris";
 $GLOBALS['strRawQueryString'] = "Raktinis žodis";
 $GLOBALS['strMatchingBanners'] = "{skaičiuoti} sutampantys baneriai";

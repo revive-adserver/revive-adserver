@@ -686,7 +686,6 @@ $GLOBALS['strZoneProbListChainLoop'] = "מעקב אחר שרשרת האיזור 
 $GLOBALS['strSelectZoneType'] = "אנא בחר את סוג הבאנרים המקושרים";
 $GLOBALS['strLinkedBanners'] = "קשר באנרים ספציפיים";
 $GLOBALS['strCampaignDefaults'] = "קשר באנרים לפי קמפיין אב";
-$GLOBALS['strLinkedCategories'] = "קשר באנרים לפי קטגוריה";
 $GLOBALS['strWithXBanners'] = "%d banner(s)";
 $GLOBALS['strRawQueryString'] = "בחירה לפי מילת מפתח";
 $GLOBALS['strIncludedBanners'] = "באנרים מקושרים";

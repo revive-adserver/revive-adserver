@@ -689,7 +689,6 @@ $GLOBALS['strZoneProbListChainLoop'] = "Sledenje področnim korakom bi povzroči
 $GLOBALS['strSelectZoneType'] = "Prosimo, izberite kaj se naj povezuje na to področje";
 $GLOBALS['strLinkedBanners'] = "Poveži posamezne pasice";
 $GLOBALS['strCampaignDefaults'] = "Poveži pasice po izvorni kampanji";
-$GLOBALS['strLinkedCategories'] = "Poveži pasice po kategoriji";
 $GLOBALS['strWithXBanners'] = "%d oglas(i)";
 $GLOBALS['strRawQueryString'] = "Ključna beseda";
 $GLOBALS['strIncludedBanners'] = "Pasice s povezavo";

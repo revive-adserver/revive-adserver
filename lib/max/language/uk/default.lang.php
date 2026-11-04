@@ -661,7 +661,6 @@ $GLOBALS['strZoneProbListChainLoop'] = "Слідування ланцюжку з
 $GLOBALS['strSelectZoneType'] = "Виберіть, будь ласка, що прив’язати до цієї зони";
 $GLOBALS['strLinkedBanners'] = "Зв'язати індивідуальні банери";
 $GLOBALS['strCampaignDefaults'] = "Зв'язати банери за батьківською кампанією";
-$GLOBALS['strLinkedCategories'] = "Зв'язати банери за категоріями";
 $GLOBALS['strWithXBanners'] = "%d банер(а)";
 $GLOBALS['strRawQueryString'] = "Ключове слово (латиницею і цифрами)";
 $GLOBALS['strIncludedBanners'] = "Зв'язані банери";

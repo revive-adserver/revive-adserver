@@ -658,7 +658,6 @@ $GLOBALS['strZoneProbListChainLoop'] = "Suivre la zone enchaînée provoquerait 
 $GLOBALS['strSelectZoneType'] = "Veuillez choisir ce que vous voulez lier à cette zone";
 $GLOBALS['strLinkedBanners'] = "Lier des bannières indivuelles";
 $GLOBALS['strCampaignDefaults'] = "Lier des bannières selon la campagne parente";
-$GLOBALS['strLinkedCategories'] = "Lier des bannières selon la catégorie";
 $GLOBALS['strWithXBanners'] = "%d bannière(s)";
 $GLOBALS['strRawQueryString'] = "Mot-clé";
 $GLOBALS['strIncludedBanners'] = "Bannières liées";

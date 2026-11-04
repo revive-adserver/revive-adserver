@@ -529,7 +529,6 @@ $GLOBALS['strZoneProbListChainLoop'] = "Postępowanie zgodnie z łańcuchem stre
 $GLOBALS['strSelectZoneType'] = "Wybierz pozycje, które mają być podłączone do tej strefy";
 $GLOBALS['strLinkedBanners'] = "Podłącz banery indywidualne";
 $GLOBALS['strCampaignDefaults'] = "Podłącz banery wg kampanii nadrzędnej";
-$GLOBALS['strLinkedCategories'] = "Podłącz banery wg kategorii";
 $GLOBALS['strWithXBanners'] = "%d baner(y)";
 $GLOBALS['strRawQueryString'] = "Słowo kluczowe";
 $GLOBALS['strIncludedBanners'] = "Podłączone banery";

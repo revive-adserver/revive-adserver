@@ -619,7 +619,6 @@ $GLOBALS['strZoneProbListChainLoop'] = "Alan zincirini takip etmek sonsuz bir d�
 $GLOBALS['strSelectZoneType'] = "Lütfen bu alana neyin bağlanacağını seçin";
 $GLOBALS['strLinkedBanners'] = "Tek tek banner bağla";
 $GLOBALS['strCampaignDefaults'] = "Bannerları ekli olduğu kampanyaya göre bağla";
-$GLOBALS['strLinkedCategories'] = "Bannerları kategorisine göre bağla";
 $GLOBALS['strRawQueryString'] = "Anahtar Kelime";
 $GLOBALS['strIncludedBanners'] = "Bağlantılı bannerlar";
 $GLOBALS['strMatchingBanners'] = "{count} uygun banner";

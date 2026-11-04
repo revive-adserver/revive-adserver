@@ -577,7 +577,6 @@ $GLOBALS['strZoneProbListChainLoop'] = "Följande zonkedja skulle orsaka en cirk
 $GLOBALS['strSelectZoneType'] = "Vänligen välj vad som ska länkas till den här zonen.";
 $GLOBALS['strLinkedBanners'] = "Länka individuella banners";
 $GLOBALS['strCampaignDefaults'] = "Länka banners utifrån överordnad kampanj";
-$GLOBALS['strLinkedCategories'] = "Länka banners utifrån kategori";
 $GLOBALS['strRawQueryString'] = "Sökord";
 $GLOBALS['strIncludedBanners'] = "Länkade banners";
 $GLOBALS['strMatchingBanners'] = "{count} matchande banners";

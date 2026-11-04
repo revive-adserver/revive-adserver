@@ -581,7 +581,6 @@ $GLOBALS['strZoneProbListChainLoop'] = "Seguir esta corrente causará uma refer�
 $GLOBALS['strSelectZoneType'] = "Por favor escolha o que vincular com esta zona";
 $GLOBALS['strLinkedBanners'] = "vincular banners individuais";
 $GLOBALS['strCampaignDefaults'] = "vincular banners pelas campanhas a que pertencem";
-$GLOBALS['strLinkedCategories'] = "Vincular banners por categoria";
 $GLOBALS['strRawQueryString'] = "Palavra-chave";
 $GLOBALS['strIncludedBanners'] = "Banners vinculados";
 $GLOBALS['strMatchingBanners'] = "{count} banners compatíveis";
