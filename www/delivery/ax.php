@@ -4383,17 +4383,13 @@ function _adSelectBuildContext($aBanner, $context = [])
 if (!empty($aBanner['zone_companion'])) {
 $data = [];
 foreach ($context as $c) {
-if (!isset($data[current($c)][key($c)])) {
-$data[current($c)][] = key($c);
-}
+$data[current($c)][key($c)] ??= true;
 }
 foreach ($aBanner['zone_companion'] as $companionCampaign) {
 $value = 'companionid:' . $companionCampaign;
 if ($aBanner['placement_id'] == $companionCampaign) {
 $context[] = ['==' => $value];
-if (!isset($data[$value]['=='])) {
-$data[$value][] = '==';
-}
+$data[$value]['=='] ??= true;
 } elseif (!isset($data[$value]['=='])) {
 $context[] = ['!=' => $value];
 }
