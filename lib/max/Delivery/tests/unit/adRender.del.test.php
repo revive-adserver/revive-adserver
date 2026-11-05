@@ -10,6 +10,7 @@
 +---------------------------------------------------------------------------+
 */
 
+require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/Delivery/adRender.php';
 
 /**
@@ -271,8 +272,6 @@ class Test_DeliveryAdRender extends UnitTestCase
 
     public function test_adRenderBuildChainedTrackingFlags()
     {
-        require_once MAX_PATH . '/lib/max/Delivery/common.php';
-
         $hadChain = array_key_exists('adChain', $GLOBALS['_MAX']);
         $previousChain = $GLOBALS['_MAX']['adChain'] ?? null;
         $previousDelimiter = $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'] ?? null;
