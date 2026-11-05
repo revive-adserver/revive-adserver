@@ -45,6 +45,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Fixed `_enc` site-variable macros being HTML-escaped instead of URL-encoded ([#1730](https://github.com/revive-adserver/revive-adserver/pull/1730))
 - Fixed the orphan-image cleanup command deleting alternate images still referenced by banners ([#1729](https://github.com/revive-adserver/revive-adserver/pull/1729))
 - Fixed PostgreSQL monthly statistics condensation skipping daily aggregates ([#1727](https://github.com/revive-adserver/revive-adserver/pull/1727))
+- Fixed delivery log code generation when a plugin depends on another plugin that has its own dependencies ([#1724](https://github.com/revive-adserver/revive-adserver/pull/1724))
 - Fixed companion ad selection not recognizing a previously delivered companion campaign ([#1728](https://github.com/revive-adserver/revive-adserver/pull/1728))
 - The Advertisers list with "Hide inactive" loaded every banner of the account, which was slow and could exceed the memory limit with a large number of banners ([#1785](https://github.com/revive-adserver/revive-adserver/issues/1785))
 
