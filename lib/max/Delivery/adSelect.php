@@ -1119,9 +1119,7 @@ function _adSelectBuildContext($aBanner, $context = [])
         //prepare information for check exists calls
         $data = [];
         foreach ($context as $c) {
-            if (!isset($data[current($c)][key($c)])) {
-                $data[current($c)][] = key($c);
-            }
+            $data[current($c)][key($c)] ??= true;
         }
         // This zone call has companion banners linked to it.
         // So pass into the next call that we would like a banner from this campaign
@@ -1130,9 +1128,7 @@ function _adSelectBuildContext($aBanner, $context = [])
             $value = 'companionid:' . $companionCampaign;
             if ($aBanner['placement_id'] == $companionCampaign) {
                 $context[] = ['==' => $value];
-                if (!isset($data[$value]['=='])) {
-                    $data[$value][] = '==';
-                }
+                $data[$value]['=='] ??= true;
             } elseif (!isset($data[$value]['=='])) {
                 // Did we previously deliver an ad from this campaign?
                 $context[] = ['!=' => $value];
