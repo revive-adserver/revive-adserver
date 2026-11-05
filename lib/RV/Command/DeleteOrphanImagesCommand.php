@@ -94,11 +94,12 @@ class DeleteOrphanImagesCommand extends AbstractReviveCommand
         return self::SUCCESS;
     }
 
-    protected static function appendBannerImageReferences(array &$aDbImages, array $banner): void
+    protected static function appendBannerImageReferences(array &$aDbImages, array $aBanner): void
     {
-        $aDbImages[] = $banner['filename'];
-        if (!empty($banner['alt_filename'])) {
-            $aDbImages[] = $banner['alt_filename'];
+        $aDbImages[] = $aBanner['filename'];
+
+        if (!empty($aBanner['alt_filename'])) {
+            $aDbImages[] = $aBanner['alt_filename'];
         }
     }
 }
