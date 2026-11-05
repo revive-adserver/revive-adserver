@@ -42,11 +42,11 @@ class DeleteOrphanImagesCommand extends AbstractReviveCommand
 
         $prefix = $aConf['table']['prefix'];
 
-        $res = $oDbh->query("SELECT filename FROM {$prefix}banners b WHERE storagetype = 'web' OR ext_bannertype = 'bannerTypeHtml:oxHtml:html5' ORDER BY bannerid");
+        $res = $oDbh->query("SELECT filename, alt_filename FROM {$prefix}banners b WHERE storagetype = 'web' OR ext_bannertype = 'bannerTypeHtml:oxHtml:html5' ORDER BY bannerid");
 
         $aDbImages = [];
         while ($row = $res->fetchRow()) {
-            $aDbImages[] = $row['filename'];
+            self::appendBannerImageReferences($aDbImages, $row);
         }
 
         $finder = (new Finder())
@@ -92,5 +92,14 @@ class DeleteOrphanImagesCommand extends AbstractReviveCommand
         $output->writeln("Deleted {$unlinked} out of {$cnt} image files / HTML5 banners ({$cntDb} referenced from the db)");
 
         return self::SUCCESS;
+    }
+
+    protected static function appendBannerImageReferences(array &$aDbImages, array $aBanner): void
+    {
+        $aDbImages[] = $aBanner['filename'];
+
+        if (!empty($aBanner['alt_filename'])) {
+            $aDbImages[] = $aBanner['alt_filename'];
+        }
     }
 }
