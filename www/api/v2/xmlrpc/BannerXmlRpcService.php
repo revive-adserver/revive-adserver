@@ -468,4 +468,31 @@ class BannerXmlRpcService extends BaseBannerService
         }
         return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
     }
+
+    /**
+     * Returns the banners linked to a zone.
+     */
+    public function getLinkedBannersByZone(&$oParams)
+    {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+            [&$sessionId, &$zoneId],
+            [true, true],
+            $oParams,
+            $oResponseWithError,
+        )) {
+            return $oResponseWithError;
+        }
+
+        $aBannerList = null;
+        if ($this->_oBannerServiceImp->getLinkedBannersByZone(
+            $sessionId,
+            $zoneId,
+            $aBannerList,
+        )) {
+            return XmlRpcUtils::getArrayOfEntityResponse($aBannerList);
+        }
+
+        return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
+    }
 }

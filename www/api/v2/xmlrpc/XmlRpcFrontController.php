@@ -238,6 +238,12 @@ class XmlRpcFrontController
         return $service->getBannerListByCampaignId($message);
     }
 
+    public function getLinkedBannersByZone($message)
+    {
+        $service = new BannerXmlRpcService();
+        return $service->getLinkedBannersByZone($message);
+    }
+
     public function getBannerTargeting($message)
     {
         $service = new BannerXmlRpcService();
@@ -590,6 +596,12 @@ class XmlRpcFrontController
     {
         $service = new ZoneXmlRpcService();
         return $service->getZoneListByPublisherId($message);
+    }
+
+    public function getLinkedZonesByBannerId($message)
+    {
+        $service = new ZoneXmlRpcService();
+        return $service->getLinkedZonesByBannerId($message);
     }
 
     public function linkBanner($message)

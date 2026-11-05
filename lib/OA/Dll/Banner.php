@@ -542,6 +542,41 @@ class OA_Dll_Banner extends OA_Dll
     }
 
     /**
+     * Returns the banners linked to a zone.
+     *
+     * @param int $zoneId
+     * @param array &$aBannerList
+     * @return boolean
+     */
+    public function getLinkedBannersByZone($zoneId, &$aBannerList)
+    {
+        $aBannerList = [];
+
+        if (empty($zoneId)) {
+            $this->checkIdExistence('zones', $zoneId);
+            return false;
+        }
+
+        if (!$this->checkPermissions(null, 'zones', $zoneId)) {
+            return false;
+        }
+
+        $doBanner = OA_Dal::factoryDO('banners');
+        $doAdZone = OA_Dal::factoryDO('ad_zone_assoc');
+        $doAdZone->zone_id = $zoneId;
+        $doBanner->joinAdd($doAdZone);
+        $doBanner->find();
+
+        while ($doBanner->fetch()) {
+            $oBanner = new OA_Dll_BannerInfo();
+            $this->_setBannerDataFromArray($oBanner, $doBanner->toArray());
+            $aBannerList[] = $oBanner;
+        }
+
+        return true;
+    }
+
+    /**
      * This method returns daily statistics for a banner for a specified period.
      *
      * @access public

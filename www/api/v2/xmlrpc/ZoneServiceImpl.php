@@ -329,6 +329,19 @@ class ZoneServiceImpl extends BaseServiceImpl
         return false;
     }
 
+    public function getLinkedZonesByBannerId($sessionId, $bannerId, &$aZoneList)
+    {
+        if ($this->verifySession($sessionId)) {
+            return $this->_validateResult(
+                $this->_dllZone->getLinkedZonesByBannerId(
+                    $bannerId,
+                    $aZoneList,
+                ),
+            );
+        }
+        return false;
+    }
+
     public function linkBanner($sessionId, $zoneId, $bannerId)
     {
         if ($this->verifySession($sessionId)) {

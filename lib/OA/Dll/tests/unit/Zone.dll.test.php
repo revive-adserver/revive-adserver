@@ -155,6 +155,41 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
         $dllZonePartialMock->tally();
     }
 
+    public function testGetLinkedZonesByBannerId()
+    {
+        $bannerId = DataGenerator::generateOne('banners', true);
+        $otherBannerId = DataGenerator::generateOne('banners', true);
+        $zoneId = DataGenerator::generateOne('zones', true);
+        $otherZoneId = DataGenerator::generateOne('zones', true);
+
+        $doAdZone = OA_Dal::factoryDO('ad_zone_assoc');
+        $doAdZone->ad_id = $bannerId;
+        $doAdZone->zone_id = $zoneId;
+        DataGenerator::generateOne($doAdZone);
+
+        $doAdZone = OA_Dal::factoryDO('ad_zone_assoc');
+        $doAdZone->ad_id = $otherBannerId;
+        $doAdZone->zone_id = $otherZoneId;
+        DataGenerator::generateOne($doAdZone);
+
+        $dllZone = new PartialMockOA_Dll_Zone($this);
+        $dllZone->setReturnValue('checkPermissions', true);
+        $dllZone->expectCallCount('checkPermissions', 1);
+
+        $aZoneList = null;
+        $this->assertTrue($dllZone->getLinkedZonesByBannerId($bannerId, $aZoneList));
+        $this->assertEqual(count($aZoneList), 1);
+        $this->assertEqual($aZoneList[0]->zoneId, $zoneId);
+        $this->assertNotEqual($aZoneList[0]->zoneId, $otherZoneId);
+
+        $aZoneList = null;
+        $invalidIdDllZone = new OA_Dll_Zone();
+        $this->assertFalse($invalidIdDllZone->getLinkedZonesByBannerId(-1, $aZoneList));
+        $this->assertEqual($aZoneList, []);
+        $this->assertEqual($invalidIdDllZone->getLastError(), 'Unknown bannerId Error');
+        $dllZone->tally();
+    }
+
     /**
      * A method to test Modify, moving the zone to a new publisher.
      */

@@ -356,6 +356,14 @@ $dispatches = [
         'docstring' => 'Get Banner List By Campaign Id',
     ],
 
+    'ox.getLinkedBannersByZone' => [
+        'function' => $fc->getLinkedBannersByZone(...),
+        'signature' => [
+            ['array', 'string', 'int'],
+        ],
+        'docstring' => 'Get Linked Banners By Zone',
+    ],
+
     // Campaign functions
     'ox.addCampaign' => [
         'function' => $fc->addCampaign(...),
@@ -896,6 +904,14 @@ $dispatches = [
             ['array', 'string', 'int'],
         ],
         'docstring' => 'Get Zone List By Publisher Id',
+    ],
+
+    'ox.getLinkedZonesByBannerId' => [
+        'function' => $fc->getLinkedZonesByBannerId(...),
+        'signature' => [
+            ['array', 'string', 'int'],
+        ],
+        'docstring' => 'Get Linked Zones By Banner Id',
     ],
 
     'ox.linkBanner' => [

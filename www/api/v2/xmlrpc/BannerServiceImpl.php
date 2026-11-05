@@ -343,4 +343,17 @@ class BannerServiceImpl extends BaseServiceImpl
         }
         return false;
     }
+
+    public function getLinkedBannersByZone($sessionId, $zoneId, &$aBannerList)
+    {
+        if ($this->verifySession($sessionId)) {
+            return $this->_validateResult(
+                $this->_dllBanner->getLinkedBannersByZone(
+                    $zoneId,
+                    $aBannerList,
+                ),
+            );
+        }
+        return false;
+    }
 }

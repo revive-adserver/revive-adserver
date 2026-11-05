@@ -434,6 +434,33 @@ class ZoneXmlRpcService extends BaseZoneService
         return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
     }
 
+    /**
+     * Returns the zones linked to a banner.
+     */
+    public function getLinkedZonesByBannerId(&$oParams)
+    {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+            [&$sessionId, &$bannerId],
+            [true, true],
+            $oParams,
+            $oResponseWithError,
+        )) {
+            return $oResponseWithError;
+        }
+
+        $aZoneList = null;
+        if ($this->_oZoneServiceImp->getLinkedZonesByBannerId(
+            $sessionId,
+            $bannerId,
+            $aZoneList,
+        )) {
+            return XmlRpcUtils::getArrayOfEntityResponse($aZoneList);
+        }
+
+        return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
+    }
+
     public function linkBanner($oParams)
     {
         $oResponseWithError = null;

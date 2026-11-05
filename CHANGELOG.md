@@ -53,6 +53,7 @@ All notable changes to Revive Adserver will be documented in this file.
 
 ### Added
 
+- Added XML-RPC methods to list banners linked to zones and zones linked to banners ([#339](https://github.com/revive-adserver/revive-adserver/pull/339)).
 - Added the disabled-by-default `security.allowLinkingExistingUsers` configuration option to allow managers to link existing users to other accounts and search all users in autocomplete. Enabling it is not recommended on shared instances ([#1765](https://github.com/revive-adserver/revive-adserver/issues/1765))
 - Added signed impression logging URLs with optional expiration through the `delivery.logUrlValidity` configuration setting ([#1687](https://github.com/revive-adserver/revive-adserver/issues/1687))
 
