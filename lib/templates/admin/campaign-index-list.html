@@ -56,17 +56,17 @@
         <ul class='tableFilters alignRight'>
             <li>
                 <div class='label'>
-                    Show
+                    {t str=Show}
                 </div>
 
                 <div class='dropDown'>
-                    <span><span>{if $hideinactive}Active campaigns{else}All campaigns{/if}</span></span>
+                    <span><span>{if $hideinactive}{t str=ActiveCampaigns}{else}{t str=AllCampaigns}{/if}</span></span>
 
                     <div class='panel'>
                         <div>
                             <ul>
-                                <li><a href='advertiser-campaigns.php?clientid={$clientId}&hideinactive=0'>All campaigns</a></li>
-                                <li><a href='advertiser-campaigns.php?clientid={$clientId}&hideinactive=1'>Active campaigns</a></li>
+                                <li><a href='advertiser-campaigns.php?clientid={$clientId}&hideinactive=0'>{t str=AllCampaigns}</a></li>
+                                <li><a href='advertiser-campaigns.php?clientid={$clientId}&hideinactive=1'>{t str=ActiveCampaigns}</a></li>
                             </ul>
                         </div>
                     </div>
