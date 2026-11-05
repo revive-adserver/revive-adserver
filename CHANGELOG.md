@@ -43,6 +43,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Fixed Zone API validation reporting errors for accepted types and failing to report invalid types ([#1732](https://github.com/revive-adserver/revive-adserver/pull/1732))
 - Fixed chained ads applying incorrect view and click tracking flags ([#1731](https://github.com/revive-adserver/revive-adserver/pull/1731))
 - Fixed `_enc` site-variable macros being HTML-escaped instead of URL-encoded ([#1730](https://github.com/revive-adserver/revive-adserver/pull/1730))
+- Fixed the orphan-image cleanup command deleting alternate images still referenced by banners ([#1729](https://github.com/revive-adserver/revive-adserver/pull/1729))
 - The Advertisers list with "Hide inactive" loaded every banner of the account, which was slow and could exceed the memory limit with a large number of banners ([#1785](https://github.com/revive-adserver/revive-adserver/issues/1785))
 
 ### Added
