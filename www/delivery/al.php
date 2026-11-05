@@ -3484,7 +3484,7 @@ $aBanner['session_cap_campaign'] .= $delimiter . $ad['session_cap_campaign'];
 $aBanner['block_zone'] .= $delimiter . $ad['block_zone'];
 $aBanner['cap_zone'] .= $delimiter . $ad['cap_zone'];
 $aBanner['session_cap_zone'] .= $delimiter . $ad['session_cap_zone'];
-$logLastAction .= $delimiter . (!empty($ad['viewwindow']) && !empty($ad['tracker_status'])) ? '1' : '0';
+$logLastAction .= $delimiter . ((!empty($ad['viewwindow']) && !empty($ad['tracker_status'])) ? '1' : '0');
 }
 }
 $url = MAX_commonGetDeliveryUrl($conf['file']['log']);
@@ -3576,7 +3576,7 @@ foreach ($GLOBALS['_MAX']['adChain'] as $index => $ad) {
 $aBanner['bannerid'] .= $delimiter . $ad['bannerid'];
 $aBanner['placement_id'] .= $delimiter . $ad['placement_id'];
 $zoneId .= $delimiter . $ad['zoneid'];
-$logLastClick .= (empty($aBanner['clickwindow'])) ? '0' : '1';
+$logLastClick .= $delimiter . (empty($ad['clickwindow']) ? '0' : '1');
 }
 }
 $aParams = [
@@ -3652,7 +3652,7 @@ foreach ($GLOBALS['_MAX']['adChain'] as $index => $ad) {
 $aBanner['bannerid'] .= $delimiter . $ad['bannerid'];
 $aBanner['placement_id'] .= $delimiter . $ad['placement_id'];
 $zoneId .= $delimiter . $ad['zoneid'];
-$logLastClick .= (empty($aBanner['clickwindow'])) ? '0' : '1';
+$logLastClick .= $delimiter . (empty($ad['clickwindow']) ? '0' : '1');
 }
 }
 $maxparams = '';
