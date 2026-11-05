@@ -31,6 +31,8 @@ require_once 'DB/DataObject/Cast.php';
 
 class SqlStoredBannerAdapter implements FilesystemAdapter
 {
+    public function __construct(private readonly ?array $auditAccountIds = null) {}
+
     /**
      * Returns a filename suitable for duplication or to avoid overwriting an existing file.
      */
@@ -74,6 +76,9 @@ class SqlStoredBannerAdapter implements FilesystemAdapter
             $method = 'insert';
             $doImages = \OA_Dal::factoryDO('images');
             $doImages->filename = $path;
+            if ($this->auditAccountIds !== null) {
+                $doImages->setAuditAccountIds($this->auditAccountIds);
+            }
         }
 
         $doImages->contents = \DB_DataObject_Cast::blob($contents);

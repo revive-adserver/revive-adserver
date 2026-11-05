@@ -64,10 +64,11 @@ function phpAds_ImageStore($type, $name, $buffer, $overwrite = false)
  *
  * @param string $type
  * @param string $name
+ * @param array|null $auditAccountIds Owning accounts for the newly copied SQL image.
  *
  * @return string|false
  */
-function phpAds_ImageDuplicate($type, $name)
+function phpAds_ImageDuplicate($type, $name, ?array $auditAccountIds = null)
 {
     // Strip existing path
     $name = basename($name);
@@ -78,7 +79,7 @@ function phpAds_ImageDuplicate($type, $name)
         return $name;
     }
 
-    $filesystem = new \League\Flysystem\Filesystem(new \RV\Bridge\Flysystem\SqlStoredBannerAdapter());
+    $filesystem = new \League\Flysystem\Filesystem(new \RV\Bridge\Flysystem\SqlStoredBannerAdapter($auditAccountIds));
 
     $destName = \RV\Bridge\Flysystem\SqlStoredBannerAdapter::getUniqueNameForDuplication($name);
 
