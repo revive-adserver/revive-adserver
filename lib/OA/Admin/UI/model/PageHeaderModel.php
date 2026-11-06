@@ -102,7 +102,7 @@ class OA_Admin_UI_Model_PageHeaderModel
         $this->iconClass = $iconClass;
         $this->pageType = $pageType;
         $this->aEntityBreadcrumbs = $aBreadcrumbs;
-        $this->hasEntityList == false;
+        $this->hasEntityList = false;
     }
 
     /**
