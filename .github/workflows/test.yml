@@ -93,6 +93,8 @@ jobs:
 
     env:
       PHP_INI_VALUES: memory_limit=-1, assert.exception=1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On
+      COMPOSER_AUTH: >-
+        {"github-oauth":{"github.com":"${{ secrets.GITHUB_TOKEN }}"}}
 
     steps:
       - name: Checkout
