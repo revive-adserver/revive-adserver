@@ -763,7 +763,13 @@ $GLOBALS['strLimitations'] = "Auslieferungsregeln";
 $GLOBALS['strWorksheets'] = "Arbeitsblätter";
 
 // Admin_UI_Fields
+$GLOBALS['strShow'] = "Zeigen";
 $GLOBALS['strAllAdvertisers'] = "Alle Werbetreibende";
+$GLOBALS['strActiveAdvertisers'] = "Aktive Werbetreibende";
+$GLOBALS['strAllCampaigns'] = "Alle Kampagnen";
+$GLOBALS['strActiveCampaigns'] = "Aktive Kampagnen";
+$GLOBALS['strAllBanners'] = "Alle Banner";
+$GLOBALS['strActiveBanners'] = "Aktive Banner";
 $GLOBALS['strAnonAdvertisers'] = "Deaktivierte Werbetreibende";
 $GLOBALS['strAllPublishers'] = "Alle Webseiten";
 $GLOBALS['strAnonPublishers'] = "Anonyme Webseiten";

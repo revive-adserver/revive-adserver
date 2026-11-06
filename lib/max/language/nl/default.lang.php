@@ -774,7 +774,13 @@ $GLOBALS['strLimitations'] = "Uitleveringsregels";
 $GLOBALS['strWorksheets'] = "Werkbladen";
 
 // Admin_UI_Fields
+$GLOBALS['strShow'] = "Toon";
 $GLOBALS['strAllAdvertisers'] = "Alle adverteerders";
+$GLOBALS['strActiveAdvertisers'] = "Actieve adverteerders";
+$GLOBALS['strAllCampaigns'] = "Alle campagnes";
+$GLOBALS['strActiveCampaigns'] = "Actieve campagnes";
+$GLOBALS['strAllBanners'] = "Alle banners";
+$GLOBALS['strActiveBanners'] = "Actieve banners";
 $GLOBALS['strAnonAdvertisers'] = "Anonieme adverteerders";
 $GLOBALS['strAllPublishers'] = "Alle websites";
 $GLOBALS['strAnonPublishers'] = "Anonieme websites";

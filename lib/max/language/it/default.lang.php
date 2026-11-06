@@ -780,7 +780,13 @@ $GLOBALS['strLimitations'] = "Regole Di Consegna";
 $GLOBALS['strWorksheets'] = "Fogli di lavoro";
 
 // Admin_UI_Fields
+$GLOBALS['strShow'] = "Visualizza";
 $GLOBALS['strAllAdvertisers'] = "Tutti gli inserzionisti";
+$GLOBALS['strActiveAdvertisers'] = "Inserzionisti attivi";
+$GLOBALS['strAllCampaigns'] = "Tutte le campagne";
+$GLOBALS['strActiveCampaigns'] = "Campagne attive";
+$GLOBALS['strAllBanners'] = "Tutti i banner";
+$GLOBALS['strActiveBanners'] = "Banner attivi";
 $GLOBALS['strAnonAdvertisers'] = "Inserzionisti anonimi";
 $GLOBALS['strAllPublishers'] = "Tutti gli editori";
 $GLOBALS['strAnonPublishers'] = "Editori anonimi";
