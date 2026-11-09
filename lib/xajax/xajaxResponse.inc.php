@@ -716,8 +716,10 @@ class xajaxResponse
 			}
 		}
 		$xml = "<cmd";
-		foreach($aAttributes as $sAttribute => $sValue)
+		foreach($aAttributes as $sAttribute => $sValue) {
+			$sValue = htmlspecialchars((string) $sValue, ENT_QUOTES | ENT_XML1 | ENT_SUBSTITUTE | ENT_DISALLOWED, $this->sEncoding ?: 'UTF-8');
 			$xml .= " $sAttribute=\"$sValue\"";
+		}
 		if ($sData !== null && !stristr($sData,'<![CDATA['))
 			$xml .= "><![CDATA[$sData]]></cmd>";
 		else if ($sData !== null)
@@ -739,9 +741,12 @@ class xajaxResponse
 	function _getXMLForCommand($aAttributes, $mData)
 	{
 		$xml = '<cmd';
-		foreach($aAttributes as $sAttribute => $sValue)
-			if ($sAttribute)
+		foreach($aAttributes as $sAttribute => $sValue) {
+			if ($sAttribute) {
+				$sValue = htmlspecialchars((string) $sValue, ENT_QUOTES | ENT_XML1 | ENT_SUBSTITUTE | ENT_DISALLOWED, $this->sEncoding ?: 'UTF-8');
 				$xml .= " $sAttribute=\"$sValue\"";
+			}
+		}
 
 		if (is_array($mData))
 			$xml .= '>'.$this->_arrayToXML($mData).'</cmd>';
