@@ -2,29 +2,31 @@
 
 All notable changes to Revive Adserver will be documented in this file.
 
-## [6.0.9]
+## [6.0.9] - 2026-11-11
 
-### Security fixes (temporary QA notes)
+### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2026-004/)
 
-Security fixes affect the areas below. Use the prepared test build, test accounts, and sample data to check that these everyday tasks still work.
-
-- **Campaigns and banners:** Create and edit campaigns and banners. Change their names and settings, save, and reopen them to confirm the changes were kept. There should be no unexpected errors or permission messages. (H1 3831102, 3896779)
-- **Campaign-to-zone links:** Link and unlink campaigns to zones within the same manager account. Confirm the saved links are correct and ads still appear in the linked zones. (H1 3958112)
-- **Website list:** Check that each manager can see their own websites and zones. Try sorting the list and moving between pages. (H1 3883840)
-- **Trackers:** Create and edit trackers, generate their invocation tags, and open the append-code maintenance check. Names should display correctly, links should work, and viewing invocation tags should not change tracker settings. (H1 3826207, 3981932)
-- **Invocation tags:** Generate and use banner, frame, and popup tags. Check banner selection, frame dimensions, popup position, opening delay, and automatic closing with normal settings. (H1 3942028, 3908050, 3971985)
-- **Conversion statistics:** View conversions for advertisers and websites. Switch between daily and hourly views, then expand and collapse conversion details. The selected period and displayed conversions should stay consistent, with no unexpected permission errors. (H1 3878649)
-- **Conversion report exports:** Export reports and open them in a spreadsheet. Check the detail and variable-summary sheets, including conversions with blank optional fields. Text, dates, numbers, and connection labels should display correctly, and exports should complete without errors. (H1 3859000)
-- **Login:** Log in and out with the usual test accounts. Surrounding spaces in a username should be ignored. If a test password contains leading or trailing spaces, login should succeed only when those spaces are included. (H1 3896779)
-- **Update history:** As an administrator, open update history and use its available controls. After the session expires, check that the page asks for login again rather than showing an error or a broken page. (H1 4075098)
-
-### Changed
-
-- Login passwords are no longer trimmed; leading and trailing whitespace is now significant. Usernames continue to be trimmed.
+- [CVE-2026-107662](https://www.cve.org/CVERecord?id=CVE-2026-107662): Blind SQL injection through inconsistent request precedence
+- [CVE-2026-107247](https://www.cve.org/CVERecord?id=CVE-2026-107247): Authorization bypass through inconsistent request precedence
+- [CVE-2026-108558](https://www.cve.org/CVERecord?id=CVE-2026-108558): Reflected XSS in conversion statistics
+- [CVE-2026-108559](https://www.cve.org/CVERecord?id=CVE-2026-108559): Reflected XSS in iframe invocation dimensions
+- [CVE-2026-108560](https://www.cve.org/CVERecord?id=CVE-2026-108560): Unauthenticated reflected XSS in update history
+- [CVE-2026-108561](https://www.cve.org/CVERecord?id=CVE-2026-108561): Session-stored XSS in report date selection
+- [CVE-2026-108562](https://www.cve.org/CVERecord?id=CVE-2026-108562): Stored XSS in tracker maintenance
+- [CVE-2026-68486](https://www.cve.org/CVERecord?id=CVE-2026-68486): Campaign-zone linking without ownership validation
+- [CVE-2026-108563](https://www.cve.org/CVERecord?id=CVE-2026-108563): Formula injection in conversion-report XLS exports
+- [CVE-2026-108564](https://www.cve.org/CVERecord?id=CVE-2026-108564): Reflected XSS in direct-selection invocation options
+- [CVE-2026-108565](https://www.cve.org/CVERecord?id=CVE-2026-108565): Reflected XSS in popup invocation options
+- [CVE-2026-68485](https://www.cve.org/CVERecord?id=CVE-2026-68485): Cross-agency website-list disclosure
+- [CVE-2026-77168](https://www.cve.org/CVERecord?id=CVE-2026-77168): Cross-site request forgery in tracker invocation
 
 ### Fixes
 
 - Users with only trafficker permissions could link campaigns belonging to a different agency to their zones ([#1700](https://github.com/revive-adserver/revive-adserver/issues/1700))
+
+### Changed
+
+- Login passwords are no longer trimmed; leading and trailing whitespace is now significant. Usernames continue to be trimmed.
 
 ## [6.0.8] - 2026-06-25
 
