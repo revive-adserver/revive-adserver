@@ -27,7 +27,6 @@ phpAds_registerGlobalUnslashed(
     'description',
     'comments',
     'affiliateid',
-    'agencyid',
     'channelid',
 );
 
@@ -78,7 +77,6 @@ function buildChannelForm($channel)
     $form = new OA_Admin_UI_Component_Form("channelform", "POST", $_SERVER['SCRIPT_NAME']);
     $form->forceClientValidation(true);
 
-    $form->addElement('hidden', 'agencyid', OA_Permission::getAgencyId());
     $form->addElement('hidden', 'affiliateid', $channel['affiliateid']);
     $form->addElement('hidden', 'channelid', $channel['channelid']);
 
@@ -109,6 +107,9 @@ function processChannelEditForm($form)
 {
     $aFields = $form->exportValues();
 
+    // Channels always belong to the current manager's agency
+    $agencyId = OA_Permission::getAgencyId();
+
     if (empty($aFields['affiliateid'])) {
         $aFields['affiliateid'] = 0;
     }
@@ -122,7 +123,7 @@ function processChannelEditForm($form)
 
         // Queue confirmation message
         $translation = new OX_Translation();
-        $channelURL = "channel-edit.php?" . (empty($aFields['affiliateid']) ? "agencyid=" . $aFields['agencyid'] . "&channelid=" . $aFields['channelid']
+        $channelURL = "channel-edit.php?" . (empty($aFields['affiliateid']) ? "agencyid=" . $agencyId . "&channelid=" . $aFields['channelid']
             : "affiliateid=" . $aFields['affiliateid'] . "&channelid=" . $aFields['channelid']);
 
         $translated_message = $translation->translate(
@@ -137,12 +138,12 @@ function processChannelEditForm($form)
         if (!empty($aFields['affiliateid'])) {
             header("Location: channel-edit.php?affiliateid=" . $aFields['affiliateid'] . "&channelid=" . $aFields['channelid']);
         } else {
-            header("Location: channel-edit.php?agencyid=" . $aFields['agencyid'] . "&channelid=" . $aFields['channelid']);
+            header("Location: channel-edit.php?agencyid=" . $agencyId . "&channelid=" . $aFields['channelid']);
         }
         exit;
     } else {
         $doChannel = OA_Dal::factoryDO('channel');
-        $doChannel->agencyid = $aFields['agencyid'];
+        $doChannel->agencyid = $agencyId;
         $doChannel->affiliateid = $aFields['affiliateid'];
         $doChannel->name = $aFields['name'];
         $doChannel->description = $aFields['description'];
