@@ -19,7 +19,7 @@ What's New in Revive Adserver 6.0.9
 
  * Release date: 11 November 2026
 
-This security-only release fixes 13 vulnerabilities, including SQL injection,
+This security-only release fixes 14 vulnerabilities, including SQL injection,
 authorization bypasses, cross-site scripting and cross-site request forgery.
 
 For details, please see the security advisory:

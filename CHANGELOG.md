@@ -18,6 +18,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - [CVE-2026-108564](https://www.cve.org/CVERecord?id=CVE-2026-108564): Reflected XSS in direct-selection invocation options
 - [CVE-2026-108565](https://www.cve.org/CVERecord?id=CVE-2026-108565): Reflected XSS in popup invocation options
 - [CVE-2026-68485](https://www.cve.org/CVERecord?id=CVE-2026-68485): Cross-agency website-list disclosure
+- [CVE-2026-82978](https://www.cve.org/CVERecord?id=CVE-2026-82978): Cross-agency delivery rule set creation
 - [CVE-2026-77168](https://www.cve.org/CVERecord?id=CVE-2026-77168): Cross-site request forgery in tracker invocation
 
 ### Fixes
