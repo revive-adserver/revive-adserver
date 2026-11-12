@@ -600,7 +600,6 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                     foreach ($aVariables as $value => $aVariable) {
                         $aData[$row][0] = match ($aBdVariable['tracker_variable_data_type']) {
                             'date' => $this->_oReportWriter->convertToDate($value),
-                            'string' => $this->sanitise($value), // Do not allow injecting formulas
                             default => $value,
                         };
                         $aData[$row][1] = $aVariable['status'][MAX_CONNECTION_STATUS_APPROVED];
@@ -717,7 +716,6 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
                                 $value = $aConnection['variables'][$trackerVariableId]['tracker_variable_value'];
                                 $aData[$row][] = match ($aTrackerVariable['tracker_variable_data_type']) {
                                     'date' => $this->_oReportWriter->convertToDate($value),
-                                    'string' => $this->sanitise($value), // Do not allow injecting formulas
                                     default => $value,
                                 };
                             }
@@ -1233,14 +1231,5 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
     {
         $aStatus = $this->_getConnectionStatuses();
         return $this->translate($aStatus[$code]);
-    }
-
-    /**
-     * @param int|string|null $value
-     * @return string|null
-     */
-    public function sanitise(int|string|null $value): ?string
-    {
-        return null === $value ? null : ltrim($value, '=@');
     }
 }

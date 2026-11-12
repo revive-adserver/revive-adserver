@@ -80,12 +80,7 @@ class Plugins_TestOfPlugins_Reports_oxStandard_ConversionTrackingReport extends 
         foreach ([null, '', 'normal', '=formula', '@formula', 123] as $value) {
             $connection['variables'] = [2 => ['tracker_variable_value' => $value]];
             $report->_addConnectionDetailWorksheet([1 => ['connections' => [3 => $connection]]], $trackers);
-            $expected = match ($value) {
-                '=formula', '@formula' => 'formula',
-                123 => '123',
-                default => $value,
-            };
-            $this->assertIdentical($writer->rows[0][2], $expected);
+            $this->assertIdentical($writer->rows[0][2], $value);
         }
     }
 

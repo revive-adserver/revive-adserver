@@ -13,6 +13,9 @@
 require_once MAX_PATH . '/lib/max/Plugin/Common.php';
 require_once 'Spreadsheet/Excel/Writer.php';
 
+use RV\Admin\Excel\Formula;
+use RV\Admin\Excel\Link;
+
 /**
  * MS Excel output provider for for OpenX reports
  *
@@ -36,6 +39,37 @@ class OA_Admin_ExcelWriter
     public $_formats;
     public $_worksheet;
     public $_currentRow;
+
+    /**
+     * Mark a trusted, report-generated cell as a formula.
+     */
+    public static function formula(string $value): Formula
+    {
+        return new Formula($value);
+    }
+
+    /**
+     * Mark a cell as a hyperlink, with an optional display label.
+     */
+    public static function link(string $url, string $label = ''): Link
+    {
+        return new Link($url, $label);
+    }
+
+    private function writeCell($worksheet, int $row, int $col, $value, $format, bool $numeric = false): void
+    {
+        if ($value instanceof Formula) {
+            $worksheet->writeFormula($row, $col, $value->value, $format);
+        } elseif ($value instanceof Link) {
+            $worksheet->writeUrl($row, $col, $value->url, $value->label, $format);
+        } elseif ($value === null || $value === '') {
+            $worksheet->writeBlank($row, $col, $format);
+        } elseif (is_int($value) || is_float($value) || ($numeric && is_numeric($value))) {
+            $worksheet->writeNumber($row, $col, $value, $format);
+        } else {
+            $worksheet->writeString($row, $col, (string) $value, $format);
+        }
+    }
 
     public function &_getExcelWriter()
     {
@@ -160,8 +194,8 @@ class OA_Admin_ExcelWriter
 
         $row = 1;
         // Write Report Title
-        $worksheet->write($row, 1, $reportTitle, $this->getFormat(['h1', 'border-top', 'border-left']));
-        $worksheet->write($row, 2, '', $this->getFormat(['h1', 'border-top', 'border-right']));
+        $this->writeCell($worksheet, $row, 1, $reportTitle, $this->getFormat(['h1', 'border-top', 'border-left']));
+        $this->writeCell($worksheet, $row, 2, '', $this->getFormat(['h1', 'border-top', 'border-right']));
         $row++;
 
         // Write Report Parameters
@@ -170,8 +204,8 @@ class OA_Admin_ExcelWriter
         foreach ($aReportParameters as $header => $value) {
             $count++;
             $bottomFormat = ($count == $numItems) ? ['border-bottom'] : [];
-            $worksheet->write($row, 1, $header, $this->getFormat(array_merge($bottomFormat, ['h2', 'border-left'])));
-            $worksheet->write($row, 2, $value, $this->getFormat(array_merge($bottomFormat, ['border-right'])));
+            $this->writeCell($worksheet, $row, 1, $header, $this->getFormat(array_merge($bottomFormat, ['h2', 'border-left'])));
+            $this->writeCell($worksheet, $row, 2, $value, $this->getFormat(array_merge($bottomFormat, ['border-right'])));
             $row++;
         }
         $worksheet->setColumn(0, 0, $firstColSize);
@@ -180,7 +214,7 @@ class OA_Admin_ExcelWriter
         // Write Report Warnings
         if (count($aReportWarnings)) {
             foreach ($aReportWarnings as $value) {
-                $worksheet->write($row, 1, $value, $this->getFormat(['warning']));
+                $this->writeCell($worksheet, $row, 1, $value, $this->getFormat(['warning']));
                 $row++;
             }
             $row += 2;
@@ -193,8 +227,6 @@ class OA_Admin_ExcelWriter
     public function createReportSection($name, $reportDataTitle, $aReportDataHeaders, $aReportData, $colSize = 25, $addFormat = null)
     {
         // Get the worksheet
-        $aSearch = ['{row}', '{column0}', '{column1}', '{column2}', '{column3}', '{column4}', '{column5}', '{column6}', '{column7}', '{column8}', '{column9}', '{column10}', '{column11}', '{column12}', '{column13}', '{column14}', '{column15}', '{column16}', '{column17}', '{column18}', '{column19}', '{column20}', '{column21}', '{column22}', '{column23}', '{column24}'];
-        $aReplace = ['', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
         $worksheet = $this->_worksheet[$name];
         $row = $this->_currentRow[$name];
 
@@ -210,7 +242,7 @@ class OA_Admin_ExcelWriter
             if ($col == $numItems) {
                 $aFormat[] = 'border-right';
             }
-            $worksheet->write($row + 1, $col, $header, $this->getFormat($aFormat));
+            $this->writeCell($worksheet, $row + 1, $col, $header, $this->getFormat($aFormat));
             $aColumnFormats[$col] = $format;
             $col++;
         }
@@ -232,7 +264,7 @@ class OA_Admin_ExcelWriter
             if ($col == $columnCount) {
                 $aFormat[] = 'border-right';
             }
-            $worksheet->write($row, $col, $value, $this->getFormat($aFormat));
+            $this->writeCell($worksheet, $row, $col, $value, $this->getFormat($aFormat));
         }
         $row += 2;
         // Write the report data
@@ -249,7 +281,7 @@ class OA_Admin_ExcelWriter
                 if ($col == $columnCount) {
                     $aFormat[] = 'border-right';
                 }
-                $worksheet->write($row, $col, $value, $this->getFormat($aFormat));
+                $this->writeCell($worksheet, $row, $col, $value, $this->getFormat($aFormat));
             }
             $row++;
         } else {
@@ -273,18 +305,12 @@ class OA_Admin_ExcelWriter
                     }
 
                     //additional field formating
-                    if ($addFormat[$col][$k]) {
+                    if (!empty($addFormat[$col][$k])) {
                         $aFormat[] = $addFormat[$col][$k];
                     }
 
-                    if (str_starts_with($value, '=')) {
-                        $aReplace[0] = $row + 1;
-                        $value = str_replace($aSearch, $aReplace, $value);
-
-                        $err = $worksheet->writeFormula($row, $col++, $value, $this->getFormat($aFormat));
-                    } else {
-                        $worksheet->write($row, $col++, $value, $this->getFormat($aFormat));
-                    }
+                    $numeric = in_array($aColumnFormats[$col], ['number', 'numeric', 'id', 'decimal', 'currency', 'percent', 'percent0', 'date', 'datetime', 'time', 'timespan'], true);
+                    $this->writeCell($worksheet, $row, $col++, $value, $this->getFormat($aFormat), $numeric);
                 }
                 $row++;
             }
