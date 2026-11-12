@@ -22,6 +22,145 @@ require_once MAX_PATH . '/lib/max/Delivery/adRender.php';
  */
 class Test_DeliveryAdRender extends UnitTestCase
 {
+    public function testRefererMacroCannotInjectMarkupThroughRequestValues()
+    {
+        $logging = $GLOBALS['_MAX']['CONF']['logging']['adImpressions'];
+        $GLOBALS['_MAX']['CONF']['logging']['adImpressions'] = true;
+        try {
+            foreach (['source', 'target'] as $field) {
+                foreach (["'><img src=x onerror=alert(1)>", "'><script src=https://example.invalid/x.js></script>"] as $payload) {
+                    require MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
+                    $code = MAX_adRender($aBanner, 1, $field === 'source' ? '{referer}' : '', $field === 'target' ? '{referer}' : '', referer: $payload);
+                    $document = new DOMDocument();
+                    $document->loadHTML($code, LIBXML_NONET | LIBXML_NOERROR | LIBXML_NOWARNING);
+                    $xpath = new DOMXPath($document);
+                    $this->assertEqual($xpath->query('//script | //*[@onerror]')->length, 0, $field . ': no executable markup');
+                    $this->assertEqual($xpath->query('//img')->length, 2, $field . ': only banner and beacon images');
+                    $this->assertEqual($aBanner['aMagicMacros']['{referer}'], $payload, 'Legacy referer macro remains unchanged');
+                    if ($field === 'source') {
+                        $beacon = $xpath->query('//img')->item(1);
+                        parse_str(explode('?', $beacon->getAttribute('src'), 2)[1], $query);
+                        $this->assertEqual($query[$GLOBALS['_MAX']['CONF']['var']['channel']], '{referer}', 'Beacon source remains literal');
+                        parse_str(explode('?', $aBanner['clickUrl'], 2)[1], $clickQuery);
+                        $this->assertEqual($clickQuery['source'], '{referer}', 'Click source remains literal');
+                    } else {
+                        $this->assertEqual($xpath->query('//a')->item(0)->getAttribute('target'), '{referer}', 'Target remains literal');
+                    }
+                }
+            }
+            require MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
+            MAX_adRender($aBanner, referer: 'https://example.invalid/?a=1&b=2');
+            $this->assertEqual($aBanner['aMagicMacros']['{referer}'], 'https://example.invalid/?a=1&b=2');
+        } finally {
+            $GLOBALS['_MAX']['CONF']['logging']['adImpressions'] = $logging;
+        }
+    }
+
+    public function testMacroReplacementDoesNotExpandReplacementValues()
+    {
+        $banner = ['aMagicMacros' => ['{source}' => '{referer}', '{referer}' => 'legacy referer']];
+        $this->assertEqual(_adRenderReplaceMagicMacros($banner, '{source} {referer}'), '{referer} legacy referer');
+        $banner['aMagicMacros'] = ['{source}' => '{foo}', '{foo}' => '{referer}', '{referer}' => 'legacy referer'];
+        $this->assertEqual(_adRenderReplaceMagicMacros($banner, '{source} {foo} {referer}'), '{foo} {referer} legacy referer');
+        $banner['aMagicMacros'] = ['{clickurl}' => 'default click', '{clickurl}https://example.invalid/' => 'custom click'];
+        $this->assertEqual(_adRenderReplaceMagicMacros($banner, '{clickurl}https://example.invalid/'), 'custom click');
+    }
+
+    public function testSourceTokensRemainLiteralInTrackingUrls()
+    {
+        $logging = $GLOBALS['_MAX']['CONF']['logging']['adImpressions'];
+        $GLOBALS['_MAX']['CONF']['logging']['adImpressions'] = true;
+        try {
+            foreach (['{referer}', '{random}', '{source}', '{target}', '{not_a_macro}'] as $literalSource) {
+                require MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
+                $code = MAX_adRender($aBanner, 1, $literalSource, referer: 'https://example.invalid/');
+                $document = new DOMDocument();
+                $document->loadHTML($code, LIBXML_NONET | LIBXML_NOERROR | LIBXML_NOWARNING);
+                $beacon = $document->getElementsByTagName('img')->item(1);
+                parse_str(explode('?', $beacon->getAttribute('src'), 2)[1], $query);
+                $this->assertEqual($query[$GLOBALS['_MAX']['CONF']['var']['channel']], $literalSource);
+                parse_str(explode('?', $aBanner['clickUrl'], 2)[1], $clickQuery);
+                $this->assertEqual($clickQuery['source'], $literalSource);
+            }
+        } finally {
+            $GLOBALS['_MAX']['CONF']['logging']['adImpressions'] = $logging;
+        }
+    }
+
+    public function testClickMacrosRetainDestinationsAndSignatures()
+    {
+        $hadFoo = array_key_exists('foo', $_REQUEST);
+        $previousFoo = $_REQUEST['foo'] ?? null;
+        $_REQUEST['foo'] = 'a b&c';
+        try {
+            foreach (['', '_enc', '_html'] as $suffix) {
+                foreach (['', 'https://tracker.invalid/?redirect='] as $tracker) {
+                    foreach (['https://destination.invalid/?id={bannerid}&tag={foo_enc}', '//destination.invalid/?id={bannerid}&tag={foo_enc}'] as $destination) {
+                        require MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
+                        $aBanner['prepend'] = '<a id="custom" href="{clickurl' . $suffix . '}' . $destination . '">Custom</a>';
+                        $aBanner['url'] = 'https://default.invalid/?id={bannerid}&tag={foo_enc}';
+                        MAX_adRender($aBanner, 1, 'literal source', ct0: $tracker);
+                        $macro = '{clickurl' . $suffix . '}' . $destination;
+                        $url = $aBanner['aMagicMacros'][$macro];
+                        if ($suffix === '_enc') {
+                            $url = urldecode($url);
+                        } elseif ($suffix === '_html') {
+                            $url = htmlspecialchars_decode($url, ENT_QUOTES);
+                        }
+                        foreach ([$url => 'https://destination.invalid/?id=7&tag=a+b%26c', $aBanner['clickUrl'] => 'https://default.invalid/?id=7&tag=a+b%26c'] as $clickUrl => $expectedDestination) {
+                            if ($tracker !== '') {
+                                $this->assertTrue(str_starts_with($clickUrl, $tracker));
+                                $clickUrl = urldecode(substr($clickUrl, strlen($tracker)));
+                            }
+                            parse_str(explode('?', $clickUrl, 2)[1], $query);
+                            $conf = $GLOBALS['_MAX']['CONF'];
+                            $this->assertEqual($query[$conf['var']['dest']], $expectedDestination);
+                            $this->assertEqual($query[$conf['var']['signature']], OX_Delivery_Common_getSignature([7, 1], $expectedDestination));
+                        }
+                    }
+                }
+            }
+        } finally {
+            if ($hadFoo) {
+                $_REQUEST['foo'] = $previousFoo;
+            } else {
+                unset($_REQUEST['foo']);
+            }
+        }
+    }
+
+    public function testHtmlBannerClickAndLogMacros()
+    {
+        foreach (['', '_enc', '_html'] as $suffix) {
+            require MAX_PATH . '/lib/max/Delivery/tests/data/test_adRenderImage.php';
+            $aBanner['type'] = 'html';
+            $aBanner['contenttype'] = '';
+            $aBanner['htmltemplate'] = $aBanner['htmlcache'] = '<a id="click" href="{clickurl' . $suffix . '}">Click</a><img id="log" src="{logurl' . $suffix . '}">';
+            $aBanner['url'] = 'https://destination.invalid/?banner={bannerid}';
+            $code = MAX_adRender($aBanner, 1, '{referer}', referer: 'https://publisher.invalid/');
+            $document = new DOMDocument();
+            $document->loadHTML($code, LIBXML_NONET | LIBXML_NOERROR | LIBXML_NOWARNING);
+            $xpath = new DOMXPath($document);
+            $clickUrl = $xpath->query('//a[@id="click"]')->item(0)->getAttribute('href');
+            $logUrl = $xpath->query('//img[@id="log"]')->item(0)->getAttribute('src');
+            if ($suffix === '_enc') {
+                $clickUrl = urldecode($clickUrl);
+                $logUrl = urldecode($logUrl);
+            }
+            $this->assertFalse(str_contains($clickUrl, '{clickurl'));
+            $this->assertFalse(str_contains($logUrl, '{logurl'));
+            $this->assertFalse(str_contains($logUrl, '{random}'), 'Log URL cache buster is resolved before substitution');
+            parse_str(explode('?', $clickUrl, 2)[1], $clickQuery);
+            parse_str(explode('?', $logUrl, 2)[1], $logQuery);
+            $conf = $GLOBALS['_MAX']['CONF'];
+            $destination = 'https://destination.invalid/?banner=7';
+            $this->assertEqual($clickQuery[$conf['var']['dest']], $destination);
+            $this->assertEqual($clickQuery[$conf['var']['signature']], OX_Delivery_Common_getSignature([7, 1], $destination));
+            $this->assertEqual($logQuery[$conf['var']['signature']], OX_Delivery_Common_getSignature(['lg', 7, 1], $logQuery[$conf['var']['timestamp']] ?? ''));
+            $this->assertEqual($logQuery[$conf['var']['channel']], '{referer}', 'Source remains literal inside HTML-banner log URLs');
+        }
+    }
+
     /**
      * TODO: need data
      *

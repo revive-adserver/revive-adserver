@@ -343,6 +343,14 @@ class Test_DeliveryCommon extends UnitTestCase
         $this->assertEqual($GLOBALS['target'], '_self');
         $this->assertEqual($GLOBALS['charset'], 'LATIN-1');
 
+        foreach (['_blank', '_self', '_parent', '_top', 'Frame_123', 'FRAME', '0', '{referer}', 'frame-name', 'frame.name', "frame\n", "frame\r", "frame\t", '<script>', ['frame']] as $requestedTarget) {
+            $this->_unsetMAXGlobals();
+            $GLOBALS['target'] = $requestedTarget;
+            MAX_commonInitVariables();
+            $expected = in_array($requestedTarget, ['_blank', '_self', '_parent', '_top', 'Frame_123', 'FRAME', '0'], true) ? $requestedTarget : '';
+            $this->assertIdentical($GLOBALS['target'], $expected, 'Only ASCII letters, digits and underscores are accepted in target');
+        }
+
         // Test 7 : withtext and withText fields (numeric 0 or 1)
         $this->_unsetMAXGlobals();
         global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;

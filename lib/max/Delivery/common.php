@@ -321,7 +321,7 @@ function MAX_commonInitVariables()
     $ct0 ??= '';
     $context ??= [];
 
-    $target = (isset($target) && (!empty($target)) && (!strpos($target, chr(32))) ? $target : '');
+    $target = isset($target) && is_string($target) && preg_match('#^[a-z0-9_]+$#Di', $target) ? $target : '';
     $charset = (isset($charset) && (!empty($charset)) && (!strpos($charset, chr(32))) ? $charset : 'UTF-8');
 
     $bannerid = (isset($bannerid) && is_numeric($bannerid) ? $bannerid : '');

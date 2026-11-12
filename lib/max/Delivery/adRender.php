@@ -491,7 +491,7 @@ function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $r
     $url .= $amp . $conf['var']['campaignId'] . "=" . $aBanner['placement_id'];
     $url .= $amp . $conf['var']['zoneId'] . "=" . $zoneId;
     if (!empty($source)) {
-        $url .= $amp . $conf['var']['channel'] . "=" . $source;
+        $url .= $amp . $conf['var']['channel'] . "=" . urlencode($source);
     }
     if (!empty($aBanner['block_ad'])) {
         $url .= $amp . $conf['var']['blockAd'] . "=" . $aBanner['block_ad'];
@@ -675,11 +675,8 @@ function _adRenderReplaceMagicMacros(array $aBanner, string $input): string
         return $input;
     }
 
-    return str_replace(
-        array_keys($aBanner['aMagicMacros']),
-        array_values($aBanner['aMagicMacros']),
-        $input,
-    );
+    // Replacement values are data, not another round of macro instructions.
+    return strtr($input, $aBanner['aMagicMacros']);
 }
 
 function _adRenderBuildSignedClickUrl(array $aBanner, int $zoneId = 0, string $source = '', ?string $ct0 = null, bool $logClick = true, ?string $customDestination = null): string
