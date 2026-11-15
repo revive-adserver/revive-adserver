@@ -268,7 +268,8 @@ class Admin_DA
             SqlBuilder::_getTableLimitations($aTables, $aParams),
         );
 
-        $aGroupBy = [$key];
+        // An output alias can also name a different input column (e.g. s.zone_id).
+        $aGroupBy = [array_search($key, $aColumns, true) ?: $key];
 
         return SqlBuilder::_select($aColumns, $aTables, $aLimitations, $aGroupBy, $key);
     }
@@ -871,61 +872,64 @@ class Admin_DA
     {
         // Suppress PEAR error handling for this method...
         PEAR::pushErrorHandling(null);
-        require_once('Date.php');
-        // This is an email zone, so check all current linked ads for active date ranges
-        $aOtherAds = Admin_DA::getAdZones(['zone_id' => $zoneId]);
-        $campaignVariables = Admin_DA::getPlacement($campaignid);
-        if ($newStart) {
-            $campaignVariables['activate_time'] = $newStart;
-        }
-        if ($newEnd) {
-            $campaignVariables['expire_time'] = $newEnd;
-        }
-
-        if (empty($campaignVariables['activate_time']) && empty($campaignVariables['expire_time'])) {
-            return PEAR::raiseError(sprintf($GLOBALS['strEmailNoDates'], PRODUCT_NAME), MAX_ERROR_EMAILNODATES);
-        }
-        $campaignStart = new Date($campaignVariables['activate_time']);
-        $campaignStart->setTZbyID('UTC');
-        $campaignEnd = new Date($campaignVariables['expire_time']);
-        $campaignEnd->setTZbyID('UTC');
-
-        $okToLink = true;
-        foreach ($aOtherAds as $azaID => $aAdVariables) {
-            $aOtherAdVariables = Admin_DA::getAd($aAdVariables['ad_id']);
-            if ($aOtherAdVariables['placement_id'] == $campaignid) {
-                continue;
+        try {
+            require_once('Date.php');
+            // This is an email zone, so check all current linked ads for active date ranges
+            $aOtherAds = Admin_DA::getAdZones(['zone_id' => $zoneId]);
+            $campaignVariables = Admin_DA::getPlacement($campaignid);
+            if ($newStart) {
+                $campaignVariables['activate_time'] = $newStart;
             }
-            $otherCampaignVariables = Admin_DA::getPlacement($aOtherAdVariables['placement_id']);
-
-            if (empty($otherCampaignVariables['activate_time'])
-                || empty($otherCampaignVariables['expire_time'])) {
-                $okToLink = false;
-                break;
+            if ($newEnd) {
+                $campaignVariables['expire_time'] = $newEnd;
             }
 
-            // Do not allow link if either start or end date is within another linked campaign dates
-            $otherCampaignStart = new Date($otherCampaignVariables['activate_time']);
-            $otherCampaignStart->setTZbyID('UTC');
-            $otherCampaignEnd = new Date($otherCampaignVariables['expire_time']);
-            $otherCampaignEnd->setTZbyID('UTC');
-
-            if ($campaignStart->equals($otherCampaignStart) || $campaignEnd->equals($otherCampaignEnd)) {
-                $okToLink = false;
-                break;
+            if (empty($campaignVariables['activate_time']) && empty($campaignVariables['expire_time'])) {
+                return PEAR::raiseError(sprintf($GLOBALS['strEmailNoDates'], PRODUCT_NAME), MAX_ERROR_EMAILNODATES);
             }
+            $campaignStart = new Date($campaignVariables['activate_time']);
+            $campaignStart->setTZbyID('UTC');
+            $campaignEnd = new Date($campaignVariables['expire_time']);
+            $campaignEnd->setTZbyID('UTC');
 
-            if ($campaignStart->before($otherCampaignEnd) && $campaignEnd->after($otherCampaignStart)) {
-                $okToLink = false;
-                break;
+            $okToLink = true;
+            foreach ($aOtherAds as $azaID => $aAdVariables) {
+                $aOtherAdVariables = Admin_DA::getAd($aAdVariables['ad_id']);
+                if ($aOtherAdVariables['placement_id'] == $campaignid) {
+                    continue;
+                }
+                $otherCampaignVariables = Admin_DA::getPlacement($aOtherAdVariables['placement_id']);
+
+                if (empty($otherCampaignVariables['activate_time'])
+                    || empty($otherCampaignVariables['expire_time'])) {
+                    $okToLink = false;
+                    break;
+                }
+
+                // Do not allow link if either start or end date is within another linked campaign dates
+                $otherCampaignStart = new Date($otherCampaignVariables['activate_time']);
+                $otherCampaignStart->setTZbyID('UTC');
+                $otherCampaignEnd = new Date($otherCampaignVariables['expire_time']);
+                $otherCampaignEnd->setTZbyID('UTC');
+
+                if ($campaignStart->equals($otherCampaignStart) || $campaignEnd->equals($otherCampaignEnd)) {
+                    $okToLink = false;
+                    break;
+                }
+
+                if ($campaignStart->before($otherCampaignEnd) && $campaignEnd->after($otherCampaignStart)) {
+                    $okToLink = false;
+                    break;
+                }
             }
+            if (!$okToLink) {
+                $link = "campaign-edit.php?clientid={$otherCampaignVariables['advertiser_id']}&campaignid={$otherCampaignVariables['placement_id']}";
+                return PEAR::raiseError($GLOBALS['strDatesConflict'] . ": <a href='{$link}'>" . htmlspecialchars($otherCampaignVariables['name']) . "</a>", MAX_ERROR_EXISTINGCAMPAIGNFORDATES);
+            }
+            return true;
+        } finally {
+            PEAR::popErrorHandling();
         }
-        if (!$okToLink) {
-            $link = "campaign-edit.php?clientid={$otherCampaignVariables['advertiser_id']}&campaignid={$otherCampaignVariables['placement_id']}";
-            return PEAR::raiseError($GLOBALS['strDatesConflict'] . ": <a href='{$link}'>" . htmlspecialchars($otherCampaignVariables['name']) . "</a>", MAX_ERROR_EXISTINGCAMPAIGNFORDATES);
-        }
-        PEAR::popErrorHandling();
-        return true;
     }
 
     public static function _checkBannerZoneAdAssoc($aZone, $bannerType, $contentType = null)

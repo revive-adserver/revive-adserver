@@ -4,6 +4,10 @@ All notable changes to Revive Adserver will be documented in this file.
 
 ## [6.1.0]
 
+### Fixes
+
+- Fixed ambiguous grouping in PostgreSQL zone and banner statistics queries, and error handling left suppressed by email-zone validation failures ([#1797](https://github.com/revive-adserver/revive-adserver/issues/1797))
+
 ## [6.1.0-rc1] - 2026-11-11
 
 ### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2026-004/)
