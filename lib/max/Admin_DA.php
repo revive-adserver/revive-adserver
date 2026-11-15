@@ -399,9 +399,7 @@ class Admin_DA
     }
 
     /**
-     * Reads the zone data and returns an information about the zone.
-     * You have to look into the method to see what it actually
-     * returns and when.
+     * Returns banner selection filters for the zone's agency, type and size.
      *
      * @param integer $zoneId
      * @return array
@@ -418,6 +416,7 @@ class Admin_DA
         if ($aZone['type'] == phpAds_ZoneText) {
             $aParams['ad_type'] = 'txt';
         } else {
+            $aParams['ad_type'] = $aZone['type'] == MAX_ZoneEmail ? '!htmltxt' : '!txt';
             if ($aZone['width'] != -1) {
                 $aParams['ad_width'] = $aZone['width'];
             }
