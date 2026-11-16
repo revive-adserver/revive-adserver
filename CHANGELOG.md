@@ -9,6 +9,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Exposed signed impression logging URL validity in Banner Delivery Settings ([#1793](https://github.com/revive-adserver/revive-adserver/issues/1793))
 - Restored generated parameters for advanced statistics reports ([#1796](https://github.com/revive-adserver/revive-adserver/issues/1796))
 - Fixed ambiguous grouping in PostgreSQL zone and banner statistics queries, and error handling left suppressed by email-zone validation failures ([#1797](https://github.com/revive-adserver/revive-adserver/issues/1797))
+- Fixed broken admin screens, such as the campaign Linked Zones tab, when using a right-to-left language ([#1798](https://github.com/revive-adserver/revive-adserver/issues/1798))
 
 ### Improvements
 
