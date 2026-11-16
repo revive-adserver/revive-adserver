@@ -1215,15 +1215,38 @@ class DB_DataObjectCommon extends DB_DataObject
     }
 
     /**
-     * A method to delete an account linked to an entity
-     *
-     * @return boolean
+     * Collect account IDs before deleting the affected entities.
      */
-    public function deleteAccount()
+    protected function getAccountIdsForDeletion($useWhere)
     {
-        if (!empty($this->account_id)) {
+        $doAffected = clone $this;
+        if (!$useWhere) {
+            $doAffected->whereAdd();
+        }
+        $doAffected->find();
+
+        $accountIds = [];
+        while ($doAffected->fetch()) {
+            if (!empty($doAffected->account_id)) {
+                $accountIds[] = $doAffected->account_id;
+            }
+        }
+
+        return array_unique($accountIds);
+    }
+
+    /**
+     * Delete the accounts linked to the affected entities.
+     */
+    public function deleteAccount($accountIds = null)
+    {
+        $accountIds ??= [$this->account_id];
+        foreach ($accountIds as $accountId) {
+            if (empty($accountId)) {
+                continue;
+            }
             $doAccount = static::factory('accounts');
-            $doAccount->account_id = $this->account_id;
+            $doAccount->account_id = $accountId;
             $doAccount->delete();
         }
     }

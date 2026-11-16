@@ -101,6 +101,8 @@ class OA_Dll_AdvertiserTest extends DllUnitTestCase
             $dllAdvertiserPartialMock->delete($oAdvertiserInfo->advertiserId),
             $dllAdvertiserPartialMock->getLastError(),
         );
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $this->assertFalse((bool) $doAccounts->get($oAdvertiserInfo->accountId), 'Advertiser account should be deleted.');
 
         // Modify not existing id
         $this->assertTrue(

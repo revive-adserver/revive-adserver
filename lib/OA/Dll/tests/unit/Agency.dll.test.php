@@ -184,7 +184,7 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         $dllAgencyPartialMock = new PartialMockOA_Dll_Agency_AgencyTest($this);
 
         $dllAgencyPartialMock->setReturnValue('checkPermissions', true);
-        $dllAgencyPartialMock->expectCallCount('checkPermissions', 3);
+        $dllAgencyPartialMock->expectCallCount('checkPermissions', 4);
 
         $oAgencyInfo = new OA_Dll_AgencyInfo();
 
@@ -217,9 +217,22 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         $this->assertEqual($oAgencyInfo->username, $doUsers->username, 'Username does not match.');
         $this->assertEqual($oAgencyInfo->userEmail, $doUsers->email_address, 'User email does not match.');
         $this->assertEqual($oAgencyInfo->language, $doUsers->language, 'Language does not match.');
+        $userId = $doUsers->user_id;
 
         // Because the password gets unset.
         $this->assertTrue(\RV\Manager\PasswordManager::verifyPassword('pass', $doUsers->password), 'Password does not match.');
+
+        $doAdvertiser = OA_Dal::factoryDO('clients');
+        $doAdvertiser->agencyid = $oAgencyInfo->agencyId;
+        $doAdvertiser->clientname = 'testAdvertiser';
+        $this->assertTrue((bool) $doAdvertiser->insert());
+        $advertiserAccountId = $doAdvertiser->account_id;
+
+        $doPublisher = OA_Dal::factoryDO('affiliates');
+        $doPublisher->agencyid = $oAgencyInfo->agencyId;
+        $doPublisher->name = 'testPublisher';
+        $this->assertTrue((bool) $doPublisher->insert());
+        $publisherAccountId = $doPublisher->account_id;
 
         // Test a dodgy language
         $oBadLanguageInfo = clone $oAgencyInfo;
@@ -230,6 +243,14 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
             $dllAgencyPartialMock->getLastError() == $this->invalidLanguageError),
             $this->_getMethodShouldReturnError($this->invalidLanguageError),
         );
+
+        $this->assertTrue($dllAgencyPartialMock->delete($oAgencyInfo->agencyId));
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $this->assertFalse((bool) $doAccounts->get($oAgencyInfo->accountId), 'Agency account should be deleted.');
+        $this->assertFalse((bool) $doAccounts->get($advertiserAccountId), 'Advertiser account should be deleted.');
+        $this->assertFalse((bool) $doAccounts->get($publisherAccountId), 'Publisher account should be deleted.');
+        $doUsers = OA_Dal::factoryDO('users');
+        $this->assertFalse((bool) $doUsers->get($userId), 'Agency manager should be deleted.');
 
         $dllAgencyPartialMock->tally();
 

@@ -185,9 +185,10 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
      */
     public function delete($useWhere = false, $cascade = true, $parentid = null)
     {
+        $accountIds = $this->getAccountIdsForDeletion($useWhere);
         $result = parent::delete($useWhere, $cascade, $parentid);
         if ($result) {
-            $this->deleteAccount();
+            $this->deleteAccount($accountIds);
         }
 
         return $result;

@@ -771,11 +771,11 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $clientId = DataGenerator::generateOne($doClients);
 
         // delete the agency record
-        // audit event 7 & 8 & 9 (1 agency, 1 client, 1 acc)
+        // audit event 7-10 (1 agency, 1 client, 2 accounts)
         $doAgency->delete();
 
         $aAudit = $this->_fetchAuditArrayAll();
-        $this->assertEqual(count($aAudit), 9, 'wrong number of audit records');
+        $this->assertEqual(count($aAudit), 10, 'wrong number of audit records');
 
         // test 1: default agency account insert audited
         $this->assertTrue(isset($aAudit[1]));
@@ -898,7 +898,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['array']['clientname'], 'Client A');
         $this->assertEqual($aEvent['array']['agencyid'], $agencyId1);
 
-        // test 9: new agency account delete audited
+        // test 9: client account delete audited
         $this->assertTrue(isset($aAudit[9]));
         $aEvent = $aAudit[9];
         $this->assertIsA($aEvent, 'array');
@@ -906,7 +906,19 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['actionid'], OA_AUDIT_ACTION_DELETE);
         $this->assertEqual($aEvent['context'], 'accounts');
         $this->assertEqual($aEvent['username'], OA_TEST_AUDIT_USERNAME);
-        //$this->assertEqual($aEvent['contextid'],$agencyId1);
+        $this->assertIsA($aEvent['array'], 'array');
+        $this->assertEqual($aEvent['array']['key_desc'], 'Client A');
+        $this->assertEqual($aEvent['array']['account_name'], 'Client A');
+        $this->assertEqual($aEvent['array']['account_type'], 'ADVERTISER');
+
+        // test 10: agency account delete audited
+        $this->assertTrue(isset($aAudit[10]));
+        $aEvent = $aAudit[10];
+        $this->assertIsA($aEvent, 'array');
+        $this->assertEqual($aEvent['auditid'], 10);
+        $this->assertEqual($aEvent['actionid'], OA_AUDIT_ACTION_DELETE);
+        $this->assertEqual($aEvent['context'], 'accounts');
+        $this->assertEqual($aEvent['username'], OA_TEST_AUDIT_USERNAME);
         $this->assertIsA($aEvent['array'], 'array');
         $this->assertEqual($aEvent['array']['key_desc'], 'Agency Changed');
         $this->assertEqual($aEvent['array']['account_name'], 'Agency Changed');

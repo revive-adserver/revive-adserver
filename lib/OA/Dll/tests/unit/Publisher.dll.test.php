@@ -98,6 +98,8 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
             $dllPublisherPartialMock->delete($oPublisherInfo->publisherId),
             $dllPublisherPartialMock->getLastError(),
         );
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $this->assertFalse((bool) $doAccounts->get($oPublisherInfo->accountId), 'Publisher account should be deleted.');
 
         // Modify not existing id
         $this->assertTrue(
