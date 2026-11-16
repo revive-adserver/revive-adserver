@@ -57,10 +57,10 @@ $oxpCssLtr = [
     'css/interface-ltr.css',
 ];
 
-$oxpCssRtl = [
+$oxpCssRtl = array_merge($oxpCssLtr, [
     'css/chrome-rtl.css',
     'css/interface-rtl.css',
-];
+]);
 
 $oxpCssInstallLtr = array_merge($oxpCssLtr, ['css/install.css']);
 $oxpCssInstallRtl = array_merge($oxpCssRtl, ['css/install.css']);

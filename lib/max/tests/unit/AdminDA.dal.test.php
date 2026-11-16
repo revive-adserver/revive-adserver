@@ -872,6 +872,67 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertTrue(PEAR::isError($ret));
     }
 
+    public function testEmailZoneRestoresErrorHandling()
+    {
+        $this->_generateStats();
+        $campaign = OA_Dal::staticGetDO('campaigns', $this->campaignId);
+        $campaign->activate_time = null;
+        $campaign->expire_time = null;
+        $campaign->update();
+
+        try {
+            $this->assertEmailZoneErrorHandling(MAX_ERROR_EMAILNODATES);
+
+            $campaign->activate_time = '2026-01-01 00:00:00';
+            $campaign->expire_time = '2026-02-01 00:00:00';
+            $campaign->update();
+            $this->assertEmailZoneErrorHandling(null);
+
+            $otherCampaign = OA_Dal::factoryDO('campaigns');
+            $otherCampaign->clientid = $this->clientId;
+            $otherCampaign->activate_time = $campaign->activate_time;
+            $otherCampaign->expire_time = $campaign->expire_time;
+            $otherCampaignId = DataGenerator::generateOne($otherCampaign);
+            $banner = OA_Dal::factoryDO('banners');
+            $banner->campaignid = $otherCampaignId;
+            $bannerId = DataGenerator::generateOne($banner);
+            $association = OA_Dal::factoryDO('ad_zone_assoc');
+            $association->zone_id = $this->zoneId2;
+            $association->ad_id = $bannerId;
+            DataGenerator::generateOne($association);
+            $this->assertEmailZoneErrorHandling(MAX_ERROR_EXISTINGCAMPAIGNFORDATES);
+        } finally {
+            DataGenerator::cleanUp();
+        }
+    }
+
+    private function assertEmailZoneErrorHandling($expectedError)
+    {
+        $errors = 0;
+        PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, static function () use (&$errors) {
+            $errors++;
+        });
+        $stack = $GLOBALS['_PEAR_error_handler_stack'];
+        try {
+            $result = Admin_DA::_checkEmailZoneAdAssoc($this->zoneId2, $this->campaignId);
+            if ($expectedError === null) {
+                $this->assertIdentical($result, true);
+            } else {
+                $this->assertIsA($result, 'PEAR_Error');
+                $this->assertEqual($result->getCode(), $expectedError);
+            }
+            $this->assertIdentical($GLOBALS['_PEAR_error_handler_stack'], $stack, 'Email zone validation must balance PEAR handlers on every return path');
+            PEAR::raiseError('Error handler restoration probe');
+            $this->assertEqual($errors, 1, 'The caller error handler must still receive errors');
+        } finally {
+            // Also restore the test environment when testing the broken implementation.
+            while (count($GLOBALS['_PEAR_error_handler_stack']) > count($stack)) {
+                PEAR::popErrorHandling();
+            }
+            PEAR::popErrorHandling();
+        }
+    }
+
     public function testdeleteAdZones()
     {
         $this->_generateStats();
@@ -1068,6 +1129,44 @@ class Admin_DaTest extends DalUnitTestCase
         $this->_generateStats();
         $ret = Admin_DA::getAdsStats(['placement_id' => $this->campaignId]);
         $this->assertTrue($this->_haveStats($ret));
+    }
+
+    public function testEntityStatisticsTotals()
+    {
+        $this->_generateStats();
+        $doStats = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $table = $this->dbh->quoteIdentifier($doStats->tableName(), true);
+        $expected = $this->dbh->queryRow(
+            "SELECT SUM(requests) AS sum_requests, SUM(impressions) AS sum_views, SUM(clicks) AS sum_clicks, SUM(conversions) AS sum_conversions FROM $table WHERE ad_id = "
+            . $this->dbh->quote($this->bannerId, 'integer') . ' AND zone_id = ' . $this->dbh->quote($this->zoneId, 'integer'),
+        );
+
+        $entities = [
+            'agency' => [$this->agencyId, ['agency_id' => $this->agencyId]],
+            'advertiser' => [$this->clientId, ['agency_id' => $this->agencyId]],
+            'placement' => [$this->campaignId, ['advertiser_id' => $this->clientId]],
+            'ad' => [$this->bannerId, ['placement_id' => $this->campaignId]],
+            'publisher' => [$this->affiliateId, ['agency_id' => $this->agencyId]],
+            'zone' => [$this->zoneId, ['publisher_id' => $this->affiliateId]],
+        ];
+        foreach ($entities as $entity => [$id, $params]) {
+            $actual = Admin_DA::_getEntitiesStats($entity, $params);
+            $this->assertTrue(is_array($actual), "Statistics query succeeds for $entity");
+            if (!is_array($actual)) {
+                continue;
+            }
+            $this->assertEqual(array_keys($actual), [$id], "Statistics retain the $entity ID as the result key");
+            foreach ($expected as $column => $value) {
+                $this->assertEqual($actual[$id][$column], $value, "$entity $column contains the recorded total");
+            }
+        }
+
+        $zones = Admin_DA::getZonesStats(['publisher_id' => $this->affiliateId]);
+        $ads = Admin_DA::getAdsStats(['placement_id' => $this->campaignId]);
+        foreach ($expected as $column => $value) {
+            $this->assertEqual($zones[$this->zoneId][$column], $value, "Zone $column is not silently replaced with zero");
+            $this->assertEqual($ads[$this->bannerId][$column], $value, "Banner $column is not silently replaced with zero");
+        }
     }
 
     // +---------------------------------------+

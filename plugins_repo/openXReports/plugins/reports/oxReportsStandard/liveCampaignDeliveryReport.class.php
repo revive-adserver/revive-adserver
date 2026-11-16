@@ -45,7 +45,7 @@ class Plugins_Reports_OxReportsStandard_LiveCampaignDeliveryReport extends Plugi
         $this->_categoryName = $this->translate("Standard Reports");
         $this->_author = 'Scott Switzer';
         $this->_export = 'xls';
-        $this->_authorize = [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER];
+        $this->_authorize = [OA_ACCOUNT_MANAGER];
 
         $this->_import = $this->getDefaults();
         $this->saveDefaults();

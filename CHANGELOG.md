@@ -7,13 +7,14 @@ All notable changes to Revive Adserver will be documented in this file.
 ### Fixes
 
 - Exposed signed impression logging URL validity in Banner Delivery Settings ([#1793](https://github.com/revive-adserver/revive-adserver/issues/1793))
+- Restored generated parameters for advanced statistics reports ([#1796](https://github.com/revive-adserver/revive-adserver/issues/1796))
+- Fixed ambiguous grouping in PostgreSQL zone and banner statistics queries, and error handling left suppressed by email-zone validation failures ([#1797](https://github.com/revive-adserver/revive-adserver/issues/1797))
+- Fixed broken admin screens, such as the campaign Linked Zones tab, when using a right-to-left language ([#1798](https://github.com/revive-adserver/revive-adserver/issues/1798))
+- Standard Reports are no longer available when working as an administrator, as they could download an error page instead of the spreadsheet ([#1801](https://github.com/revive-adserver/revive-adserver/issues/1801))
 
 ### Improvements
 
 - Added a minimum release stability setting for update checks ([#1794](https://github.com/revive-adserver/revive-adserver/issues/1794))
-
-### Improvements
-
 - Limited HTML5 ZIP import size and entry count ([#1795](https://github.com/revive-adserver/revive-adserver/issues/1795))
 
 ## [6.1.0-rc1] - 2026-11-11
@@ -45,7 +46,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Fixed calendar language fallback when using legacy language names or no user language preference ([#1758](https://github.com/revive-adserver/revive-adserver/pull/1758))
 - Added missing installer state and authentication checks before finalising an up-to-date installation ([#1761](https://github.com/revive-adserver/revive-adserver/issues/1761))
 - Fixed date delivery limitations blocking delivery when no date was selected ([#1755](https://github.com/revive-adserver/revive-adserver/pull/1755))
-- Fixed SMTP authentication with usernames or passwords containing reserved URI characters ([#1754](https://github.com/revive-adserver/revive-adserver/pull/1754))
+- Fixed SMTP authentication with usernames or passwords containing reserved URI characters ([#1779](https://github.com/revive-adserver/revive-adserver/issues/1779))
 - Fixed the file delivery cache reporting success when writing or replacing a cache file failed ([#1753](https://github.com/revive-adserver/revive-adserver/pull/1753))
 - Fixed a division-by-zero error in the Campaign Delivery Report when no impressions were delivered during yesterday's comparison hours ([#1749](https://github.com/revive-adserver/revive-adserver/pull/1749))
 - Fixed incorrect conversion success rates in entity statistics and totals ([#1747](https://github.com/revive-adserver/revive-adserver/pull/1747))
