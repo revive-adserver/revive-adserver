@@ -277,17 +277,17 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
      */
     public function _addDailyBreakdownWorksheet()
     {
-        // Prepare the $_REQUEST array as if it was set up via the stats.php page
+        // Provide generated parameters to both request readers used by statistics controllers
         if (is_null($this->_oDaySpan)) {
-            $_REQUEST['period_preset'] = 'all_stats';
+            $_POST['period_preset'] = $_REQUEST['period_preset'] = 'all_stats';
         } else {
-            $_REQUEST['period_preset'] = 'specific';
-            $_REQUEST['period_start'] = $this->_oDaySpan->getStartDateString();
-            $_REQUEST['period_end'] = $this->_oDaySpan->getEndDateString();
+            $_POST['period_preset'] = $_REQUEST['period_preset'] = 'specific';
+            $_POST['period_start'] = $_REQUEST['period_start'] = $this->_oDaySpan->getStartDateString();
+            $_POST['period_end'] = $_REQUEST['period_end'] = $this->_oDaySpan->getEndDateString();
         }
-        $_REQUEST['breakdown'] = 'day';
-        $_REQUEST['clientid'] = $this->_advertiserId;
-        $_REQUEST['campaignid'] = $this->_placementId;
+        $_POST['breakdown'] = $_REQUEST['breakdown'] = 'day';
+        $_POST['clientid'] = $_REQUEST['clientid'] = $this->_advertiserId;
+        $_POST['campaignid'] = $_REQUEST['campaignid'] = $this->_placementId;
         // Select the correct statistics page controller type
         if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $controllerType = 'affiliate-campaign-history';
@@ -313,22 +313,22 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
      */
     public function _addAdBreakdownWorksheet()
     {
-        // Prepare the $_REQUEST array as if it was set up via the stats.php page
+        // Provide generated parameters to both request readers used by statistics controllers
         if (is_null($this->_oDaySpan)) {
-            $_REQUEST['period_preset'] = 'all_stats';
+            $_POST['period_preset'] = $_REQUEST['period_preset'] = 'all_stats';
         } else {
-            $_REQUEST['period_preset'] = 'specific';
-            $_REQUEST['period_start'] = $this->_oDaySpan->getStartDateString();
-            $_REQUEST['period_end'] = $this->_oDaySpan->getEndDateString();
+            $_POST['period_preset'] = $_REQUEST['period_preset'] = 'specific';
+            $_POST['period_start'] = $_REQUEST['period_start'] = $this->_oDaySpan->getStartDateString();
+            $_POST['period_end'] = $_REQUEST['period_end'] = $this->_oDaySpan->getEndDateString();
         }
-        $_REQUEST['expand'] = 'none';
-        $_REQUEST['startlevel'] = 0;
-        $_REQUEST['clientid'] = $this->_advertiserId;
-        $_REQUEST['campaignid'] = $this->_placementId;
+        $_POST['expand'] = $_REQUEST['expand'] = 'none';
+        $_POST['startlevel'] = $_REQUEST['startlevel'] = 0;
+        $_POST['clientid'] = $_REQUEST['clientid'] = $this->_advertiserId;
+        $_POST['campaignid'] = $_REQUEST['campaignid'] = $this->_placementId;
         // Select the correct statistics page controller type
         if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $controllerType = 'affiliate-campaigns';
-            $_REQUEST['startlevel'] = 1;
+            $_POST['startlevel'] = $_REQUEST['startlevel'] = 1;
         } else {
             $controllerType = 'campaign-banners';
         }
@@ -351,24 +351,24 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
      */
     public function _addZoneBreakdownWorksheet()
     {
-        // Prepare the $_REQUEST array as if it was set up via the stats.php page
+        // Provide generated parameters to both request readers used by statistics controllers
         if (is_null($this->_oDaySpan)) {
-            $_REQUEST['period_preset'] = 'all_stats';
+            $_POST['period_preset'] = $_REQUEST['period_preset'] = 'all_stats';
         } else {
-            $_REQUEST['period_preset'] = 'specific';
-            $_REQUEST['period_start'] = $this->_oDaySpan->getStartDateString();
-            $_REQUEST['period_end'] = $this->_oDaySpan->getEndDateString();
+            $_POST['period_preset'] = $_REQUEST['period_preset'] = 'specific';
+            $_POST['period_start'] = $_REQUEST['period_start'] = $this->_oDaySpan->getStartDateString();
+            $_POST['period_end'] = $_REQUEST['period_end'] = $this->_oDaySpan->getEndDateString();
         }
-        $_REQUEST['expand'] = 'none';
-        $_REQUEST['startlevel'] = 0;
-        $_REQUEST['clientid'] = $this->_advertiserId;
-        $_REQUEST['campaignid'] = $this->_placementId;
+        $_POST['expand'] = $_REQUEST['expand'] = 'none';
+        $_POST['startlevel'] = $_REQUEST['startlevel'] = 0;
+        $_POST['clientid'] = $_REQUEST['clientid'] = $this->_advertiserId;
+        $_POST['campaignid'] = $_REQUEST['campaignid'] = $this->_placementId;
         // Select the correct statistics page controller type
         if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $controllerType = 'affiliate-zones';
         } else {
             $controllerType = 'campaign-affiliates';
-            $_REQUEST['startlevel'] = 1;
+            $_POST['startlevel'] = $_REQUEST['startlevel'] = 1;
         }
         // Get the header and data arrays from the same statistics controllers
         // that prepare stats for the user interface stats pages

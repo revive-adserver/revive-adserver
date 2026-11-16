@@ -7,13 +7,11 @@ All notable changes to Revive Adserver will be documented in this file.
 ### Fixes
 
 - Exposed signed impression logging URL validity in Banner Delivery Settings ([#1793](https://github.com/revive-adserver/revive-adserver/issues/1793))
+- Restored generated parameters for advanced statistics reports ([#1796](https://github.com/revive-adserver/revive-adserver/issues/1796))
 
 ### Improvements
 
 - Added a minimum release stability setting for update checks ([#1794](https://github.com/revive-adserver/revive-adserver/issues/1794))
-
-### Improvements
-
 - Limited HTML5 ZIP import size and entry count ([#1795](https://github.com/revive-adserver/revive-adserver/issues/1795))
 
 ## [6.1.0-rc1] - 2026-11-11

@@ -278,20 +278,20 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
      */
     public function _addPerformanceByDayWorksheet()
     {
-        // Prepare the $_REQUEST array as if it was set up via the stats.php page
+        // Provide generated parameters to both request readers used by statistics controllers
         if (is_null($this->_oDaySpan)) {
-            $_REQUEST['period_preset'] = 'all_stats';
+            $_POST['period_preset'] = $_REQUEST['period_preset'] = 'all_stats';
         } else {
-            $_REQUEST['period_preset'] = 'specific';
-            $_REQUEST['period_start'] = $this->_oDaySpan->getStartDateString();
-            $_REQUEST['period_end'] = $this->_oDaySpan->getEndDateString();
+            $_POST['period_preset'] = $_REQUEST['period_preset'] = 'specific';
+            $_POST['period_start'] = $_REQUEST['period_start'] = $this->_oDaySpan->getStartDateString();
+            $_POST['period_end'] = $_REQUEST['period_end'] = $this->_oDaySpan->getEndDateString();
         }
-        $_REQUEST['breakdown'] = 'day';
+        $_POST['breakdown'] = $_REQUEST['breakdown'] = 'day';
         if (!empty($this->_oScope->_advertiserId)) {
-            $_REQUEST['clientid'] = $this->_oScope->_advertiserId;
+            $_POST['clientid'] = $_REQUEST['clientid'] = $this->_oScope->_advertiserId;
         }
         if (!empty($this->_oScope->_publisherId)) {
-            $_REQUEST['affiliateid'] = $this->_oScope->_publisherId;
+            $_POST['affiliateid'] = $_REQUEST['affiliateid'] = $this->_oScope->_publisherId;
         }
         // Select the correct statistics page controller type
         if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
