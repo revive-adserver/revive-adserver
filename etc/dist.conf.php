@@ -385,6 +385,7 @@ persistent          = false
 [sync]
 checkForUpdates = true
 shareStack      = true
+minimumStability = stable
 
 [rvSync]
 endpoint = https://sync.revive-adserver.com/v1/sync

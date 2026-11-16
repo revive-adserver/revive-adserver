@@ -215,6 +215,7 @@ class Sync
             (string) $platform_hash,
             (string) OA_Dal_ApplicationVariables::get('sync_registered_email'),
             $software,
+            $this->aConf['sync']['minimumStability'] ?? 'stable',
         );
 
         try {

@@ -24,13 +24,15 @@ final class SyncRequest
 
     public string $email;
     public Software $software;
+    public string $minimumStability;
 
-    public function __construct(string $product, string $version, string $platformHash, string $email, ?Software $software = null)
+    public function __construct(string $product, string $version, string $platformHash, string $email, ?Software $software = null, string $minimumStability = 'stable')
     {
         $this->product = $product;
         $this->version = $version;
         $this->platformHash = $platformHash;
         $this->email = $email;
         $this->software = $software ?? new Software();
+        $this->minimumStability = $minimumStability;
     }
 }

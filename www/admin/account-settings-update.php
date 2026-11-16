@@ -48,9 +48,17 @@ if ($oSettings->isFormSubmitted()) {
             'sync' => 'shareStack',
             'bool' => true,
         ],
+        'sync_minimumStability' => [
+            'sync' => 'minimumStability',
+        ],
     ];
     // Save the settings!
-    $result = $oSettings->processSettingsFromForm($aElements);
+    if (in_array($_POST['sync_minimumStability'] ?? null, ['stable', 'dev'], true)) {
+        $result = $oSettings->processSettingsFromForm($aElements);
+    } else {
+        $aErrormessage[0][] = $strInvalidReleaseStability;
+        $result = null;
+    }
     if ($result) {
         // Queue confirmation message
         $setPref = $oOptions->getSettingsPreferences($prefSection);
@@ -68,7 +76,9 @@ if ($oSettings->isFormSubmitted()) {
     }
     // Could not write the settings configuration file, store this
     // error message and continue
-    $aErrormessage[0][] = $strUnableToWriteConfig;
+    if ($aErrormessage === []) {
+        $aErrormessage[0][] = $strUnableToWriteConfig;
+    }
 }
 
 // Set the correct section of the settings pages and display the drop-down menu
@@ -95,6 +105,19 @@ $aSettings = [
     [
         'text' => $strWhenCheckingForUpdates,
         'items' => [
+            [
+                'type' => 'select',
+                'name' => 'sync_minimumStability',
+                'text' => $strMinimumReleaseStability,
+                'items' => [
+                    'stable' => $strStableReleases,
+                    'dev' => $strDevelopmentReleases,
+                ],
+                'value' => 'stable',
+            ],
+            [
+                'type' => 'break',
+            ],
             [
                 'type' => 'checkbox',
                 'name' => 'sync_shareStack',

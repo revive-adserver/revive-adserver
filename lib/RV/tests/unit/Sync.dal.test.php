@@ -40,13 +40,16 @@ class Test_RV_Sync_Json extends UnitTestCase
         }
     }
 
-    private function sync(array $responses, bool $shareStack = false, bool $enabled = true, string $endpoint = 'https://sync.example.test/v1/sync'): Sync
+    private function sync(array $responses, bool $shareStack = false, bool $enabled = true, string $endpoint = 'https://sync.example.test/v1/sync', ?string $minimumStability = null): Sync
     {
         $this->history = [];
         $handler = HandlerStack::create(new MockHandler($responses));
         $handler->push(Middleware::history($this->history));
         $conf = $GLOBALS['_MAX']['CONF'];
         $conf['sync'] = ['checkForUpdates' => $enabled, 'shareStack' => $shareStack];
+        if ($minimumStability !== null) {
+            $conf['sync']['minimumStability'] = $minimumStability;
+        }
         $conf['oacSync'] = ['path' => '/xmlrpc.php'];
         $conf['rvSync'] = ['endpoint' => $endpoint];
         return new Sync($conf, null, new Client(['handler' => $handler]));
@@ -82,11 +85,20 @@ class Test_RV_Sync_Json extends UnitTestCase
             $this->assertEqual($payload->product, PRODUCT_NAME);
             $this->assertEqual($payload->platform_hash, 'existing-installation');
             $this->assertEqual($payload->email, 'admin@example.test');
+            $this->assertIdentical($payload->minimum_stability, 'stable');
             $this->assertEqual($payload->software, new stdClass());
             $this->assertIdentical($this->history[0]['options']['verify'], true);
             $this->assertIdentical($this->history[0]['options']['allow_redirects'], false);
             $this->assertEqual($this->history[0]['options']['timeout'], 10);
         }
+    }
+
+    public function testDevelopmentReleaseStabilityIsSent()
+    {
+        $sync = $this->sync([new Response(200, [], '{"updates":[]}')], minimumStability: 'dev');
+        $this->assertEqual($sync->checkForUpdates()[0], 800);
+        $payload = json_decode((string) $this->history[0]['request']->getBody(), true);
+        $this->assertIdentical($payload['minimum_stability'], 'dev');
     }
 
     public function testStackOptInAndPlatformHashGeneration()
