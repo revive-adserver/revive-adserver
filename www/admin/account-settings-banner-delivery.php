@@ -71,6 +71,7 @@ if ($oSettings->isFormSubmitted()) {
             'bool' => true,
         ],
         'delivery_clickUrlValidity' => ['delivery' => 'clickUrlValidity'],
+        'delivery_logUrlValidity' => ['delivery' => 'logUrlValidity'],
         'defaultBanner_relAttribute' => ['defaultBanner' => 'relAttribute'],
         'defaultBanner_invalidZoneHtmlBanner' => ['defaultBanner' => 'invalidZoneHtmlBanner'],
         'defaultBanner_suspendedAccountHtmlBanner' => ['defaultBanner' => 'suspendedAccountHtmlBanner'],
@@ -278,6 +279,15 @@ $aSettings = [
                 'type' => 'text',
                 'name' => 'delivery_clickUrlValidity',
                 'text' => $strDeliveryClickUrlValidity,
+                'check' => 'wholeNumber',
+            ],
+            [
+                'type' => 'break',
+            ],
+            [
+                'type' => 'text',
+                'name' => 'delivery_logUrlValidity',
+                'text' => $strDeliveryLogUrlValidity,
                 'check' => 'wholeNumber',
             ],
             [
