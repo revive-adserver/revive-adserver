@@ -265,13 +265,9 @@ td.celldisabled {
   color: #888888;
 }
 
-/* Targeting statistics screens */
+/* Tables */
 table {
   border-collapse: collapse;
-}
-
-table.targeting {
-  width: 90%;
 }
 
 /* Cell formatting */
@@ -300,62 +296,6 @@ tbody>tr>td.percentage:after {
 
 tbody>tr>td.percentage.empty:after {
   content: '-';
-}
-
-/* Ratio-based row colours (and hover-highlighting) */
-.ratio-somewhat-off-target {
-  color: black;
-  background: #ffffee;
-}
-
-table.targeting tbody tr.ratio-somewhat-off-target:hover {
-  color: #121010;
-  background-color: #ffffcc;
-}
-
-.ratio-very-off-target {
-  color: black;
-  background: #ffeeee;
-}
-
-table.targeting tbody tr.ratio-very-off-target:hover {
-  color: #121010;
-  background-color: #ffcccc;
-}
-
-table.targeting tbody tr:hover {
-  color: #121010;
-  background-color: #eeeeee;
-}
-
-cc.zone.unlinked:before,a.zone:before {
-  content: url('http://admin.m3.net/images/icon-zone.gif');
-  vertical-align: middle;
-  padding-right: 0.3em;
-}
-
-.ad.unlinked:before,a.ad:before {
-  content: url('http://admin.m3.net/images/icon-banner-stored.gif');
-  vertical-align: middle;
-  padding-right: 0.3em;
-}
-
-.interval.unlinked:before,a.interval:before {
-  content: url('http://admin.m3.net/images/icon-time.gif');
-  vertical-align: middle;
-  padding-right: 0.3em;
-}
-
-.date.unlinked:before,a.date:before {
-  content: url('http://admin.m3.net/images/icon-date.gif');
-  vertical-align: middle;
-  padding-right: 0.3em;
-}
-
-.time.unlinked:before,a.time:before {
-  content: url('http://admin.m3.net/images/icon-time.gif');
-  vertical-align: middle;
-  padding-right: 0.3em;
 }
 
 /* CSS-styled stats tables */
