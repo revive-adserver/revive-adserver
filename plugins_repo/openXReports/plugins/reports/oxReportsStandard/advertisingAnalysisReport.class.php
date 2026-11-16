@@ -72,7 +72,7 @@ class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugin
         $this->_categoryName = $this->translate("Standard Reports");
         $this->_author = 'Rob Hunter';
         $this->_export = 'xls';
-        $this->_authorize = [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER];
+        $this->_authorize = [OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER];
 
         $this->_import = $this->getDefaults();
         $this->saveDefaults();
@@ -226,7 +226,7 @@ class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugin
         }
         $_POST['breakdown'] = $_REQUEST['breakdown'] = 'day';
         // Select the correct statistics page controller type
-        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             if (!empty($this->_oScope->_advertiserId) && !empty($this->_oScope->_publisherId)) {
                 $controllerType = 'advertiser-affiliate-history';
             } elseif (!empty($this->_oScope->_advertiserId)) {
@@ -281,7 +281,7 @@ class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugin
         $_POST['expand'] = $_REQUEST['expand'] = 'none';
         $_POST['startlevel'] = $_REQUEST['startlevel'] = 0;
         // Select the correct statistics page controller type
-        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             if (!empty($this->_oScope->_advertiserId)) {
                 $controllerType = 'advertiser-campaigns';
             } elseif (!empty($this->_oScope->_publisherId)) {
@@ -331,7 +331,7 @@ class Plugins_Reports_OxReportsStandard_AdvertisingAnalysisReport extends Plugin
         $_POST['expand'] = $_REQUEST['expand'] = 'none';
         $_POST['startlevel'] = $_REQUEST['startlevel'] = 0;
         // Select the correct statistics page controller type
-        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             if (!empty($this->_oScope->_advertiserId)) {
                 $controllerType = 'advertiser-affiliates';
                 $_POST['startlevel'] = $_REQUEST['startlevel'] = 1;

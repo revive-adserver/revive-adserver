@@ -10,6 +10,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Restored generated parameters for advanced statistics reports ([#1796](https://github.com/revive-adserver/revive-adserver/issues/1796))
 - Fixed ambiguous grouping in PostgreSQL zone and banner statistics queries, and error handling left suppressed by email-zone validation failures ([#1797](https://github.com/revive-adserver/revive-adserver/issues/1797))
 - Fixed broken admin screens, such as the campaign Linked Zones tab, when using a right-to-left language ([#1798](https://github.com/revive-adserver/revive-adserver/issues/1798))
+- Standard Reports are no longer available when working as an administrator, as they could download an error page instead of the spreadsheet ([#1801](https://github.com/revive-adserver/revive-adserver/issues/1801))
 
 ### Improvements
 

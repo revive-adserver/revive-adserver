@@ -99,7 +99,7 @@ class Plugins_Reports_OxReportsStandard_CampaignAnalysisReport extends Plugins_R
         $this->_categoryName = $this->translate("Standard Reports");
         $this->_author = 'Rob Hunter';
         $this->_export = 'xls';
-        $this->_authorize = [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER];
+        $this->_authorize = [OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER];
 
         $this->_import = $this->getDefaults();
         $this->saveDefaults();

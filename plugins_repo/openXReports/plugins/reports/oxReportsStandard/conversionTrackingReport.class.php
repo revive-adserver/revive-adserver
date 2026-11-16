@@ -121,7 +121,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
         $this->_author = 'Scott Switzer';
         $this->_export = 'xls';
         if ($GLOBALS['_MAX']['CONF']['logging']['trackerImpressions'] && $this->_hasTrackers()) {
-            $this->_authorize = [OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER];
+            $this->_authorize = [OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER];
         }
 
         $this->_import = $this->getDefaults();
@@ -294,7 +294,7 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
             $_POST['affiliateid'] = $_REQUEST['affiliateid'] = $this->_oScope->_publisherId;
         }
         // Select the correct statistics page controller type
-        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             if (!empty($this->_oScope->_advertiserId) && !empty($this->_oScope->_publisherId)) {
                 $controllerType = 'advertiser-affiliate-history';
             } elseif (!empty($this->_oScope->_advertiserId)) {
@@ -763,8 +763,6 @@ class Plugins_Reports_OxReportsStandard_ConversionTrackingReport extends Plugins
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $aParams = ['agency_id' => OA_Permission::getEntityId()];
             $aTrackers = Admin_DA::getTrackers($aParams);
-        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-            $aTrackers = Admin_DA::getTrackers([]);
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $aTrackers = [];
             $aParams = ['publisher_id' => OA_Permission::getEntityId()];
