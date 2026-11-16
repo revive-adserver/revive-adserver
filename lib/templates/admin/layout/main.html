@@ -224,11 +224,18 @@
 {if !$installing && $loaderDelay >= 0}
 {literal}
 <script>
-    window.addEventListener('beforeunload', function() {
-        setTimeout(function () {
-            FreezeUI();
-        }, {/literal}{$loaderDelay}{literal})
-    });
+    (function () {
+        var freezeTimer;
+        window.addEventListener('beforeunload', function () {
+            freezeTimer = setTimeout(FreezeUI, {/literal}{$loaderDelay}{literal});
+        });
+        window.addEventListener('pageshow', function (e) {
+            if (e.persisted) {
+                clearTimeout(freezeTimer);
+                UnFreezeUI();
+            }
+        });
+    })();
 </script>
 {/literal}
 {/if}
