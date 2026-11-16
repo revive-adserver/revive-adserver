@@ -286,6 +286,8 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
         if (!empty($aFieldValues[$advertiserFieldName])) {
             if (is_numeric($aFieldValues[$advertiserFieldName])) {
                 $advertiserId = $aFieldValues[$advertiserFieldName];
+                // Accept only advertisers offered to this account in the report form.
+                $advertiserId = isset($this->_getAdvertisers()[$advertiserId]) ? $advertiserId : false;
             } else {
                 $advertiserId = false;
                 if ($aFieldValues[$advertiserFieldName] == 'anon') {
@@ -298,6 +300,8 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
         if (!empty($aFieldValues[$publisherFieldName])) {
             if (is_numeric($aFieldValues[$publisherFieldName])) {
                 $publisherId = $aFieldValues[$publisherFieldName];
+                // The publisher list can include connected websites from other agencies.
+                $publisherId = isset($this->_getPublishers()[$publisherId]) ? $publisherId : false;
             } else {
                 $publisherId = false;
                 if ($aFieldValues[$advertiserFieldName] == 'anon') {
