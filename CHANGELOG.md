@@ -12,6 +12,10 @@ All notable changes to Revive Adserver will be documented in this file.
 
 - Added a minimum release stability setting for update checks ([#1794](https://github.com/revive-adserver/revive-adserver/issues/1794))
 
+### Improvements
+
+- Limited HTML5 ZIP import size and entry count ([#1795](https://github.com/revive-adserver/revive-adserver/issues/1795))
+
 ## [6.1.0-rc1] - 2026-11-11
 
 ### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2026-004/)

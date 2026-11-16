@@ -97,7 +97,8 @@ class AdminServiceConfigurator
             ->addCompilerPass(new Html5ZipManagerPass())
             ->register('html5.zip.manager', Html5ZipManager::class)
             ->setPublic(true)
-            ->addArgument(new Reference('filesystem'));
+            ->addArgument(new Reference('filesystem'))
+            ->addArgument((int) $container->getParameter('store.maxFilesize'));
 
         $container
             ->register('html5.parser.meta', MetaParser::class)

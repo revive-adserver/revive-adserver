@@ -133,4 +133,41 @@ class Test_RV_Html5ZipManager extends UnitTestCase
         $this->expectException(RuntimeException::class);
         $manager->open($this->archive(['a/index.html' => $this->html(), 'b/index.html' => $this->html()]));
     }
+
+    public function testRejectsArchiveAboveConfiguredUploadLimit()
+    {
+        $manager = new Html5ZipManager($this->filesystem, 1);
+        $this->expectException(RuntimeException::class);
+        $manager->open($this->archive(['index.html' => $this->html()]));
+    }
+
+    public function testRejectsArchiveWithTooManyEntries()
+    {
+        $files = ['index.html' => $this->html()];
+        for ($index = 0; $index < 1000; $index++) {
+            $files["asset{$index}.txt"] = 'x';
+        }
+
+        $manager = new Html5ZipManager($this->filesystem);
+        $this->expectException(RuntimeException::class);
+        $manager->open($this->archive($files));
+    }
+
+    public function testRejectsArchiveWithExcessiveUncompressedSize()
+    {
+        $source = $this->directory . '/asset.txt';
+        file_put_contents($source, str_repeat('x', 1024 * 1024));
+        $archive = $this->directory . '/banner.zip';
+        $zip = new ZipArchive();
+        $zip->open($archive, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+        $zip->addFromString('index.html', $this->html());
+        for ($index = 0; $index < 101; $index++) {
+            $zip->addFile($source, "asset{$index}.txt");
+        }
+        $zip->close();
+
+        $manager = new Html5ZipManager($this->filesystem);
+        $this->expectException(RuntimeException::class);
+        $manager->open($archive);
+    }
 }

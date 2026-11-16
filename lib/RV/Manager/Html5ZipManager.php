@@ -19,6 +19,10 @@ use RV\Parser\Html5ParserInterface;
 
 class Html5ZipManager
 {
+    private const MAX_ARCHIVE_SIZE = 100 * 1024 * 1024;
+    private const MAX_UNCOMPRESSED_SIZE = 100 * 1024 * 1024;
+    private const MAX_ENTRIES = 1000;
+
     /**
      * @var string
      */
@@ -98,14 +102,17 @@ EOF;
      */
     private $height;
 
+    private readonly int $maxUploadSize;
+
     /**
      * Html5ZipManager constructor.
      *
      * @param Filesystem $destination
      */
-    public function __construct(Filesystem $destination)
+    public function __construct(Filesystem $destination, int $maxUploadSize = 0)
     {
         $this->destination = $destination;
+        $this->maxUploadSize = $maxUploadSize;
     }
 
     /**
@@ -130,8 +137,9 @@ EOF;
      */
     public function open($zipFile)
     {
+        $this->verifyArchiveLimits($zipFile);
         $source = new Filesystem(new ZipArchiveAdapter(new FilesystemZipArchiveProvider($zipFile)));
-        $this->hash = md5(file_get_contents($zipFile));
+        $this->hash = hash_file('md5', $zipFile);
 
         self::stripMacOsDir($source);
 
@@ -145,6 +153,36 @@ EOF;
 
         $this->verifyContent();
         $this->parseSize();
+    }
+
+    private function verifyArchiveLimits(string $zipFile): void
+    {
+        $archiveSize = filesize($zipFile);
+        if ($archiveSize === false || $archiveSize > self::MAX_ARCHIVE_SIZE || ($this->maxUploadSize > 0 && $archiveSize > $this->maxUploadSize)) {
+            throw new \RuntimeException($GLOBALS['strHtml5ZipTooLarge']);
+        }
+
+        $zip = new \ZipArchive();
+        if ($zip->open($zipFile) !== true) {
+            throw new \RuntimeException($GLOBALS['strHtml5InvalidZip']);
+        }
+
+        try {
+            if ($zip->numFiles > self::MAX_ENTRIES) {
+                throw new \RuntimeException($GLOBALS['strHtml5ZipTooManyEntries']);
+            }
+
+            $totalSize = 0;
+            for ($index = 0; $index < $zip->numFiles; $index++) {
+                $entry = $zip->statIndex($index);
+                if ($entry === false || !isset($entry['size']) || $entry['size'] < 0 || $entry['size'] > self::MAX_UNCOMPRESSED_SIZE - $totalSize) {
+                    throw new \RuntimeException($GLOBALS['strHtml5ZipTooLarge']);
+                }
+                $totalSize += $entry['size'];
+            }
+        } finally {
+            $zip->close();
+        }
     }
 
     /**
