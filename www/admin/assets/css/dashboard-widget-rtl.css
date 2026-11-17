@@ -1,0 +1,63 @@
+/*
+ * Right-to-left overrides, loaded after dashboard-widget.css.
+ * Only the rules that depend on the direction are mirrored here; the overlay
+ * frame keeps its left-to-right images.
+ */
+
+#main {
+    float: right;
+}
+#ad {
+    margin-left: 0;
+    float: left;
+    margin-right: 10px;
+}
+.alignRight {
+    text-align: left;
+}
+ul.widgetList {
+    padding-left: 0;
+    padding-right: 12px;
+    list-style-image: url('../images/rtl/listIcon.gif');
+}
+.widgetList li .title {
+    margin-right: 0;
+    float: right;
+    margin-left: 2%;
+}
+#loginForm div.line {
+    padding-right: 0;
+    padding-left: 5px;
+}
+#loginForm div.line-nolabel {
+    padding: 5px 150px 0 5px;
+}
+#loginForm label {
+    text-align: right;
+    float: right;
+}
+div.loginCreateAccount {
+    padding-left: 0;
+    padding-right: 20px;
+}
+div.widgetOverlay {
+    left: auto;
+    right: 20%;
+}
+div.widgetOverlayCenter {
+    text-align: right;
+}
+div.widgetOverlayContent {
+    text-align: right;
+}
+div.dashboardOverlay {
+    left: auto;
+    right: 0%;
+}
+div.widgetToolbarNav {
+    margin-left: 0;
+    margin-right: 25px;
+}
+div.widgetButtons div {
+    float: left;
+}

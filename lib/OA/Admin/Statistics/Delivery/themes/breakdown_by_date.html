@@ -9,7 +9,7 @@
 <div flexy:start="here">
 	<table width='100%' border='0' cellspacing='0' cellpadding='0'>
 	<tr>
-	<td style="background-color: #f6f6f6; padding-left: 40px; width: 100%; border-bottom: 1px solid #999999;">
+	<td style="background-color: #f6f6f6; padding-inline-start: 40px; width: 100%; border-bottom: 1px solid #999999;">
 	 <br />
 
     <div flexy:if="showDaySpanSelector">
@@ -43,7 +43,7 @@
     </td>
   </tr>
   <tr>
-	<td style="padding-left: 40px;">
+	<td style="padding-inline-start: 40px;">
     {if:noStatsAvailable}
     <div class='errormessage' style='margin-top: 2em'><img class='errormessage' src='{assetPath}/images/info.gif' width='16' height='16' border='0' align='absmiddle'>{showNoStatsString()}</div>
     {else:}
@@ -75,7 +75,7 @@
             </tr>
             <tr>
                 <td colspan="{getColSpan()}" class="nblight" style="padding-bottom: 3em">
-                    <div style="float: left">
+                    <div style="float: inline-start">
                         <form method="get">
                             {foreach:aPageParams,pk,pv}
                             <input type="hidden" name="{pk}" value="{pv}" />
@@ -91,7 +91,7 @@
                             {end:}
                         </form>
                     </div>
-                    <div style="float: right">
+                    <div style="float: inline-end">
                             {if:pagerLinks}
                             &nbsp;&nbsp;
                             {pagerLinks:h}

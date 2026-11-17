@@ -8,9 +8,12 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
--->*}<html>
+-->*}<html{if $phpAds_TextDirection != 'ltr'} dir="{$phpAds_TextDirection}"{/if}>
 <head>
   <link rel='stylesheet' type='text/css' href='{$assetPath}/css/dashboard-widget.css'>
+  {if $phpAds_TextDirection != 'ltr'}
+  <link rel='stylesheet' type='text/css' href='{$assetPath}/css/dashboard-widget-rtl.css'>
+  {/if}
 </head>
 <body>
 <div id="wrapper">

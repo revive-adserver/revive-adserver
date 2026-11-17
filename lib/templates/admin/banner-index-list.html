@@ -155,9 +155,9 @@
                 {/if}
                 <td>
                   {if $canEdit}
-                      <a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}' class='inlineIcon {ox_banner_icon type=$banner.type active=$banner.active}'>{$banner.description|escape:html}</a>
+                      <a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}' class='inlineIcon {ox_banner_icon type=$banner.type active=$banner.active}'><bdi>{$banner.description|escape:html}</bdi></a>
                     {else}
-                      <span class='inlineIcon {ox_banner_icon type=$banner.type active=$banner.active}'>{$banner.description|escape:html}</span>
+                      <span class='inlineIcon {ox_banner_icon type=$banner.type active=$banner.active}'><bdi>{$banner.description|escape:html}</bdi></span>
                     {/if}
                   {ox_entity_id type="Banner" id=$bannerId}
                 </td>
@@ -199,11 +199,11 @@
                                 <th>{t str=URL}</th>
                                 <td>
                                 {if $banner.url_trimmed}
-                                    <span title="{$banner.url|escape}">
+                                    <span title="{$banner.url|escape}" dir="ltr">
                                         {$banner.url_trimmed|escape}
                                     </span>
                                 {else}
-                                    {$banner.url|escape}
+                                    <span dir="ltr">{$banner.url|escape}</span>
                                 {/if}
                                 </td>
                             </tr>

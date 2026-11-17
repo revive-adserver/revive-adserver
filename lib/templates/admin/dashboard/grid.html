@@ -11,10 +11,13 @@
 -->*}
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html{if $phpAds_TextDirection != 'ltr'} dir="{$phpAds_TextDirection}"{/if}>
     <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
       <link rel="stylesheet" type="text/css" media="screen" href="{$cssURL}/dashboard-home.css"></link>
+      {if $phpAds_TextDirection != 'ltr'}
+      <link rel="stylesheet" type="text/css" media="screen" href="{$cssURL}/dashboard-home-rtl.css"></link>
+      {/if}
 
       <!--[if IE]>
           <link rel="stylesheet" type="text/css" media="screen" href="{$cssURL}/dashboard-home-ie.css"></link>

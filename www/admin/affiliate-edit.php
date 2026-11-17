@@ -96,7 +96,7 @@ function buildWebsiteForm($affiliate)
     $form->addElement('hidden', 'affiliateid', $affiliate['affiliateid']);
 
     $form->addElement('header', 'basic_info', $GLOBALS['strBasicInformation']);
-    $form->addElement('text', 'website', $GLOBALS['strWebsiteURL']);
+    $form->addElement('text', 'website', $GLOBALS['strWebsiteURL'], ['dir' => 'ltr']);
     $form->addElement('text', 'name', $GLOBALS['strName']);
     $form->addElement('text', 'contact', $GLOBALS['strContact']);
     $form->addElement('text', 'email', $GLOBALS['strEMail']);

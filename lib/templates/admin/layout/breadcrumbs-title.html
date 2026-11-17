@@ -17,12 +17,12 @@
     <div class="breadcrumb {if $headerModel->getIconClass()}hasIcon {$headerModel->getIconClass()}{/if}">
         <h3 {if $breadcrumbCount == 0}class="noBreadcrumb"{/if}>
             <span class='label'>{$headerModel->getTitle()}</span>{if $headerModel->getPageType() == "edit"}:{/if}
-            {$headerModel->getEntityName()|escape}
+            <bdi>{$headerModel->getEntityName()|escape}</bdi>
             {if $headerModel->getNewTargetName()}
                 <span class='target'>
                     {$headerModel->getNewTargetTitle()}
                     {if $headerModel->getNewTargetLink()}<a href="{$headerModel->getNewTargetLink()}" title="{$headerModel->getNewTargetName()|escape}">{/if}
-                    {$headerModel->getNewTargetName()|escape}
+                    <bdi>{$headerModel->getNewTargetName()|escape}</bdi>
                     {if $headerModel->getNewTargetLink()}</a>{/if}
                 </span>
             {/if}
@@ -34,7 +34,7 @@
                 <span>
                     <ul>
                     {section name=breadcrumbIndex loop=$breadcrumbs}
-                        <li class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}: {$breadcrumbs[breadcrumbIndex]->getEntityName()|escape}</li>
+                        <li class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}: <bdi>{$breadcrumbs[breadcrumbIndex]->getEntityName()|escape}</bdi></li>
                         {if $smarty.section.breadcrumbIndex.index lt $breadcrumbCount - 1}
                         <li class='sep'>&gt;</li>
                         {/if}
@@ -92,9 +92,9 @@
             <span class="entityLinks">
             {section name=breadcrumbIndex loop=$breadcrumbs}
                 {if $breadcrumbs[breadcrumbIndex]->getUrl()}
-                    <a href="{$breadcrumbs[breadcrumbIndex]->getUrl()}" class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}: {$breadcrumbs[breadcrumbIndex]->getEntityName()|escape}</a>
+                    <a href="{$breadcrumbs[breadcrumbIndex]->getUrl()}" class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}: <bdi>{$breadcrumbs[breadcrumbIndex]->getEntityName()|escape}</bdi></a>
                 {else}
-                    <span class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}: {$breadcrumbs[breadcrumbIndex]->getEntityName()|escape}</span>
+                    <span class="ent inlineIcon {$breadcrumbs[breadcrumbIndex]->getCssClass()}">{$breadcrumbs[breadcrumbIndex]->getEntityLabel()}: <bdi>{$breadcrumbs[breadcrumbIndex]->getEntityName()|escape}</bdi></span>
                 {/if}
 
                 {if $smarty.section.breadcrumbIndex.index lt $breadcrumbCount - 1}

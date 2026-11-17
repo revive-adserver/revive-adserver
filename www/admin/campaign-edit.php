@@ -432,7 +432,7 @@ function buildDateFormSection(&$form, $campaign, $newCampaign)
     $actDateGroup ['radioNow'] = $form->createElement('radio', 'startSet', null, $GLOBALS ['strActivateNow'], 'f', ['id' => 'startSet_immediate' ]);
     $actDateGroup ['radioSpecific'] = $form->createElement('radio', 'startSet', null, $GLOBALS ['strSetSpecificDate'], 't', ['id' => 'startSet_specific' ]);
 
-    $specificStartDateGroup ['date'] = $form->createElement('text', 'start', null, ['id' => 'start', 'class' => 'small' ]);
+    $specificStartDateGroup ['date'] = $form->createElement('text', 'start', null, ['id' => 'start', 'class' => 'small', 'dir' => 'ltr' ]);
     $specificStartDateGroup ['cal_img'] = $form->createElement('html', 'start_button', "<a href='#' id='start_button'><img src='" . OX::assetPath() . "/images/icon-calendar.gif' align= 'absmiddle' /></a>");
     $specificStartDateGroup ['note'] = $form->createElement('html', 'activation_note', $GLOBALS ['strActivationDateComment']);
     $actDateGroup ['specificDate'] = $form->createElement('group', 'g_specificStartDate', null, $specificStartDateGroup, null, false);
@@ -447,7 +447,7 @@ function buildDateFormSection(&$form, $campaign, $newCampaign)
     $expDateGroup ['disablednote'] = $form->createElement('custom', 'date-campaign-date-limit-set-note', null, null, false);
     $form->addDecorator('date-campaign-date-limit-set-note', 'tag', ['attributes' => ['id' => 'date-section-limit-date-set', 'class' => 'hide' ] ]);
 
-    $specificEndDateGroup ['date'] = $form->createElement('text', 'end', null, ['id' => 'end', 'class' => 'small' ]);
+    $specificEndDateGroup ['date'] = $form->createElement('text', 'end', null, ['id' => 'end', 'class' => 'small', 'dir' => 'ltr' ]);
     $specificEndDateGroup ['cal_img'] = $form->createElement('html', 'end_button', "<a href='#' id='end_button'><img src='" . OX::assetPath() . "/images/icon-calendar.gif' align='absmiddle' /></a>");
     $specificEndDateGroup ['note'] = $form->createElement('html', 'expiration_note', $GLOBALS ['strExpirationDateComment']);
     $expDateGroup ['specificDate'] = $form->createElement('group', 'g_specificEndDate', null, $specificEndDateGroup, null, false);

@@ -128,7 +128,7 @@
                 </td>
                 {/if}
                 <td>
-                    <a href='affiliate-edit.php?affiliateid={$key}' class='inlineIcon iconWebsite'>{$affiliate.name|escape:html}</a>
+                    <a href='affiliate-edit.php?affiliateid={$key}' class='inlineIcon iconWebsite'><bdi>{$affiliate.name|escape:html}</bdi></a>
                     {ox_entity_id type="Website" id=$key}
                 </td>
                 <td>

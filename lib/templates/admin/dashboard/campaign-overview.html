@@ -9,11 +9,14 @@
 +---------------------------------------------------------------------------+
 
 -->*}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"{if $phpAds_TextDirection != 'ltr'} dir="{$phpAds_TextDirection}"{/if}>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>{t str=CampaignOverview}</title>
   <link rel='stylesheet' type='text/css' href='{$assetPath}/css/dashboard-widget.css'>
+  {if $phpAds_TextDirection != 'ltr'}
+  <link rel='stylesheet' type='text/css' href='{$assetPath}/css/dashboard-widget-rtl.css'>
+  {/if}
   <!--[if IE]>
       <link rel="stylesheet" type="text/css" href="{$assetPath}/css/dashboard-widget-ie.css" />
   <![endif]-->
@@ -27,7 +30,7 @@
         <!-- normal view -->
         <ul class="widgetList campaignList">
            {foreach from=$aCampaign key=key item=aValue}
-           <li><div class="title">
+           <li><div class="title" dir="auto">
               {if $aValue.campaignid != ""}
                  <a target="_top" href="{$baseUrl}?clientid={$aValue.clientid}&campaignid={$aValue.campaignid}" title="{$aValue.name|escape}">{$aValue.name|escape}</a>
            	  {else}

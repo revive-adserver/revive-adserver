@@ -343,7 +343,7 @@ function buildBannerForm($type, $aBanner, &$oComponent = null, $formDisabled = f
         }
 
         $form->addElement('header', 'header_b_links', "Banner link");
-        $form->addElement('text', 'url', $GLOBALS['strURL']);
+        $form->addElement('text', 'url', $GLOBALS['strURL'], ['dir' => 'ltr']);
         $targetElem = $form->createElement('text', 'target', $GLOBALS['strTarget']);
         $targetElem->setAttribute('maxlength', '16');
         $form->addElement($targetElem);
@@ -385,10 +385,10 @@ function buildBannerForm($type, $aBanner, &$oComponent = null, $formDisabled = f
         $header->setAttribute('icon', 'icon-banner-url.gif');
         $form->addElement($header);
 
-        $form->addElement('text', 'imageurl', $GLOBALS['strNewBannerURL']);
+        $form->addElement('text', 'imageurl', $GLOBALS['strNewBannerURL'], ['dir' => 'ltr']);
 
         $form->addElement('header', 'header_b_links', "Banner link");
-        $form->addElement('text', 'url', $GLOBALS['strURL']);
+        $form->addElement('text', 'url', $GLOBALS['strURL'], ['dir' => 'ltr']);
         $targetElem = $form->createElement('text', 'target', $GLOBALS['strTarget']);
         $targetElem->setAttribute('maxlength', '16');
         $form->addElement($targetElem);
