@@ -109,6 +109,7 @@ $GLOBALS['strRunningOn'] = "تعمل على";
 $GLOBALS['strAndPlain'] = "و";
 
 //  Deliver Limitations
+$GLOBALS['strDeliveryLimitations'] = "قواعد التوصيل";
 
 //  Append codes
 

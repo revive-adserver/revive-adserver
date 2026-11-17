@@ -40,7 +40,7 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adjs.class.php:36
 msgid "Javascript Tag"
-msgstr ""
+msgstr "كود Javascript"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adlayer.class.php:44
 msgid "Interstitial or Floating DHTML Tag"
@@ -52,7 +52,7 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adview.class.php:35
 msgid "Image Tag"
-msgstr ""
+msgstr "كود الصورة"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/adviewnocookies.class.php:41
 msgid "No Cookie Image Tag"
