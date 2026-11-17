@@ -157,9 +157,9 @@
                 {/if}
                 <td>
                     {if $isAdvertiser}
-                        <span class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</span>
+                        <span class='inlineIcon {ox_campaign_icon status=$campaign.status}'><bdi>{$campaign.campaignname|escape:html}</bdi></span>
                     {else}
-                        <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon {ox_campaign_icon status=$campaign.status}'>{$campaign.campaignname|escape:html}</a>
+                        <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}' class='inlineIcon {ox_campaign_icon status=$campaign.status}'><bdi>{$campaign.campaignname|escape:html}</bdi></a>
                     {/if}
                     {ox_entity_id type="Campaign" id=$campaignId}
                 </td>

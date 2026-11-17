@@ -146,7 +146,7 @@
                 </td>
                 {/if}
                 <td>
-                    <a href='advertiser-edit.php?clientid={$clientId}' class='inlineIcon iconAdvertiser'>{$client.clientname|escape:html}</a>
+                    <a href='advertiser-edit.php?clientid={$clientId}' class='inlineIcon iconAdvertiser'><bdi>{$client.clientname|escape:html}</bdi></a>
                     {ox_entity_id type="Advertiser" id=$clientId}
                 </td>
                 <td>

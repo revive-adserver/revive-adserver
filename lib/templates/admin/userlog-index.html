@@ -80,15 +80,15 @@
             {cycle values='odd,even' assign=rowClass}
             <tr class="{$rowClass}">
                 <td>{$aValue.updated}</td>
-                <td>
-                    {$aValue.username|escape} {t str=$aValue.action} {$aValue.contextDescription} "{$aValue.details.key_desc|escape}" {if !empty($aValue.contextid)}(#{$aValue.contextid}){/if}
+                <td><span dir="auto">
+                    <bdi>{$aValue.username|escape}</bdi> {t str=$aValue.action} {$aValue.contextDescription} "<bdi>{$aValue.details.key_desc|escape}</bdi>" {if !empty($aValue.contextid)}<span dir="ltr">(#{$aValue.contextid})</span>{/if}
                     {if !empty($aValue.parentcontext)}
-                        in {$aValue.parentcontext} (#{$aValue.parentcontextid})
+                        in {$aValue.parentcontext} <span dir="ltr">(#{$aValue.parentcontextid})</span>
                     {/if}
                     {if !empty($aValue.hasChildren)}
                         {t str=AdditionalItems}
                     {/if}
-                </td>
+                </span></td>
                 <td><img src="{$assetPath|escape}/images/icon-zoom.gif" />&nbsp;<a href="userlog-audit-detailed.php?auditId={$aValue.auditid}">{t str=View}</a></td>
             </tr>
             {/foreach}
@@ -103,7 +103,7 @@
     </table>
 </div>
 <div class="filters">
-    {t str=ItemsPerPage}: {$pager->pagerSelect}&nbsp;{if !empty($pager->links)}{$pager->links}{/if}
+    {t str=ItemsPerPage}: {$pager->pagerSelect}&nbsp;{if !empty($pager->links)}{$pager->links|replace:'&nbsp;':' '}{/if}
 </div>
 </form>
 {literal}

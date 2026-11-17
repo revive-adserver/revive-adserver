@@ -9,7 +9,7 @@
 <div flexy:start="here">
 	<table width='100%' border='0' cellspacing='0' cellpadding='0'>
 	<tr>
-	<td style="background-color: #f6f6f6; padding-left: 40px; width: 100%; border-bottom: 1px solid #999999;">
+	<td style="background-color: #f6f6f6; padding-inline-start: 40px; width: 100%; border-bottom: 1px solid #999999;">
 	 <br />
 
     <div flexy:if="showDaySpanSelector">
@@ -43,7 +43,7 @@
     </td>
     </tr>
     <tr>
-       <td style="padding-left: 40px;">
+       <td style="padding-inline-start: 40px;">
     {if:noStatsAvailable}
     <div class='errormessage' style='margin-top: 2em'><img class='errormessage' src='{assetPath}/images/info.gif' width='16' height='16' border='0' align='absmiddle'>{showNoStatsString()}</div>
     {else:}
@@ -90,7 +90,7 @@
             </tr>
         </tbody>
     </table>
-    <div style="float: left" flexy:if="showHideInactive">
+    <div style="float: inline-start" flexy:if="showHideInactive">
         &nbsp;&nbsp;
         {if:hideInactive}
             <img src='{assetPath}/images/icon-activate.gif' align='absmiddle' border='0' />&nbsp;<a href='{pageURI}hideinactive=0'>{tr(#strShowAll#)}</a> | {hiddenEntitiesText}
@@ -101,12 +101,12 @@
           | <img src='{assetPath}/{hide[icon]}' align='absmiddle' border='0' />&nbsp;<a href="{pageURI}startlevel={level}">{hide[text]}</a>
         {end:}
     </div>
-    <div style="float: left" flexy:if="!showHideInactive">
+    <div style="float: inline-start" flexy:if="!showHideInactive">
         {foreach:showHideLevels,level,hide}
         | <img src='{assetPath}/{hide[icon]}' align='absmiddle' border='0' />&nbsp;<a href="{pageURI}startlevel={level}">{hide[text]}</a>
         {end:}
     </div>
-    <div style="float: right">
+    <div style="float: inline-end">
         <img src="{assetPath}/images/triangle-d.gif" align="absmiddle" border="0" />&nbsp;<a href="{pageURI}expand=all" accesskey="{tr(#keyExpandAll#)}">{tr(#strExpandAll#):h}</a>
         &nbsp;&nbsp;|&nbsp;&nbsp;
         <img src="{assetPath}/images/{phpAds_TextDirection}/triangle-l.gif" align="absmiddle" border="0" />&nbsp;<a href="{pageURI}expand=none" accesskey="{tr(#keyCollapseAll#)}">{tr(#strCollapseAll#):h}</a>

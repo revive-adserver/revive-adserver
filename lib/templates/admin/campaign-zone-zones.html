@@ -59,7 +59,7 @@
       <td class="name" title="{$website.name|escape}">
         <label style="white-space: nowrap">
             <input id="{$checkboxPrefix}w{$websiteid}"
-                   name="w{$websiteid}" type="checkbox" class="checkbox parent" />{boldSearchPhrase text=$website.name search=$text}
+                   name="w{$websiteid}" type="checkbox" class="checkbox parent" /><bdi>{boldSearchPhrase text=$website.name search=$text}</bdi>
         </label>
       </td>
       <td class="link">
@@ -78,7 +78,7 @@
         <label>
             <input id="{$checkboxPrefix}w{$websiteid}_z{$zoneid}"
                    name="z{$zoneid}" type="checkbox" class="checkbox" />
-            {boldSearchPhrase text=$zone.name search=$text}
+            <bdi>{boldSearchPhrase text=$zone.name search=$text}</bdi>
         </label>
         </td>
         <td class="link">

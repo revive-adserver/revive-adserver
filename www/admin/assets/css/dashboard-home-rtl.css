@@ -1,0 +1,96 @@
+/*
+ * Right-to-left overrides, loaded after dashboard-home.css.
+ * Only the rules that depend on the direction are mirrored here; the widget
+ * frames, the corners and the widget carousel keep their left-to-right images.
+ */
+
+#main {
+    margin-left: 0;
+    float: right;
+    margin-right: 5px;
+}
+#ad {
+    margin-left: 0;
+    float: left;
+    margin-right: 10px;
+}
+.alignRight {
+    text-align: left;
+}
+dl.form dt {
+    float: right;
+}
+dl.form dt label {
+    text-align: right;
+}
+div.loginForm div.line {
+    padding-right: 0;
+    padding-left: 5px;
+}
+div.loginForm div.line-nolabel {
+    padding-left: 5px;
+    padding-right: 170px;
+}
+div.loginForm label {
+    text-align: right;
+    float: right;
+}
+div.loginCreateAccount {
+    padding-left: 0;
+    padding-right: 20px;
+}
+div.widgetCenter {
+    text-align: right;
+}
+div.widgetTitle {
+    padding-left: 0;
+    padding-right: 5px;
+    float: right;
+}
+div.widget2Center {
+    text-align: right;
+}
+div.widgetAdCenter {
+    text-align: right;
+}
+div.widgetToolbarButton {
+    margin-right: 0;
+    float: left;
+    margin-left: 25px;
+}
+div.widgetToolbarButton div a img {
+    padding-left: 0;
+    padding-right: 2px;
+}
+div.widgetToolbarSelector {
+    padding: 5px 50px 0 20px;
+}
+div.widgetToolbarSelector select {
+    margin: 0 15px 0 50px;
+}
+div.widgetOverlay {
+    left: auto;
+    right: 20%;
+}
+div.widgetOverlayCenter {
+    text-align: right;
+}
+div.widgetOverlayContent {
+    text-align: right;
+}
+div.dashboardOverlay {
+    left: auto;
+    right: 0%;
+}
+div.widgetToolbarNav {
+    margin-left: 0;
+    margin-right: 25px;
+}
+div.widgetButtons div.widgetButtonContainer {
+    float: left;
+}
+.groupWrapper {
+    margin-right: 0;
+    float: right;
+    margin-left: 2px;
+}

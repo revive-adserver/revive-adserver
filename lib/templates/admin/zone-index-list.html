@@ -127,9 +127,9 @@
                 {/if}
                 <td>
                   {if $canEdit}
-                      <a href='zone-edit.php?affiliateid={$affiliateId}&zoneid={$zoneId}' class='inlineIcon {ox_zone_icon delivery=$zone.delivery active=$zone.active warning=$zone.lowPriorityWarning}'>{$zone.zonename|escape:html}</a>
+                      <a href='zone-edit.php?affiliateid={$affiliateId}&zoneid={$zoneId}' class='inlineIcon {ox_zone_icon delivery=$zone.delivery active=$zone.active warning=$zone.lowPriorityWarning}'><bdi>{$zone.zonename|escape:html}</bdi></a>
                     {else}
-                      <span class='inlineIcon {ox_zone_icon delivery=$zone.delivery active=$zone.active warning=$zone.lowPriorityWarning}'>{$zone.zonename|escape:html}</span>
+                      <span class='inlineIcon {ox_zone_icon delivery=$zone.delivery active=$zone.active warning=$zone.lowPriorityWarning}'><bdi>{$zone.zonename|escape:html}</bdi></span>
                     {/if}
                   {ox_entity_id type="Zone" id=$zoneId}
                 </td>

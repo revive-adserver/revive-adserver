@@ -21,12 +21,12 @@ function phpAds_getBannerSize($width, $height)
 {
     global $phpAds_IAB, $strCustom;
 
-    $result = $strCustom . " ($width x $height)";
+    $result = $strCustom . " <span dir='ltr'>($width x $height)</span>";
 
     foreach (array_keys($phpAds_IAB) as $key) {
         if ($phpAds_IAB[$key]['width'] == $width &&
             $phpAds_IAB[$key]['height'] == $height) {
-            $result = $GLOBALS['strIab'][$key];
+            $result = '<bdi>' . $GLOBALS['strIab'][$key] . '</bdi>';
         }
     }
 

@@ -68,11 +68,11 @@ class OA_Admin_UI_Audit_DaySpanField extends Admin_UI_DaySpanField
 
         echo "
         </select>
-        <label for='{$this->_name}_start' style='margin-left: 1em'> " . $this->oTrans->translate('From') . "</label>
-        <input class='date' name='{$this->_name}_start' id='{$this->_name}_start' type='text' value='$startDateStr' tabindex='" . $this->_tabIndex++ . "' />
+        <label for='{$this->_name}_start' style='margin-inline-start: 1em'> " . $this->oTrans->translate('From') . "</label>
+        <input class='date' dir='ltr' name='{$this->_name}_start' id='{$this->_name}_start' type='text' value='$startDateStr' tabindex='" . $this->_tabIndex++ . "' />
         <input type='image' src='" . OX::assetPath() . "/images/icon-calendar.gif' id='{$this->_name}_start_button' align='absmiddle' border='0' tabindex='" . $this->_tabIndex++ . "' />
-        <label for='{$this->_name}_end' style='margin-left: 1em'> " . $this->oTrans->translate('To') . "</label>
-        <input class='date' name='{$this->_name}_end' id='{$this->_name}_end' type='text' value='$endDateStr' tabindex='" . $this->_tabIndex++ . "' />
+        <label for='{$this->_name}_end' style='margin-inline-start: 1em'> " . $this->oTrans->translate('To') . "</label>
+        <input class='date' dir='ltr' name='{$this->_name}_end' id='{$this->_name}_end' type='text' value='$endDateStr' tabindex='" . $this->_tabIndex++ . "' />
         <input type='image' src='" . OX::assetPath() . "/images/icon-calendar.gif' id='{$this->_name}_end_button' align='absmiddle' border='0' tabindex='" . $this->_tabIndex++ . "' />
         <script type='text/javascript'>
         <!--
