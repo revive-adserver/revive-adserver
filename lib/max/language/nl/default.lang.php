@@ -1248,6 +1248,9 @@ $GLOBALS['strHtml5InvalidFileType'] = "Ongeldig bestandstype: %s";
 $GLOBALS['strHtml5MultipleIndexHtml'] = "Meerdere 'index.html' bestanden gevonden";
 $GLOBALS['strHtml5NoHtml'] = "Geen '*.html' bestand gevonden";
 $GLOBALS['strHtml5MultipleHtml'] = "Meerdere '*.html' bestanden gevonden. Hernoem het hoofdbestand naar 'index.html'";
+$GLOBALS['strHtml5InvalidZip'] = "Ongeldig HTML5 ZIP-archief";
+$GLOBALS['strHtml5ZipTooLarge'] = "HTML5 ZIP-archief overschrijdt de toegestane grootte";
+$GLOBALS['strHtml5ZipTooManyEntries'] = "HTML5 ZIP-archief bevat te veel bestanden";
 
 /* ------------------------------------------------------- */
 /* Password strength                                       */
