@@ -67,7 +67,7 @@ class OA_Dashboard_Widget_Audit extends OA_Dashboard_Widget
                     $aValue['action'] = $this->oTrans->translate($oAudit->getActionName($aValue['actionid']));
                     $result = $oAudit->getParentContextData($aValue);
 
-                    $str = "{$aValue['username']} {$GLOBALS['strHas']} {$aValue['action']} {$aValue['context']}";
+                    $str = "{$GLOBALS['strHas']} {$aValue['action']} {$aValue['context']}";
                     if (!empty($aValue['contextid'])) {
                         $str .= " ({$aValue['contextid']})";
                     }
@@ -77,7 +77,7 @@ class OA_Dashboard_Widget_Audit extends OA_Dashboard_Widget
                     if (!empty($aValue['hasChildren'])) {
                         $str .= " {$GLOBALS['strAdditionItems']}";
                     }
-                    $aAuditData[$key]['desc'] = (strlen($str) > 30) ? substr($str, 0, 30) . '...' : $str;
+                    $aAuditData[$key]['desc'] = (grapheme_strlen($str) > 30) ? grapheme_substr($str, 0, 30) . '...' : $str;
                 }
             } else {
                 $this->oTpl->assign('noData', $GLOBALS['strAuditNoData']);
