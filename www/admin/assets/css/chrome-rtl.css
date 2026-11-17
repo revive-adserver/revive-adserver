@@ -140,7 +140,6 @@ td {
 }
 .accountSwitcher #accountLoading {
     right: auto;
-    display: block;
     left: 5px;
 }
 .accountSwitcher #accountLoadingError {
@@ -612,7 +611,7 @@ table.data td.graph {
     padding-right: 0;
 }
 .detail-table th {
-    padding-right: 0;
+    padding-right: 15px;
     text-align: right;
     padding-left: 5px;
 }
@@ -861,8 +860,6 @@ div.dropDown div.panel div div.column {
 /* rounded panel */
 
 .tableMessage .panel {
-    left: auto;
-    right: 0;
     background: #fff url("../images/panel-background.png") bottom right repeat-x;
 }
 .tableMessage .panel {
