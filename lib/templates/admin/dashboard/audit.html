@@ -33,7 +33,7 @@
             <li>
                 <div class="title" dir="auto">
                     <a target="_top" href="userlog-audit-detailed.php?auditId={$aValue.auditid}">
-                        {$aValue.desc|escape}
+                        <bdi>{$aValue.username|escape}</bdi> {$aValue.desc|escape}
                     </a>
                 </div>
                 <div>
