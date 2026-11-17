@@ -1,47 +1,996 @@
-body.hasSidebar {
-	background: #fff url(../images/rtl/background.gif) top right repeat-y;
+/*
+ * Right-to-left overrides, loaded after chrome.css and the other shared admin stylesheets.
+ * Only the rules of those files that depend on the direction are mirrored here.
+ * Directional sprites use the mirrored copies in images/rtl/.
+ */
+
+/* Arabic, Hebrew and Persian scripts need a bigger font in the main tabs */
+
+#oaNavigationTabs li a {
+    font-size: 14px;
+}
+
+
+/* ===== chrome.css ===== */
+
+caption,
+th,
+td {
+    text-align: right;
 }
 #oaHeaderBranding {
-	right: 0;
-	left: auto;
+    left: auto;
+    right: 0;
 }
-
+.brandingName {
+    padding: 0 22px 0 0;
+}
+.brandingName div {
+    left: auto;
+    right: 16px;
+    background: url(../images/logo-s.png) top right no-repeat;
+}
+.brandingAdServer {
+    margin: 5px 8px 0px 0px;
+}
 #oaSearch {
-	left: 8px;
-	right: auto;
+    right: auto;
+    left: 8px;
+    background: url(../images/rtl/searchfull.png) right 0px top 0px no-repeat;
 }
-#oaSearch div {
-	left: auto;
-	right: 0;
-	bottom: 0;
-	border-right: 4px solid #000063;
-	border-bottom: 4px solid #000063;
-	border-top: 4px solid #06c;
-	border-left: 4px solid #06c;
+#oaSearch input.search {
+    left: auto;
+    right: 32px;
 }
-#oaSearch label {
-	margin: 0 12px 0 0;
+#oaSearch input.submit {
+    right: auto;
+    left: 9px;
+    background: url(../images/rtl/searchfull.png) -12px -9px no-repeat;
+}
+#oaSearch input.submit:hover,
+#oaSearch input.submit:focus {
+    background-position: 0px -9px;
 }
 
+/* Navigation */
 
 #oaNavigationTabs {
-	left: auto;
-	right: 14px;
+    left: auto;
+    right: 7px;
 }
 #oaNavigationTabs li {
-	float: right;
+    float: right;
+    background: url(../images/rtl/tab-body.gif) right 0px repeat-x;
 }
+#oaNavigationTabs li div.left {
+    background: url(../images/rtl/tab-link.gif) right 0px no-repeat;
+}
+#oaNavigationTabs li.first div.left {
+    background: url(../images/rtl/tab-lead-in.gif) right 0px no-repeat;
+}
+#oaNavigationTabs li.last div.right {
+    background: url(../images/rtl/tab-lead-out.gif) left 0px no-repeat;
+}
+#oaNavigationTabs li.active,
+#oaNavigationTabs li.active div.left {
+    background-position: right -40px;
+}
+#oaNavigationTabs li.after-active div.left {
+    background-position: right -80px;
+}
+#oaNavigationTabs li.active div.right {
+    background-position: left -40px;
+}
+#oaNavigationTabs li span,
 #oaNavigationTabs li a {
-	float: left;
-	font-size: 14px;
+    float: right;
+    padding: 0 17px 0 6px;
 }
-
-
+#oaNavigationTabs li.last span,
+#oaNavigationTabs li.last a {
+    margin-right: 0;
+    margin-left: 11px;
+}
 #oaNavigationExtra {
-	left: 0;
-	right: auto;
+    right: auto;
+    left: 14px;
 }
 #oaNavigationExtra li {
-	float: left;
-	margin: 0 0 0 12px;
+    margin: 0 12px 0 0;
+}
+.triggerContainer {
+    text-align: left;
+}
+.switchTrigger {
+    float: left;
+    padding: 2px 5px 0px 14px;
+    background: url("../images/arrow-d.gif") no-repeat left 3px;
+}
+.expanded .switchTrigger {
+    background: url("../images/arrowwh-d.gif") no-repeat left 3px;
+}
+.hover .switchTrigger {
+    background: url("../images/arrowwh-d.gif") no-repeat left 3px;
+}
+.expanded .accountsPanel {
+    right: auto;
+    left: 0px;
+}
+.expanded .label {
+    padding-left: 0;
+    padding-right: 10px;
+}
+.accountSwitcherOverlay {
+    left: auto;
+    right: 0;
+}
+#oaNavigationExtra .accountSwitcher li {
+    padding-left: 0;
+    padding-right: 10px;
+}
+#oaNavigationExtra .accountSwitcher li.inopt {
+    padding-left: 0;
+    padding-right: 25px;
+}
+.accountSwitcher #accountSearchIcon {
+    padding-left: 0;
+    left: auto;
+    padding-right: 9px;
+    right: -16px;
+}
+.accountSwitcher #accountLoading {
+    right: auto;
+    display: block;
+    left: 5px;
+}
+.accountSwitcher #accountLoadingError {
+    padding-left: 0;
+    padding-right: 16px;
+}
+#oaNavigationExtraTop {
+    padding-right: 0;
+    padding-left: 12px;
+}
+#oaNavigationExtraTop.hasSearch {
+    padding-right: 0;
+    padding-left: 225px;
+}
+#oaNavigationExtraTop ul {
+    float: left;
+}
+#oaNavigationExtraTop li {
+    float: right;
+}
+#oaNavigationExtraTop li.infoUser,
+#oaNavigationExtraTop li.buttonHelp,
+#oaNavigationExtraTop li.buttonSupport {
+    border-right: none;
+    border-left: 1px solid #9c9c9c;
+}
+#oaNavigationExtraTop li.last {
+    border-right: none;
+    border-left: none;
+}
+
+/* First level content */
+
+body.hasGradient #firstLevelContent {
+    background: #fff url(../images/background-gradient.gif) right -16px repeat-x;
+}
+#context-help {
+    right: auto;
+    left: 40px;
+    padding: 1px 20px 1px 0px;
+    background: url(../images/icon-help.gif) no-repeat right center;
+}
+
+/* Second level navigation */
+
+#secondLevelNavigation {
+    left: auto;
+    right: 0;
+    margin: 12px 12px 0 0;
+}
+#secondLevelNavigation .navigation li.active {
+    background: url(../images/rtl/button-navigation.gif) right center no-repeat;
+}
+#secondLevelNavigation .navigation li.active a {
+    background: url(../images/rtl/button-navigation.gif) right center no-repeat;
+}
+#secondLevelNavigation .navigation li .top,
+#secondLevelNavigation .navigation li .bottom {
+    left: auto;
+    right: -1px;
+    background: url(../images/rtl/button-navigation.gif) right 0 no-repeat;
+}
+#secondLevelNavigation .navigation li.active .top,
+#secondLevelNavigation .navigation li.active .bottom {
+    left: auto;
+    right: 0;
+}
+#secondLevelNavigation .navigation li.first .top,
+#secondLevelNavigation .navigation li.single .top {
+    background-position: right -4px;
+}
+#secondLevelNavigation .navigation.first li.first .top,
+#secondLevelNavigation .navigation.first li.single .top {
+    background-position: right -12px;
+}
+#secondLevelNavigation .navigation li.last .bottom,
+#secondLevelNavigation .navigation li.single .bottom {
+    background-position: right -8px;
+}
+#secondLevelNavigation .navigation li.active .top {
+    background-position: right -152px;
+}
+#secondLevelNavigation .navigation li.active .bottom {
+    background-position: right -156px;
+}
+#secondLevelNavigation .navigation li.first.active .top,
+#secondLevelNavigation .navigation li.single.active .top {
+    background-position: right -144px;
+}
+#secondLevelNavigation .navigation li.last.active .bottom,
+#secondLevelNavigation .navigation li.single.active .bottom {
+    background-position: right -148px;
+}
+#secondLevelNavigation .navigation.first li.first.active .top,
+#secondLevelNavigation .navigation.first li.single.active .top {
+    background-position: right -140px;
+}
+#secondLevelNavigation .navigation li.active ul li a {
+    padding-left: 0;
+    padding-right: 20px;
+    background: #fff url(../images/rtl/button-navigation.gif) right -160px top 1px no-repeat;
+}
+#secondLevelNavigation .navigation li.active ul li.active a {
+    background-position: right -160px top -79px;
+}
+#secondLevelNavigation .navigation.first li.first.active li .top,
+#secondLevelNavigation .navigation.first li.single.active li .top,
+#secondLevelNavigation .navigation li.first.active li .top,
+#secondLevelNavigation .navigation li.single.active li .top {
+    background-position: right 0;
+}
+#secondLevelNavigation .navigation.first li.active li.first .top,
+#secondLevelNavigation .navigation li.active li.first .top {
+    left: auto;
+    right: -1px;
+    background-position: right -156px;
+}
+#secondLevelNavigation .navigation li.active li .top,
+#secondLevelNavigation .navigation li.last.active li .bottom,
+#secondLevelNavigation .navigation li.single.active li .bottom,
+#secondLevelNavigation .navigation li.active li .bottom {
+    background-position: right 0;
+}
+#secondLevelNavigation .navigation li.active ul li.last a .bottom {
+    left: auto;
+    right: -1px;
+    background-position: right -20px;
+}
+#secondLevelNavigation .navigation li.last.active ul li.last a .bottom,
+#secondLevelNavigation .navigation li.single.active ul li.last a .bottom {
+    left: auto;
+    right: -1px;
+    background-position: right -16px;
+}
+
+/* Second level content */
+
+.hasSidebar #secondLevelContent {
+    padding-left: 0;
+    margin: 0 184px 0 0;
+    padding-right: 0px;
+}
+
+/* Third level navigation */
+
+#thirdLevelNavigation {
+    margin: -21px 8px 0 0;
+}
+#thirdLevelNavigation li {
+    float: right;
+    background: url(../images/rtl/section-body.gif) right 0px repeat-x;
+}
+#thirdLevelNavigation li div.left {
+    background: url(../images/rtl/section-link.gif) right 0px no-repeat;
+}
+#thirdLevelNavigation li.first div.left {
+    background: url(../images/rtl/section-lead-in-plain.gif) right 0px no-repeat;
+}
+#thirdLevelNavigation li.last div.right {
+    background: url(../images/rtl/section-lead-out.gif) left 0px no-repeat;
+}
+#thirdLevelNavigation li.active,
+#thirdLevelNavigation li.active div.left {
+    background-position: right -40px;
+}
+#thirdLevelNavigation li.after-active div.left {
+    background-position: right -80px;
+}
+#thirdLevelNavigation li.active div.right {
+    background-position: left -40px;
+}
+#thirdLevelNavigation li span,
+#thirdLevelNavigation li a {
+    float: right;
+    padding: 0 17px 0 6px;
+}
+#thirdLevelNavigation li.last span,
+#thirdLevelNavigation li.last a {
+    padding-right: 17px;
+    padding-left: 17px;
+}
+
+/* Third level header */
+
+#thirdLevelHeader {
+    background: #fff url(../images/header-background.gif) right top repeat-x;
+}
+#thirdLevelHeader .left {
+    left: auto;
+    right: -1px;
+    background-position: top right;
+}
+#thirdLevelHeader .right {
+    right: auto;
+    left: -1px;
+    background-position: top left;
+}
+#thirdLevelHeader div.breadcrumb {
+    padding: 0px 3px 0 0px;
+}
+#thirdLevelHeader div.breadcrumb.reduced {
+    margin-right: 0;
+    margin-left: 250px;
+}
+#thirdLevelHeader div.breadcrumb.hasIcon {
+    padding-left: 0;
+    padding-right: 59px;
+    background-position: right top;
+}
+#thirdLevelHeader div.breadcrumb.hasIcon .titleIcon {
+    background-position: right top;
+    padding: 0px 55px 55px 0px;
+}
+
+/* Third level tools */
+
+#thirdLevelTools ul li {
+    float: left;
+    margin: 0 10px 0 0;
+}
+#thirdLevelTools a.buttonLink {
+    background: url(../images/rtl/header-dropdown-background.png) right -128px no-repeat;
+}
+#thirdLevelTools a.buttonLink span {
+    background: url(../images/rtl/header-dropdown-background.png) left -160px no-repeat;
+}
+#thirdLevelTools .dropDown {
+    left: auto;
+    float: right;
+    right: 0;
+}
+#thirdLevelTools .dropDown span {
+    background: url(../images/rtl/header-dropdown-background.png) right top no-repeat;
+}
+#thirdLevelTools .dropDown span span {
+    background-position: left -32px;
+    padding: 0 8px 0 26px;
+}
+#thirdLevelTools .dropDown.active span {
+    background-position: right -64px;
+}
+#thirdLevelTools .dropDown.active span span {
+    background-position: left -96px;
+}
+#thirdLevelTools .dropDown div.panel {
+    background: #fff;
+    padding: 0 0 0 6px;
+    background: url(../images/header-dropdown-left.gif) left bottom no-repeat;
+}
+#thirdLevelTools .alignRight .dropDown div.panel {
+    right: auto;
+    left: 0;
+}
+#thirdLevelTools .dropDown div.panel div {
+    background: url(../images/header-dropdown-right.gif) right bottom no-repeat;
+}
+#thirdLevelTools .dropDown ul li a {
+    padding: 0 8px 0 4px;
+}
+#thirdLevelTools .dropDown ul li label {
+    padding: 0 8px 0 40px;
+}
+#thirdLevelTools .dropDown ul li .inlineIcon {
+    padding-left: 0;
+    padding-right: 30px;
+}
+#thirdLevelTools .dropDown ul li form {
+    padding: 0 30px 0 6px;
+}
+#thirdLevelTools .dropDown ul li form select {
+    margin: 0 0 0 2px;
+}
+#oaSection {
+    background: #fff url(../images/rtl/section-body.gif) right -80px repeat-x;
+}
+#oaSectionTabs {
+    margin: 0 36px 0 0;
+}
+#oaSectionTabs li {
+    float: right;
+    background: url(../images/rtl/section-body.gif) right 0px repeat-x;
+}
+#oaSectionTabs li div.left {
+    background: url(../images/rtl/section-link.gif) right 0px no-repeat;
+}
+#oaSectionTabs li.first div.left {
+    background: url(../images/rtl/section-lead-in.gif) right 0px no-repeat;
+}
+#oaSectionTabs li.last div.right {
+    background: url(../images/rtl/section-lead-out.gif) left 0px no-repeat;
+}
+#oaSectionTabs li.active,
+#oaSectionTabs li.active div.left {
+    background-position: right -40px;
+}
+#oaSectionTabs li.after-active div.left {
+    background-position: right -80px;
+}
+#oaSectionTabs li.active div.right {
+    background-position: left -40px;
+}
+#oaSectionTabs li span,
+#oaSectionTabs li a {
+    float: right;
+    padding: 0 17px 0 6px;
+}
+#oaSectionTabs li.last span,
+#oaSectionTabs li.last a {
+    padding-right: 17px;
+    padding-left: 17px;
+}
+div.bannercode {
+    margin-left: 0;
+    margin-right: 20px;
+}
+div.breadcrumb .agen,
+div.breadcrumb .adv,
+div.breadcrumb .camp,
+div.breadcrumb .ban,
+div.breadcrumb .webs,
+div.breadcrumb .zone,
+div.breadcrumb .day {
+    padding: 2px 20px 2px 0px;
+}
+
+/* Context Actions and shortcuts */
+
+#contextContainer {
+    right: auto;
+    left: 20px;
+}
+div.contextLinks {
+    margin-left: 0;
+    float: left;
+    margin-right: 20px;
+}
+div.contextLinks a.more-less {
+    text-align: left;
+}
+div.contextLinks h4 {
+    padding: 5px 0px 5px 5px;
+}
+div.contextLinks form .submit {
+    margin-left: 0;
+    margin-right: 3px;
+}
+
+/* Forms */
+
+form.flat select,
+form.flat textarea,
+form.flat input[type=text],
+form.flat input[type=password] {
+    padding-left: 0;
+    padding-right: 3px;
+}
+form.flat input[type=radio],
+form.flat input[type=checkbox] {
+    margin-right: 0;
+    margin-left: 5px;
+}
+
+/* standard control sizes */
+
+form.flat .prefix {
+    margin-right: 0;
+    margin-left: 5px;
+}
+form.flat .suffix {
+    margin-left: 0;
+    margin-right: 5px;
+}
+
+/* campaign edit */
+
+#campaignform .type-desc {
+    margin: 2px 20px 4px 0px;
+}
+#impressions_remaining_span,
+#clicks_remaining_span,
+#conversions_remaining_span {
+    margin-left: 0;
+    margin-right: 5px;
+}
+#impressions_remaining_count,
+#clicks_remaining_count,
+#conversions_remaining_count {
+    margin-left: 0;
+    margin-right: 5px;
+}
+
+/* section tools */
+
+.control-panel .left {
+    margin-right: 0;
+    margin-left: 25px;
+}
+.control-panel .right {
+    margin-right: 0;
+    margin-left: 0px;
+}
+.control-set {
+    margin-right: 0;
+    float: right;
+    margin-left: 10px;
+    background: url("../images/control-background.png") bottom right repeat-x;
+}
+.control-set input {
+    margin-right: 0;
+    margin-left: 5px;
+}
+
+/* rounded panel with gradient */
+
+.panel {
+    left: auto;
+    right: 0;
+    background: #fff url("../images/panel-background.png") bottom right repeat-x;
+}
+
+.panel .split-left {
+    float: right;
+}
+.panel .split-right {
+    border-left: none;
+    float: left;
+    border-right: 1px solid #dddddd;
+}
+
+/* COMPONENT: TABLE */
+
+table.global td,
+table.global th {
+    text-align: right;
+}
+table.global thead th {
+    text-align: right;
+}
+table.global thead th.number {
+    text-align: left;
+}
+table.global tbody td {
+    text-align: right;
+}
+table.global tbody td.number {
+    text-align: left;
+}
+table.global th.first {
+    text-align: right;
+}
+table.global caption,
+table.data caption {
+    text-align: right;
+}
+table.data td {
+    text-align: right;
+}
+table.data .header {
+    text-align: right;
+}
+table.data td.label {
+    text-align: left;
+}
+table.data td.graph {
+    border-left: none;
+    padding-left: 0;
+    border-right: 1px solid #ccc;
+    text-align: right;
+    padding-right: 0;
+}
+.detail-table th {
+    padding-right: 0;
+    text-align: right;
+    padding-left: 5px;
+}
+
+/* icons */
+
+.icon {
+    padding-left: 0;
+    padding-right: 20px;
+    background-position: right center;
+}
+
+/* table actions */
+
+.action {
+    float: right;
+}
+
+/* package /plugin */
+
+.item-info .name {
+    margin-right: 0;
+    margin-left: 10px;
+}
+.item-info p {
+    margin: 0px 10px 5px 0px;
+}
+.checkdb {
+    float: left;
+}
+
+/* warnings */
+
+.form-message {
+    padding: .7em 30px 0.7em 1em;
+}
+.form-message-error ul {
+    padding-left: 0;
+    padding-right: 15px;
+}
+div.dropDown div.panel div div.column {
+    float: right;
+}
+.entityList .column ul {
+    border-right: none;
+    border-left: 1px solid #969a9d;
+}
+.entityList .column.first ul {
+    border-left: none;
+    border-right: 1px solid #bbb;
+}
+.entityList .column .loading {
+    background-position: right 8px top 8px;
+}
+.entityList .column li a {
+    padding: 1px 24px 1px 4px;
+    background-position: right 5px top 3px;
+}
+.entityList .column .selected {
+    background-position: 100% -2px;
+}
+.breadcrumb .dropDown {
+    left: auto;
+    right: 1px;
+}
+.breadcrumb .dropDown span {
+    left: auto;
+    float: right;
+    background: transparent url(../images/rtl/dropdown-background.png) repeat scroll right 1px;
+    right: -1px;
+}
+.breadcrumb .dropDown.active span {
+    left: auto;
+    background-position: right -2px;
+    border-right: 1px solid #e4e5e4;
+    border-left: 1px solid #aac0d8;
+    right: -2px;
+}
+.breadcrumb .dropDown span span,
+.breadcrumb .dropDown.active span span {
+    background-position: left -23px;
+    padding: 1px 0 1px 16px;
+}
+.breadcrumb .dropDown.active span span {
+    background: transparent url(../images/message-arrow-d.gif) left center no-repeat;
+}
+.breadcrumb .dropDown span span ul,
+.breadcrumb .dropDown span span ul li {
+    margin: 0 0 0 4px;
+}
+.breadcrumb .dropDown div.panel {
+    left: auto;
+    right: -2px;
+    border-right: 1px solid #e4e5e4;
+    border-left: 1px solid #d5d5d5;
+}
+
+/* wizard steps indicator */
+
+.wizard-steps li {
+    float: right;
+    background-position: left 0px;
+}
+.wizard-steps li div.body {
+    padding: 0px 12px 0px 32px;
+}
+.wizard-steps li.first div.body {
+    background-position: right 0px;
+}
+.wizard-steps li.current div.body {
+    background-position: right -44px;
+}
+.wizard-steps li.last {
+    background-position: left -44px;
+}
+.wizard-steps li.current {
+    background-position: left -88px;
+}
+.wizard-steps li.current-last {
+    background-position: left -132px;
+}
+.wizard-steps li.done {
+    background-position: left -176px;
+}
+.wizard-steps li.last-done {
+    background-position: left -220px;
+}
+
+
+/* ===== table.css ===== */
+
+/* UIDG tables */
+
+.tableWrapper .tableHeader .left {
+    left: auto;
+    right: -1px;
+    background-position: top right;
+}
+.tableWrapper .tableHeader .right {
+    right: auto;
+    left: -1px;
+    background-position: top left;
+}
+.tableWrapper .tableActions,
+.tableWrapper .tableFilters {
+    float: right;
+    clear: right;
+    padding: 0 8px 0 0;
+}
+.tableWrapper .tableFilters.alignRight {
+    float: left;
+}
+.tableWrapper .tableFilters.alignLeft {
+    float: right;
+}
+.tableWrapper .tableActions li,
+.tableWrapper .tableFilters li {
+    float: right;
+    padding: 0 0 0 12px;
+}
+.tableWrapper table {
+    clear: right;
+}
+.tableWrapper table th {
+    background: url(../images/table-header.png) right -2px repeat-x;
+}
+.tableWrapper table .toggleSelection,
+.tableWrapper table .toggleAll {
+    padding: 5px 6px 0 0;
+}
+.tableWrapper table .toggleAll {
+    padding: 0 6px 0 0;
+}
+.tableWrapper table .alignRight {
+    text-align: left;
+}
+.tableWrapper table .sortDown a,
+.tableWrapper table .sortDown span {
+    background: url(../images/arrow-d.gif) center left no-repeat;
+    padding: 2px 0 2px 16px;
+}
+.tableWrapper table .sortUp a,
+.tableWrapper table .sortUp span {
+    background: url(../images/arrow-u.gif) center left no-repeat;
+    padding: 2px 0 2px 16px;
+}
+.tableWrapper table .sortDown.alignRight a,
+.tableWrapper table .sortDown.alignRight span,
+.tableWrapper table .sortUp.alignRight a,
+.tableWrapper table .sortUp.alignRight span {
+    background-position: center right;
+    padding: 2px 16px 2px 0;
+}
+.rowActions li {
+    margin: 0 16px 0 0;
+}
+.tableWrapper table .alignRight .rowActions li a {
+    padding: 2px 20px 2px 0;
+}
+.verticalActions .rowActions li {
+    text-align: right;
+}
+.tableWrapper .tableHeader .label {
+    float: right;
+}
+.tableWrapper .dropDown {
+    left: auto;
+    float: right;
+    right: 0;
+    margin: 0 4px 0 0;
+}
+.tableWrapper .dropDown span {
+    background: url(../images/rtl/dropdown-background.png) right top no-repeat;
+}
+.tableWrapper .dropDown span span {
+    background-position: left -24px;
+    padding: 0 8px 0 26px;
+}
+.tableWrapper .dropDown.active span {
+    background-position: right -49px;
+}
+.tableWrapper .dropDown.active span span {
+    background-position: left -73px;
+}
+.tableWrapper .dropDown div.panel {
+    left: auto;
+    background: #fff;
+    right: -2px;
+    padding: 0 0 0 6px;
+    background: url(../images/dropdown-left.png) left bottom no-repeat;
+}
+.tableWrapper .alignRight .dropDown div.panel {
+    right: auto;
+    left: -2px;
+}
+.tableWrapper .dropDown div.panel div {
+    background: url(../images/dropdown-right.png) right bottom no-repeat;
+}
+.tableWrapper .dropDown ul {
+    margin: 0 3px 0 -3px;
+}
+.tableWrapper .dropDown ul li a {
+    padding: 0 8px 0 40px;
+}
+
+/* rounded panel */
+
+.tableMessage .panel {
+    left: auto;
+    right: 0;
+    background: #fff url("../images/panel-background.png") bottom right repeat-x;
+}
+.tableMessage .panel {
+    float: right;
+}
+.tableWrapper table td.hasPanel div.panel table td,
+.tableWrapper table td.hasPanel div.panel table th {
+    text-align: right;
+}
+.tableWrapper table td.hasPanel div.panel table th {
+    padding: 0 0 0 12px;
+    text-align: left;
+}
+
+/* Indenting */
+
+.tableWrapper table tr.level1 td.indented {
+    padding-left: 0;
+    padding-right: 26px;
+}
+.tableWrapper table tr.level2 td.indented {
+    padding-left: 0;
+    padding-right: 52px;
+}
+
+/* Numeric entries */
+
+.tableWrapper table th.num,
+.tableWrapper table td.num {
+    padding-right: 0;
+    text-align: left;
+    padding-left: 2em;
+}
+
+/* pager */
+
+.tableWrapper .pager {
+    float: left;
+}
+.tableWrapper .pager .summary {
+    margin-right: 0;
+    margin-left: 5px;
+}
+
+
+/* ===== message.css ===== */
+div.message div.panel {
+    text-align: right;
+}
+div.message div.panel div.icon {
+    left: auto;
+    right: 2px;
+}
+div.message div.panel p {
+    padding: 5px 28px 4px 5px;
+}
+div.message div.panel.hasClose p {
+    padding-right: 0;
+    padding-left: 32px;
+}
+div.message div.close {
+    right: auto;
+    left: 6px;
+}
+
+
+/* ===== icons.css ===== */
+div.breadcrumb .inlineIcon {
+    padding: 2px 20px 2px 0;
+}
+.inlineIcon,
+.inlineIconHasNext {
+    padding: 2px 20px 2px 0;
+    background-position: right center;
+}
+.inlineIconHasNext {
+    padding: 1px 20px 1px 5px;
+}
+
+
+/* ===== oa.help.css ===== */
+
+/* HELP */
+
+.popup-help-link {
+    padding-left: 0;
+    padding-right: 5px;
+}
+.popup-help .close {
+    text-align: left;
+}
+.long-help-text {
+    padding-right: 0;
+    padding-left: 5px;
+}
+.long-help-text ol {
+    margin-left: 0;
+    margin-right: 2em;
+}
+.ac_loading {
+    background: Window url('../images/indicator.gif') left center no-repeat;
+}
+
+
+/* ===== jquery.jqmodal.css ===== */
+
+.jqmWindow {
+    left: auto;
+    margin-left: 0;
+    right: 50%;
+    margin-right: -300px;
+}
+.jqm-window-title {
+    text-align: right;
+}
+.jqm-controls {
+    text-align: left;
+}
+
+
+/* ===== jquery.autocomplete.css ===== */
+.ac_loading {
+    background: Window url('../images/indicator.gif') left center no-repeat;
+}
+
+
+/* ===== freeze-ui.css ===== */
+.freeze-ui {
+    left: auto;
+    right: 0;
 }

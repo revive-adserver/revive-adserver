@@ -41,7 +41,7 @@ input.accept {
 }
 form div.checkboxDesc {
     padding: 1px 19px 3px 0px;
-    background: url(../images/indent.gif) right 0px top 0px no-repeat;
+    background: url(../images/rtl/indent.gif) right 0px top 0px no-repeat;
 }
 
 /* Cell formatting */
@@ -189,7 +189,7 @@ a.adv-list-entry {
     padding-left: 10px;
 }
 #user-access-table td.first {
-    padding-left: 0;
+    padding-left: 10px;
     padding-right: 5px;
 }
 #user-access-table td.last {
