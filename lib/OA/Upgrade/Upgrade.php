@@ -1444,6 +1444,11 @@ class OA_Upgrade
 
         $this->_writePostUpgradeTasksFile();
         $this->_pickupRecoveryFile();
+
+        // The cached update list was fetched for the previous application version.
+        OA_Dal_ApplicationVariables::delete('sync_cache');
+        OA_Dal_ApplicationVariables::delete('sync_timestamp');
+
         return true;
     }
 

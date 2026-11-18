@@ -27,6 +27,26 @@ class OA_UpgradeRollbackTest extends OA_Upgrade
     }
 }
 
+class OA_UpgradeCacheTest extends OA_Upgrade
+{
+    public bool $allowUpgrade = true;
+
+    public function disableAllPlugins($aPackages = '')
+    {
+        return true;
+    }
+
+    public function checkPermissionToCreateTable()
+    {
+        return $this->allowUpgrade;
+    }
+
+    public function detectOpenads($skipIntegrityCheck = false)
+    {
+        return false;
+    }
+}
+
 
 /**
  * A class for testing the OpenX Upgrade class.
@@ -700,7 +720,61 @@ class Test_OA_Upgrade extends UnitTestCase
 
     public function test_upgradeExecute() {}
 
-    public function test_upgrade() {}
+    public function test_upgradeClearsUpdateCacheAfterSuccess()
+    {
+        $originalCache = OA_Dal_ApplicationVariables::get('sync_cache');
+        $originalTimestamp = OA_Dal_ApplicationVariables::get('sync_timestamp');
+        OA_Dal_ApplicationVariables::set('sync_cache', serialize(['stale-update']));
+        OA_Dal_ApplicationVariables::set('sync_timestamp', 123);
+
+        $oUpgrade = new OA_UpgradeCacheTest();
+        $oUpgrade->oDbh = new stdClass();
+        $oUpgrade->upgrading_from_milestone_version = true;
+        $oUpgrade->recoveryFile = sys_get_temp_dir() . '/revive-upgrade-recovery-' . uniqid();
+        $oUpgrade->postTaskFile = sys_get_temp_dir() . '/revive-upgrade-tasks-' . uniqid();
+
+        $this->assertTrue($oUpgrade->upgrade());
+        $this->assertNull(OA_Dal_ApplicationVariables::get('sync_cache'));
+        $this->assertNull(OA_Dal_ApplicationVariables::get('sync_timestamp'));
+
+        if ($originalCache === null) {
+            OA_Dal_ApplicationVariables::delete('sync_cache');
+        } else {
+            OA_Dal_ApplicationVariables::set('sync_cache', $originalCache);
+        }
+        if ($originalTimestamp === null) {
+            OA_Dal_ApplicationVariables::delete('sync_timestamp');
+        } else {
+            OA_Dal_ApplicationVariables::set('sync_timestamp', $originalTimestamp);
+        }
+    }
+
+    public function test_upgradePreservesUpdateCacheWhenUpgradeFails()
+    {
+        $originalCache = OA_Dal_ApplicationVariables::get('sync_cache');
+        $originalTimestamp = OA_Dal_ApplicationVariables::get('sync_timestamp');
+        OA_Dal_ApplicationVariables::set('sync_cache', serialize(['stale-update']));
+        OA_Dal_ApplicationVariables::set('sync_timestamp', 123);
+
+        $oUpgrade = new OA_UpgradeCacheTest();
+        $oUpgrade->oDbh = new stdClass();
+        $oUpgrade->allowUpgrade = false;
+
+        $this->assertFalse($oUpgrade->upgrade());
+        $this->assertEqual(OA_Dal_ApplicationVariables::get('sync_cache'), serialize(['stale-update']));
+        $this->assertEqual(OA_Dal_ApplicationVariables::get('sync_timestamp'), 123);
+
+        if ($originalCache === null) {
+            OA_Dal_ApplicationVariables::delete('sync_cache');
+        } else {
+            OA_Dal_ApplicationVariables::set('sync_cache', $originalCache);
+        }
+        if ($originalTimestamp === null) {
+            OA_Dal_ApplicationVariables::delete('sync_timestamp');
+        } else {
+            OA_Dal_ApplicationVariables::set('sync_timestamp', $originalTimestamp);
+        }
+    }
 
     public function test_recoverUpgrade() {}
 

@@ -13,6 +13,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Standard Reports are no longer available when working as an administrator, as they could download an error page instead of the spreadsheet ([#1801](https://github.com/revive-adserver/revive-adserver/issues/1801))
 - Cleared the admin loading overlay when restoring a page from the browser back/forward cache ([#1800](https://github.com/revive-adserver/revive-adserver/issues/1800))
 - Restricted zone chaining to targets available to the current account ([#1706](https://github.com/revive-adserver/revive-adserver/issues/1706))
+- Cleared cached update information after a successful upgrade so the version check uses the upgraded version ([#1808](https://github.com/revive-adserver/revive-adserver/issues/1808))
 
 ### Improvements
 
