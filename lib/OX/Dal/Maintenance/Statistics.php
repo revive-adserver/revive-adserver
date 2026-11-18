@@ -457,6 +457,9 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
         foreach ($aMigrationDetails['masterTableKeys'] as $value) {
             $aMasterColumns[] = $this->oDbh->quoteIdentifier($value, true);
         }
+        if (isset($aMigrationDetails['trackerMatch'])) {
+            $aMasterColumns[] = $this->oDbh->quoteIdentifier($aMigrationDetails['trackerMatch']['masterTrackerColumn'], true);
+        }
 
         // Prepare the query to locate the data in columns in the statistics
         // table which contains the previously migrated raw bucket data,
@@ -519,6 +522,14 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
             $aWhereStatements = [];
             foreach ($aMigrationDetails['masterTableKeys'] as $key => $value) {
                 $aWhereStatements[] = $this->oDbh->quoteIdentifier($aMigrationDetails['bucketTableKeys'][$key], true) . ' = ' . $this->oDbh->quote($aRow[$value], 'text');
+            }
+            if (isset($aMigrationDetails['trackerMatch'])) {
+                $match = $aMigrationDetails['trackerMatch'];
+                $aWhereStatements[] = 'EXISTS (SELECT 1 FROM ' . $this->oDbh->quoteIdentifier($match['table'], true) . ' AS v WHERE v.' .
+                    $this->oDbh->quoteIdentifier($match['idColumn'], true) . ' = ' .
+                    $this->oDbh->quoteIdentifier($aMigrationDetails['bucketTable'], true) . '.' . $this->oDbh->quoteIdentifier($match['bucketIdColumn'], true) .
+                    ' AND v.' . $this->oDbh->quoteIdentifier($match['trackerColumn'], true) . ' = ' .
+                    $this->oDbh->quote($aRow[$match['masterTrackerColumn']], 'integer') . ')';
             }
 
             // Prepare the query to migrate the supplementary raw data from bucket

@@ -225,6 +225,8 @@ class OX_Dal_Maintenance_Statistics_Mysqli extends OX_Dal_Maintenance_Statistics
                     diavv.tracker_variable_id = v.variableid
                     AND
                     v.is_unique = 1
+                    AND
+                    v.trackerid = diac.tracker_id
                 )
             JOIN
                 {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']} AS diac2

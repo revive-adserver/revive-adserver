@@ -75,8 +75,29 @@ class Test_Max_Delivery_Log_A_Var extends UnitTestCase
         $rows = $doData_bkt_a_var->getRowCount();
         $this->assertEqual($rows, 0);
 
+        $aConversion = [
+            'action_type' => MAX_CONNECTION_AD_CLICK,
+            'tracker_type' => MAX_CONNECTION_TYPE_SALE,
+            'status' => MAX_CONNECTION_STATUS_APPROVED,
+            'cid' => 2,
+            'zid' => 3,
+            'dt' => $GLOBALS['_MAX']['NOW'] - 60,
+            'window' => 60,
+        ];
+        $previousRemoteAddr = $_SERVER['REMOTE_ADDR'] ?? null;
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.99';
+        $aConversionInfo = MAX_Delivery_log_logConversion(1, $aConversion);
+        $this->assertTrue(is_array($aConversionInfo));
+        $serverConvId = $aConversionInfo['deliveryLog:oxLogConversion:logConversion']['server_conv_id'];
+
+        // A variable request for another tracker cannot attach to this conversion.
+        MAX_Delivery_log_logVariableValues($aVariables, 2, $serverConvId, 'singleDB');
+        $doData_bkt_a_var = OA_Dal::factoryDO('data_bkt_a_var');
+        $doData_bkt_a_var->find();
+        $this->assertEqual($doData_bkt_a_var->getRowCount(), 0);
+
         // Call the variable value logging function
-        MAX_Delivery_log_logVariableValues($aVariables, 1, 1, 'singleDB');
+        MAX_Delivery_log_logVariableValues($aVariables, 1, $serverConvId, 'singleDB');
 
         // Ensure that the data was logged correctly
         $doData_bkt_a_var = OA_Dal::factoryDO('data_bkt_a_var');
@@ -85,7 +106,7 @@ class Test_Max_Delivery_Log_A_Var extends UnitTestCase
         $this->assertEqual($rows, 2);
 
         $doData_bkt_a_var = OA_Dal::factoryDO('data_bkt_a_var');
-        $doData_bkt_a_var->server_conv_id = 1;
+        $doData_bkt_a_var->server_conv_id = $serverConvId;
         $doData_bkt_a_var->server_raw_ip = 'singleDB';
         $doData_bkt_a_var->tracker_variable_id = 55;
         $doData_bkt_a_var->find();
@@ -101,5 +122,10 @@ class Test_Max_Delivery_Log_A_Var extends UnitTestCase
 
         // Restore the test configuration file
         TestEnv::restoreConfig();
+        if ($previousRemoteAddr === null) {
+            unset($_SERVER['REMOTE_ADDR']);
+        } else {
+            $_SERVER['REMOTE_ADDR'] = $previousRemoteAddr;
+        }
     }
 }

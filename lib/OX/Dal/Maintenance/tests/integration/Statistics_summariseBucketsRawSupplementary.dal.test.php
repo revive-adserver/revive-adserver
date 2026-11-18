@@ -302,6 +302,43 @@ class Test_OX_Dal_Maintenance_Statistics_summariseBucketsRawSupplementary extend
         $this->assertEqual($oData_intermediate_ad_variable_value->tracker_variable_id, 15);
         $this->assertEqual($oData_intermediate_ad_variable_value->value, '123456789');
 
+        // A queued value for tracker 9 must not attach to tracker 2's conversion.
+        $variable = OA_Dal::factoryDO('variables');
+        $variable->trackerid = 9;
+        $variable->name = 'tracker 9 value';
+        $variableId = DataGenerator::generateOne($variable);
+
+        foreach ([2, 3] as $serverConvId) {
+            $bucketValue = OA_Dal::factoryDO('data_bkt_a_var');
+            $bucketValue->server_conv_id = $serverConvId;
+            $bucketValue->server_ip = 'localhost';
+            $bucketValue->tracker_variable_id = $variableId;
+            $bucketValue->value = 'cross tracker';
+            DataGenerator::generateOne($bucketValue);
+        }
+
+        $aMigrationDetails['trackerMatch'] = [
+            'table' => $aConf['table']['prefix'] . 'variables',
+            'idColumn' => 'variableid',
+            'trackerColumn' => 'trackerid',
+            'bucketIdColumn' => 'tracker_variable_id',
+            'masterTrackerColumn' => 'tracker_id',
+        ];
+        $result = $oDalMaintenanceStatistics->summariseBucketsRawSupplementary($statisticsTableName, $aMigrationDetails, $aDates);
+        $this->assertEqual($result, 1);
+
+        $value = OA_Dal::factoryDO('data_intermediate_ad_variable_value');
+        $value->data_intermediate_ad_connection_id = $conversionId1;
+        $value->tracker_variable_id = $variableId;
+        $value->find();
+        $this->assertEqual($value->getRowCount(), 0);
+
+        $value = OA_Dal::factoryDO('data_intermediate_ad_variable_value');
+        $value->data_intermediate_ad_connection_id = $conversionId2;
+        $value->tracker_variable_id = $variableId;
+        $value->find();
+        $this->assertEqual($value->getRowCount(), 1);
+
         // Clean up generated data
         DataGenerator::cleanUp();
 

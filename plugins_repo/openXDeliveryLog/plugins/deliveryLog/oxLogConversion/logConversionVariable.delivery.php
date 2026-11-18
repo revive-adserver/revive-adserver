@@ -36,6 +36,17 @@ function Plugin_deliveryLog_oxLogConversion_logConversionVariable_Delivery_logCo
 
     $table = $GLOBALS['_MAX']['CONF']['table']['prefix'] . 'data_bkt_a_var';
 
+    // Only attach values to the conversion that generated their tracker URL.
+    $conversionTable = $GLOBALS['_MAX']['CONF']['table']['prefix'] . 'data_bkt_a';
+    $query = "SELECT 1 FROM {$conversionTable}
+        WHERE server_conv_id = '" . OX_escapeString($serverConvId) . "'
+        AND server_ip = '" . OX_escapeString($serverRawIp) . "'
+        AND tracker_id = '" . OX_escapeString($trackerId) . "'";
+    $result = OA_Dal_Delivery_query($query, 'rawDatabase');
+    if (!$result || OA_Dal_Delivery_numRows($result) === 0) {
+        return false;
+    }
+
     if (empty($GLOBALS['_MAX']['NOW'])) {
         $GLOBALS['_MAX']['NOW'] = time();
     }

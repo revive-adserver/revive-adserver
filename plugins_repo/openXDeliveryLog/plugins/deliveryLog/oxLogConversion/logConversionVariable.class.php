@@ -105,6 +105,13 @@ class Plugins_DeliveryLog_OxLogConversion_LogConversionVariable extends Plugins_
             ],
             'masterDateTimeColumn' => 'tracker_date_time',
             'bucketTable' => $this->getBucketTableName(),
+            'trackerMatch' => [
+                'table' => $aConf['table']['prefix'] . 'variables',
+                'idColumn' => 'variableid',
+                'trackerColumn' => 'trackerid',
+                'bucketIdColumn' => 'tracker_variable_id',
+                'masterTrackerColumn' => 'tracker_id',
+            ],
             'source' => [
                 0 => 'tracker_variable_id',
                 1 => 'value',

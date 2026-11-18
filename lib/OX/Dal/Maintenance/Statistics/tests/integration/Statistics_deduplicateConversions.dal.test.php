@@ -2749,6 +2749,55 @@ class Test_OX_Dal_Maintenance_Statistics_deduplicateConversions extends UnitTest
         DataGenerator::cleanUp();
     }
 
+    public function testCrossTrackerVariableDoesNotDeduplicateConversion()
+    {
+        $variableId = $this->_insertVariable([
+            'trackerid' => 1,
+            'name' => 'Unique variable for tracker 1',
+            'is_unique' => 1,
+            'unique_window' => 3600,
+        ]);
+
+        $conversion = [
+            'server_raw_tracker_impression_id' => 1,
+            'server_raw_ip' => 'singleDB',
+            'tracker_id' => 1,
+            'tracker_date_time' => '2005-09-05 12:10:00',
+            'connection_date_time' => '2005-09-05 12:09:00',
+            'ad_id' => 5,
+            'zone_id' => 6,
+            'connection_action' => MAX_CONNECTION_AD_CLICK,
+            'connection_window' => 1209600,
+            'connection_status' => MAX_CONNECTION_STATUS_APPROVED,
+        ];
+        $firstId = $this->_insertDataIntermediateAdConnection($conversion);
+        $this->_insertDataIntermediateAdVariableValue([
+            'data_intermediate_ad_connection_id' => $firstId,
+            'tracker_variable_id' => $variableId,
+            'value' => 'same value',
+        ]);
+
+        $conversion['server_raw_tracker_impression_id'] = 2;
+        $conversion['tracker_id'] = 2;
+        $conversion['tracker_date_time'] = '2005-09-05 12:20:00';
+        $secondId = $this->_insertDataIntermediateAdConnection($conversion);
+        $this->_insertDataIntermediateAdVariableValue([
+            'data_intermediate_ad_connection_id' => $secondId,
+            'tracker_variable_id' => $variableId,
+            'value' => 'same value',
+        ]);
+
+        $this->oDal->deduplicateConversions(new Date('2005-09-05 12:00:00'), new Date('2005-09-05 12:59:59'));
+
+        $second = OA_Dal::factoryDO('data_intermediate_ad_connection');
+        $second->data_intermediate_ad_connection_id = $secondId;
+        $second->find();
+        $second->fetch();
+        $this->assertEqual($second->connection_status, MAX_CONNECTION_STATUS_APPROVED);
+
+        DataGenerator::cleanUp();
+    }
+
     /**********************************************************************/
     /* HELPER METHODS                                                     */
     /**********************************************************************/

@@ -133,6 +133,8 @@ class OX_Dal_Maintenance_Statistics_Pgsql extends OX_Dal_Maintenance_Statistics
             WHERE
                 {$diac}.data_intermediate_ad_connection_id = diavv.data_intermediate_ad_connection_id
                 AND
+                {$diac}.tracker_id = v.trackerid
+                AND
                 {$diac}.inside_window = 1
                 AND
                 {$diac}.tracker_date_time >= '" . $oStart->format('%Y-%m-%d %H:%M:%S') . "'
