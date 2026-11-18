@@ -19,7 +19,12 @@
  *    along with the plug-in.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once MAX_PATH . '/plugins/bannerTypeHtml/vastInlineBannerTypeHtml/common.php';
+require_once __DIR__ . '/common.php';
+
+function vastEscapeCdata($value)
+{
+    return str_replace(']]>', ']]]]><![CDATA[>', $value);
+}
 
 function deliverVastAd($pluginType, &$aBanner, $zoneId = 0, $source = '', $ct0 = '', $withText = false, $logClick = true, $logView = true, $useAlt = false, $richMedia = true, $loc = '', $referer = '')
 {
@@ -191,11 +196,7 @@ function prepareCompanionBanner(&$aOutputParams, $aBanner, $zoneId = 0, $source 
         //$aOutputParams['companionId'] = $companionBannerId;
         if (!empty($companionOutput['html'])) {
             // We only regard  a companion existing, if we have some markup to output
-            $html = $companionOutput['html'];
-
-            // deal with the case where the companion code itself contains a CDATA
-            $html = str_replace(']]>', ']]]]><![CDATA[>', $html);
-            $aOutputParams['companionMarkup'] = $html;
+            $aOutputParams['companionMarkup'] = $companionOutput['html'];
 
             $aOutputParams['companionWidth'] = $companionOutput['width'];
             $aOutputParams['companionHeight'] = $companionOutput['height'];
@@ -256,6 +257,17 @@ function _adRenderBuildVideoClickThroughUrl($aBanner, $zoneId = 0, $source = '',
 
 function getVastVideoAdOutput($aO)
 {
+    foreach (['vastVideoDelivery', 'vastVideoBitrate', 'vastVideoWidth', 'vastVideoHeight', 'vastVideoType'] as $field) {
+        $aO[$field] = xmlspecialchars($aO[$field]);
+    }
+    foreach (['vastVideoClickThroughUrl', 'vastVideoId', 'fullPathToVideo', 'trackUrlStart', 'trackUrlMidPoint',
+        'trackUrlFirstQuartile', 'trackUrlThirdQuartile', 'trackUrlComplete', 'trackUrlMute', 'trackUrlPause',
+        'trackReplay', 'trackUrlFullscreen', 'trackUrlStop', 'trackUrlUnmute', 'trackUrlResume'] as $field) {
+        if (isset($aO[$field])) {
+            $aO[$field] = vastEscapeCdata($aO[$field]);
+        }
+    }
+
     if (!empty($aO['vastVideoClickThroughUrl'])) {
         $videoClicksVast = '<VideoClicks>
                         <ClickThrough>
@@ -326,9 +338,21 @@ function getImageUrlFromFilename($filename)
 
 function renderVastOutput($aOut, $pluginType, $vastAdDescription)
 {
-    $adSystem = $GLOBALS['_MAX']['CONF']['ui']['applicationName'] ?: 'Revive Adserver';
+    $adSystem = vastEscapeCdata($GLOBALS['_MAX']['CONF']['ui']['applicationName'] ?: 'Revive Adserver');
 
-    $adName = $aOut['name'];
+    $adName = vastEscapeCdata($aOut['name']);
+    $vastAdDescription = vastEscapeCdata($vastAdDescription);
+    foreach (['impressionUrl', 'thirdPartyImpressionUrl', 'companionClickUrl', 'companionMarkup',
+        'overlayMarkupTemplate', 'clickUrl'] as $field) {
+        if (isset($aOut[$field])) {
+            $aOut[$field] = vastEscapeCdata($aOut[$field]);
+        }
+    }
+    foreach (['companionWidth', 'companionHeight', 'overlayWidth', 'overlayHeight'] as $field) {
+        if (isset($aOut[$field])) {
+            $aOut[$field] = xmlspecialchars($aOut[$field]);
+        }
+    }
     $player = "";
     $player .= "    <Ad id=\"{player_allocated_ad_id}\" >";
     $player .= "        <InLine>";
@@ -380,7 +404,7 @@ function renderVastOutput($aOut, $pluginType, $vastAdDescription)
                     $creativeType = 'JPG';
                 }
                 $creativeType = 'image/' . $creativeType;
-                $code = getImageUrlFromFilename($aOut['overlayFilename']);
+                $code = xmlspecialchars(getImageUrlFromFilename($aOut['overlayFilename']));
                 $resourceType = 'static';
                 $elementName = 'URL';
                 break;
@@ -406,7 +430,7 @@ function renderVastOutput($aOut, $pluginType, $vastAdDescription)
         $creativeTypeAttribute = '';
         if (!empty($creativeType)) {
             $creativeType = strtolower($creativeType);
-            $creativeTypeAttribute = 'creativeType="' . $creativeType . '"';
+            $creativeTypeAttribute = 'creativeType="' . xmlspecialchars($creativeType) . '"';
         }
 
         $player .= "             <NonLinearAds>\n";
