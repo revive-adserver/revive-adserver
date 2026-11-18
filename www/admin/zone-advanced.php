@@ -102,7 +102,7 @@ function buildZoneForm($aZone, $oComponent = null)
     $form->addElement('hidden', 'zoneid', $aZone['zoneid']);
     $form->addElement('hidden', 'affiliateid', $aZone['affiliateid']);
 
-    buildChainSettingsFormSection($form, $aZone);
+    $chainZones = buildChainSettingsFormSection($form, $aZone);
 
     if ($oComponent && method_exists($oComponent, 'extendZoneAdvancedForm')) {
         $oComponent->extendZoneAdvancedForm($form, $aZone);
@@ -126,7 +126,7 @@ function buildZoneForm($aZone, $oComponent = null)
 
     //set form  values
     $form->setDefaults($aZone);
-    $form->setDefaults(['chaintype' => ($aZone['chain'] == '' ? 0 : 1)]);
+    $form->setDefaults(['chaintype' => (array_key_exists($aZone['chainzone'], $chainZones) ? 1 : 0)]);
 
     return $form;
 }
@@ -135,38 +135,43 @@ function buildZoneForm($aZone, $oComponent = null)
 function buildChainSettingsFormSection($form, $aZone)
 {
     if ($aZone['delivery'] == MAX_ZoneEmail) {
-        return;
+        return [];
     }
 
     $form->addElement('header', 'header_chain', $GLOBALS['strChainSettings']);
+    $chainZones = _getChainZones($aZone);
 
-    $chainGroup[] = $form->createElement(
+    $chainGroup = [$form->createElement(
         'radio',
         'chaintype',
         null,
         $GLOBALS['strZoneStopDelivery'],
         0,
         ['id' => 'chaintype-s'],
-    );
-    $chainGroup[] = $form->createElement(
-        'radio',
-        'chaintype',
-        null,
-        $GLOBALS['strZoneOtherZone'],
-        1,
-        ['id' => 'chaintype-z'],
-    );
-    $chainGroup[] = $form->createElement(
-        'select',
-        'chainzone',
-        _getChainZonesImage($aZone),
-        _getChainZones($aZone),
-        ['id' => 'chainzone', 'class' => 'medium'],
-    );
-    $form->addDecorator('chainzone', 'tag', ['attributes' => ['id' => 'chain-zone-select',
-        'class' => $aZone['chain'] == '' ? 'hide' : '']]);
+    )];
+    if ($chainZones !== []) {
+        $chainGroup[] = $form->createElement(
+            'radio',
+            'chaintype',
+            null,
+            $GLOBALS['strZoneOtherZone'],
+            1,
+            ['id' => 'chaintype-z'],
+        );
+        $chainGroup[] = $form->createElement(
+            'select',
+            'chainzone',
+            _getChainZonesImage($aZone),
+            $chainZones,
+            ['id' => 'chainzone', 'class' => 'medium'],
+        );
+        $form->addDecorator('chainzone', 'tag', ['attributes' => ['id' => 'chain-zone-select',
+            'class' => $aZone['chain'] == '' ? 'hide' : '']]);
+    }
 
     $form->addGroup($chainGroup, 'g_chain', $GLOBALS['strZoneNoDelivery'], ["<BR>", '', '']);
+
+    return $chainZones;
 }
 
 
@@ -259,8 +264,8 @@ function zoneAdvancedProcessForm($aZone, $form, $oComponent = null)
     $doZones = OA_Dal::factoryDO('zones');
     $doZones->get($aFields['zoneid']);
 
-    // Determine chain
-    if ($doZones->delivery != MAX_ZoneEmail && $aFields['chaintype'] == '1' && $aFields['chainzone'] != '') {
+    // QuickForm validates submitted chain targets against the options shown in the form.
+    if ($doZones->delivery != MAX_ZoneEmail && $aFields['chaintype'] == '1' && !empty($aFields['chainzone'])) {
         $chain = 'zone:' . $aFields['chainzone'];
     } else {
         $chain = '';
