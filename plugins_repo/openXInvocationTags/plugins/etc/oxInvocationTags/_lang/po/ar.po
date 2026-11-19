@@ -201,7 +201,7 @@ msgstr ""
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:88
 msgid "Automatically close after"
-msgstr ""
+msgstr "الإغلاق التلقائي بعد"
 
 #: plugins_repo/openXInvocationTags/plugins/invocationTags/oxInvocationTags/layerstyles/simple/invocation.inc.php:127
 msgid "Border color"

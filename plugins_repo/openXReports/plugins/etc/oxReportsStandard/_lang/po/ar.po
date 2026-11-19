@@ -156,7 +156,7 @@ msgstr ""
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:69
 msgid "Period"
-msgstr ""
+msgstr "الفترة"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:74
 msgid "Limitations"
@@ -212,5 +212,5 @@ msgstr "احتياطية"
 
 #: plugins_repo/openXReports/plugins/reports/oxReportsStandard/liveCampaignDeliveryReport.class.php:513
 msgid "Contract"
-msgstr "الاتصال"
+msgstr "تعاقدية"
 

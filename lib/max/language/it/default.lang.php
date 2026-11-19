@@ -1252,6 +1252,9 @@ $GLOBALS['strHtml5InvalidFileType'] = "Tipo di file non valido: %s";
 $GLOBALS['strHtml5MultipleIndexHtml'] = "Trovati più file 'index.html'";
 $GLOBALS['strHtml5NoHtml'] = "Nessun file '*.html' trovato";
 $GLOBALS['strHtml5MultipleHtml'] = "Trovati più file '*.html' per favore rinominare quello principale in 'index.html'";
+$GLOBALS['strHtml5InvalidZip'] = "Archivio ZIP HTML5 non valido";
+$GLOBALS['strHtml5ZipTooLarge'] = "L'archivio HTML5 ZIP supera la dimensione consentita";
+$GLOBALS['strHtml5ZipTooManyEntries'] = "L'archivio HTML5 ZIP contiene troppi file";
 
 /* ------------------------------------------------------- */
 /* Password strength                                       */
