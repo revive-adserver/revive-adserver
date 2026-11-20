@@ -20,6 +20,11 @@ All notable changes to Revive Adserver will be documented in this file.
 - Added a minimum release stability setting for update checks ([#1794](https://github.com/revive-adserver/revive-adserver/issues/1794))
 - Limited HTML5 ZIP import size and entry count ([#1795](https://github.com/revive-adserver/revive-adserver/issues/1795))
 
+### Changed
+
+- **Backward compatibility:** Banner previews run JavaScript inside sandboxed frames, isolated from the administration interface. Creatives that require access to the surrounding page, browser storage or forms may behave differently in previews ([#346](https://github.com/revive-adserver/revive-adserver/issues/346))
+- When banner previews are disabled, the banner pages and the campaign banner list show a "Show banner" link opening the preview popup instead.
+
 ## [6.1.0-rc1] - 2026-11-11
 
 ### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2026-004/)

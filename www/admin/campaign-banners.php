@@ -180,9 +180,11 @@ while ($doBanners->fetch() && $row = $doBanners->toArray()) {
 
     // Build banner preview
     if ($row['bannerid'] && !empty($GLOBALS['_MAX']['PREF']['ui_show_campaign_preview']) && empty($_GET['nopreview'])) {
-        $bannerCode = MAX_bannerPreview($row['bannerid']);
+        $bannerCode = MAX_bannerPreview($row['bannerid'], $row, $campaignAnonymous);
     } else {
         $bannerCode = '';
+        // Inline previews disabled: size of the "Show banner" popup instead
+        [$banners[$row['bannerid']]['previewWidth'], $banners[$row['bannerid']]['previewHeight']] = MAX_bannerPreviewWindowSize($row);
     }
     $banners[$row['bannerid']]['preview'] = $bannerCode;
 }

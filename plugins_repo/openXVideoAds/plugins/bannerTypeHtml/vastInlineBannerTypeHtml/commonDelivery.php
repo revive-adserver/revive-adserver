@@ -444,23 +444,9 @@ function renderPlayerInPage($aOut)
 
     return <<<PLAYER
         <h3>Video ad preview</h3>
-        <style>
-        a.player {
-            display:block;
-            width:640px;
-            height:360px;
-            margin:25px 0;
-            text-align:center;
-        }
-        </style>
-
-        <a class="player" id="player"></a>
-
-        <script type="text/javascript">
-            (function (p) {
-                p.html('<video width="640" height="360" controls><source src="{$path}" type="{$type}"/>You need an HTML5 compatible player, sorry</video>');
-            })($("#player"));
-        </script>
+        <div style="width:640px;height:360px;margin:25px 0;text-align:center">
+            <video width="640" height="360" controls><source src="{$path}" type="{$type}"/>You need an HTML5 compatible player, sorry</video>
+        </div>
 PLAYER;
 }
 

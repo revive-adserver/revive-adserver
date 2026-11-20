@@ -24,11 +24,15 @@ require_once MAX_PATH . '/lib/OA/Permission.php';
  * Fetch sessiondata from the database
  *
  * This implementation uses the $_COOKIE superglobal to find session identifier.
+ *
+ * @param bool $refresh Whether to extend the session lifetime. Pass false for requests
+ *                      that are made on behalf of a page which already did, such as
+ *                      sandboxed banner previews, to avoid a database write each.
  * @return void
  *
  * @todo Move to a domain-layer class library.
  */
-function phpAds_SessionDataFetch()
+function phpAds_SessionDataFetch(bool $refresh = true)
 {
     global $session;
 
@@ -54,7 +58,9 @@ function phpAds_SessionDataFetch()
 
     $session = $loaded_session;
 
-    $dal->refreshSession($_COOKIE['sessionID']);
+    if ($refresh) {
+        $dal->refreshSession($_COOKIE['sessionID']);
+    }
 }
 
 /*-------------------------------------------------------*/

@@ -169,6 +169,11 @@
                 </td>
                 <td class='alignRight verticalActions'>
                     <ul class='rowActions'>
+                      {if $banner.previewWidth}
+                        <li>
+                            <a href='banner-htmlpreview.php?bannerid={$bannerId}' target='_new' onclick="return openWindow('banner-htmlpreview.php?bannerid={$bannerId}', '', 'status=no,scrollbars=no,resizable=no,width={$banner.previewWidth},height={$banner.previewHeight}');" class='inlineIcon iconZoom'>{t str=ShowBanner}</a>
+                        </li>
+                      {/if}
                       {if $canACL}
                         <li>
                             <a href='banner-acl.php?clientid={$clientId}&amp;campaignid={$campaignId}&amp;bannerid={$bannerId}' class='inlineIcon iconBannerApplyLimitations'>{t str=ACL}</a>

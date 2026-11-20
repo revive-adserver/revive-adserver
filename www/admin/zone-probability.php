@@ -148,13 +148,7 @@ function phpAds_showZoneBanners($zoneId)
                 echo "</td>";
 
                 // Show banner
-                if ($aLinkedAd['type'] == 'txt') {
-                    $width = 300;
-                    $height = 200;
-                } else {
-                    $width = $aLinkedAd['width'] + 64;
-                    $height = $aLinkedAd['bannertext'] ? $aLinkedAd['height'] + 90 : $aLinkedAd['height'] + 64;
-                }
+                [$width, $height] = MAX_bannerPreviewWindowSize($aLinkedAd);
                 echo "<td height='25' align='" . $phpAds_TextAlignRight . "'>";
                 echo "<img src='" . OX::assetPath() . "/images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;";
                 echo "<a href='banner-htmlpreview.php?bannerid=" . $adId . "' target='_new' ";
@@ -260,13 +254,7 @@ function phpAds_showZoneBanners($zoneId)
                     echo "</td>";
 
                     // Show banner
-                    if ($aLinkedAd['type'] == 'txt') {
-                        $width = 300;
-                        $height = 200;
-                    } else {
-                        $width = $aLinkedAd['width'] + 64;
-                        $height = $aLinkedAd['bannertext'] ? $aLinkedAd['height'] + 90 : $aLinkedAd['height'] + 64;
-                    }
+                    [$width, $height] = MAX_bannerPreviewWindowSize($aLinkedAd);
                     echo "<td height='25' align='" . $phpAds_TextAlignRight . "'>";
                     echo "<img src='" . OX::assetPath() . "/images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;";
                     echo "<a href='banner-htmlpreview.php?bannerid=" . $adId . "' target='_new' ";
@@ -356,13 +344,7 @@ function phpAds_showZoneBanners($zoneId)
                 echo "</td>";
 
                 // Show banner
-                if ($aLinkedAd['type'] == 'txt') {
-                    $width = 300;
-                    $height = 200;
-                } else {
-                    $width = $aLinkedAd['width'] + 64;
-                    $height = $aLinkedAd['bannertext'] ? $aLinkedAd['height'] + 90 : $aLinkedAd['height'] + 64;
-                }
+                [$width, $height] = MAX_bannerPreviewWindowSize($aLinkedAd);
                 echo "<td height='25' align='" . $phpAds_TextAlignRight . "'>";
                 echo "<img src='" . OX::assetPath() . "/images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;";
                 echo "<a href='banner-htmlpreview.php?bannerid=" . $adId . "' target='_new' ";
@@ -462,13 +444,7 @@ function phpAds_showZoneBanners($zoneId)
                 echo "</td>";
 
                 // Show banner
-                if ($aLinkedAd['type'] == 'txt') {
-                    $width = 300;
-                    $height = 200;
-                } else {
-                    $width = $aLinkedAd['width'] + 64;
-                    $height = $aLinkedAd['bannertext'] ? $aLinkedAd['height'] + 90 : $aLinkedAd['height'] + 64;
-                }
+                [$width, $height] = MAX_bannerPreviewWindowSize($aLinkedAd);
                 echo "<td height='25' align='" . $phpAds_TextAlignRight . "'>";
                 echo "<img src='" . OX::assetPath() . "/images/icon-zoom.gif' align='absmiddle' border='0'>&nbsp;";
                 echo "<a href='banner-htmlpreview.php?bannerid=" . $adId . "' target='_new' ";

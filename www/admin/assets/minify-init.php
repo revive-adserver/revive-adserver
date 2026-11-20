@@ -38,6 +38,7 @@ $oxpJs = [
     'js/formValidation.js',
     'js/ox.security.js',
     'js/ox.download.js',
+    'js/ox.bannerpreview.js',
 ];
 
 $commonCss = [

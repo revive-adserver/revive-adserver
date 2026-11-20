@@ -861,8 +861,7 @@ function MAX_displayLinkedAdsPlacements($aParams, $publisherId, $zoneId, $hideIn
                     $adIcon = MAX_getEntityIcon('ad', $adActive, $aAd['type']);
                     $adName = htmlspecialchars(MAX_getDisplayName($aAd['name']));
                     $adLink = (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) ? "<a href='banner-edit.php?clientid={$aPlacement['advertiser_id']}&campaignid=$placementId&bannerid=$adId'>$adName</a>" : $adName;
-                    $adWidth = $aAd['contenttype'] == 'txt' ? 300 : $aAd['width'] + 64;
-                    $adHeight = $aAd['contenttype'] == 'txt' ? 200 : $aAd['height'] + (empty($aAd['bannertext']) ? 64 : 90);
+                    [$adWidth, $adHeight] = MAX_bannerPreviewWindowSize($aAd);
                     echo "
 <tr height='1'>
 <td$bgcolor><img src='" . OX::assetPath() . "/images/spacer.gif' width='1' height='1'></td>
@@ -984,8 +983,7 @@ function MAX_displayLinkedPlacementsAds($aParams, $publisherId, $zoneId, $hideIn
                         $adIcon = MAX_getEntityIcon('ad', $adActive, $aAd['type']);
                         $adName = htmlspecialchars(MAX_getDisplayName($aAd['name']));
                         $adLink = (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) ? "<a href='banner-edit.php?clientid={$aPlacement['advertiser_id']}&campaignid=$placementId&bannerid=$adId'>$adName</a>" : $adName;
-                        $adWidth = $aAd['contenttype'] == 'txt' ? 300 : $aAd['width'] + 64;
-                        $adHeight = $aAd['contenttype'] == 'txt' ? 200 : $aAd['height'] + (empty($aAd['bannertext']) ? 64 : 90);
+                        [$adWidth, $adHeight] = MAX_bannerPreviewWindowSize($aAd);
                         echo "
     <tr height='1'>
         <td$bgcolor><img src='" . OX::assetPath() . "/images/spacer.gif' width='1' height='1'></td>
@@ -1438,16 +1436,19 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         $campaignEditUrl = "campaign-edit.php?clientid=$advertiserId&campaignid=$campaignId";
     }
 
-    // Build banner preview
-    if ($bannerId && !empty($GLOBALS['_MAX']['PREF']['ui_show_banner_preview']) && empty($_GET['nopreview'])) {
-        $bannerCode = MAX_bannerPreview($bannerId);
-    } else {
-        $bannerCode = '';
-    }
-
     $advertiserDetails = phpAds_getClientDetails($advertiserId);
     $advertiserName = $advertiserDetails['clientname'];
     $campaignDetails = Admin_DA::getPlacement($campaignId);
+
+    // Build banner preview
+    if ($bannerId && !empty($GLOBALS['_MAX']['PREF']['ui_show_banner_preview']) && empty($_GET['nopreview'])) {
+        $bannerCode = MAX_bannerPreview($bannerId, null, ($campaignDetails['anonymous'] ?? 'f') == 't');
+    } elseif ($bannerId) {
+        // With previews disabled, still offer a way to see the banner
+        $bannerCode = MAX_bannerPreviewLink($bannerId);
+    } else {
+        $bannerCode = '';
+    }
     $campaignName = $campaignDetails['name'];
     $bannerName = $aOtherBanners[$bannerId]['name'];
 
@@ -1471,14 +1472,120 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
     phpAds_PageHeader($tabValue, $oHeaderModel);
 }
 
-function MAX_bannerPreview($bannerId)
+/**
+ * Returns the size of the sandboxed preview frame for a banner.
+ *
+ * Banners without a specified size get a default frame which the
+ * ox.bannerpreview.js listener resizes to fit the rendered creative.
+ *
+ * @param array $aBanner A banner row, as returned by Admin_DA::getAd() or the banners DataObject.
+ * @return array{0: int, 1: int, 2: bool} Width, height and whether the frame should resize to its content.
+ */
+function MAX_bannerPreviewSize(array $aBanner): array
 {
-    require_once(MAX_PATH . '/lib/max/Delivery/adRender.php');
-    $aBanner = Admin_DA::getAd($bannerId);
-    $aBanner['storagetype'] = $aBanner['type'];
-    $aBanner['bannerid'] = $aBanner['ad_id'];
+    $type = $aBanner['type'] ?? $aBanner['storagetype'] ?? '';
+    $width = (int) ($aBanner['width'] ?? 0);
+    $height = (int) ($aBanner['height'] ?? 0);
+    $autoSize = $width <= 0 || $height <= 0;
 
-    return MAX_adRender($aBanner, 0, '', '', '', true, '', false, false);
+    return [
+        $width > 0 ? $width : 300,
+        $height > 0 ? $height : ($type == 'txt' ? 100 : 250),
+        $autoSize,
+    ];
+}
+
+/**
+ * Returns the initial size of the banner-htmlpreview.php popup window for a banner.
+ *
+ * The popup adds 32px rulers on each side of the preview frame, and a taller bottom
+ * row when the banner has text below it. Popups of banners without a specified size
+ * grow to fit the frame once it has been resized to its content.
+ *
+ * @param array $aBanner A banner row, as returned by Admin_DA or the banners DataObject.
+ * @return array{0: int, 1: int} Width and height.
+ */
+function MAX_bannerPreviewWindowSize(array $aBanner): array
+{
+    [$width, $height] = MAX_bannerPreviewSize($aBanner);
+
+    return [$width + 64, $height + (empty($aBanner['bannertext']) ? 64 : 90)];
+}
+
+/**
+ * Builds a "Show banner" link opening the banner-htmlpreview.php popup.
+ *
+ * @param int $bannerId
+ * @param array|null $aBanner The banner row, if already loaded by the caller. Loaded from the database when null.
+ * @return string
+ */
+function MAX_bannerPreviewLink($bannerId, ?array $aBanner = null)
+{
+    $aBanner ??= Admin_DA::getAd((int) $bannerId);
+    if (empty($aBanner)) {
+        return '';
+    }
+
+    $bannerId = (int) ($aBanner['ad_id'] ?? $aBanner['bannerid'] ?? $bannerId);
+    [$width, $height] = MAX_bannerPreviewWindowSize($aBanner);
+    $url = "banner-htmlpreview.php?bannerid={$bannerId}";
+    $features = "status=no,scrollbars=no,resizable=no,width={$width},height={$height}";
+
+    return "<img src='" . htmlspecialchars(OX::assetPath() . "/images/icon-zoom.gif", ENT_QUOTES) . "' align='absmiddle' border='0' alt=''>&nbsp;"
+        . "<a href='" . htmlspecialchars($url, ENT_QUOTES) . "' target='_new'"
+        . " onclick=\"return openWindow('{$url}', '', '{$features}');\">"
+        . htmlspecialchars($GLOBALS['strShowBanner'], ENT_QUOTES) . "</a>";
+}
+
+/**
+ * Builds the sandboxed iframe used to preview a banner in the admin interface.
+ *
+ * @param int $bannerId
+ * @param array|null $aBanner The banner row, if already loaded by the caller (Admin_DA::getAd() or
+ *                            banners DataObject format). Loaded from the database when null.
+ * @param bool|null $anonymous Whether the banner's campaign is anonymous. Looked up when null.
+ * @return string
+ */
+function MAX_bannerPreview($bannerId, ?array $aBanner = null, ?bool $anonymous = null)
+{
+    $aBanner ??= Admin_DA::getAd((int) $bannerId);
+    if (empty($aBanner)) {
+        return '';
+    }
+
+    $bannerId = (int) ($aBanner['ad_id'] ?? $aBanner['bannerid'] ?? $bannerId);
+
+    if (null === $anonymous) {
+        $anonymous = false;
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)) {
+            $aCampaign = Admin_DA::getPlacement((int) ($aBanner['placement_id'] ?? $aBanner['campaignid'] ?? 0));
+            $anonymous = ($aCampaign['anonymous'] ?? 'f') == 't';
+        }
+    }
+
+    [$width, $height, $autoSize] = MAX_bannerPreviewSize($aBanner);
+
+    $aAttributes = [
+        // Keep in sync with the CSP sandbox header sent by www/admin/banner-preview.php
+        'sandbox' => 'allow-scripts allow-popups allow-popups-to-escape-sandbox',
+        'referrerpolicy' => 'no-referrer',
+        'loading' => 'lazy',
+        'src' => MAX::constructURL(MAX_URL_ADMIN, 'banner-preview.php?bannerid=' . $bannerId),
+        'title' => MAX_getAdName($aBanner['name'] ?? $aBanner['description'] ?? '', $aBanner['alt'] ?? null, null, $anonymous, $bannerId),
+        'width' => $width,
+        'height' => $height,
+        'style' => 'border:0;vertical-align:middle',
+    ];
+    if ($autoSize) {
+        $aAttributes['data-revive-preview-autosize'] = '1';
+    }
+
+    $html = '<iframe';
+    foreach ($aAttributes as $name => $value) {
+        $html .= ' ' . $name . '="' . htmlspecialchars((string) $value, ENT_QUOTES) . '"';
+    }
+
+    return $html . '></iframe>';
 }
 
 function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $aEntities)
