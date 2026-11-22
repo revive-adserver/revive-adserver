@@ -158,18 +158,28 @@ function OA_setTimeZoneLocal()
 /**
  * Returns the hostname the script is running under.
  *
- * @return string containing the hostname (with port number stripped).
+ * As the hostname is used to build configuration and cache file paths, only
+ * values made of valid hostname characters are accepted. If the Host header
+ * is invalid, SERVER_NAME is used instead, if valid.
+ *
+ * @return string containing the hostname (with port number stripped), or an
+ *                empty string if no valid hostname is available.
  */
 function OX_getHostName()
 {
-    if (!empty($_SERVER['HTTP_HOST'])) {
-        $host = explode(':', $_SERVER['HTTP_HOST']);
-        $host = $host[0];
-    } elseif (!empty($_SERVER['SERVER_NAME'])) {
-        $host = explode(':', $_SERVER['SERVER_NAME']);
-        $host = $host[0];
+    foreach (['HTTP_HOST', 'SERVER_NAME'] as $key) {
+        if (empty($_SERVER[$key]) || !is_string($_SERVER[$key])) {
+            continue;
+        }
+
+        $host = explode(':', $_SERVER[$key])[0];
+
+        if (preg_match('/^[a-z0-9_-]+(?:\.[a-z0-9_-]+)*\.?$/iD', $host)) {
+            return $host;
+        }
     }
-    return $host;
+
+    return '';
 }
 
 /**

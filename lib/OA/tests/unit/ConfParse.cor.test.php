@@ -45,6 +45,46 @@ class Test_OA_ConfParse extends UnitTestCase
         @unlink(MAX_PATH . '/var/test.real.conf.php');
     }
 
+    public function test_OX_getHostName()
+    {
+        $aServer = $_SERVER;
+
+        $aTests = [
+            // [HTTP_HOST, SERVER_NAME, expected]
+            ['www.example.com', 'server.example.com', 'www.example.com'],
+            ['www.example.com:8080', null, 'www.example.com'],
+            ['Revive-Main_1', null, 'Revive-Main_1'],
+            ['127.0.0.1:80', null, '127.0.0.1'],
+            ['example.com.', null, 'example.com.'],
+            ['../../www/admin/test', 'server.example.com', 'server.example.com'],
+            ['..', 'server.example.com', 'server.example.com'],
+            ['a..b', 'server.example.com', 'server.example.com'],
+            ['.example.com', 'server.example.com', 'server.example.com'],
+            ['a/b', null, ''],
+            ['a\\b', null, ''],
+            ["example.com\n", null, ''],
+            ["example.com\0.php", null, ''],
+            [null, 'server.example.com:8080', 'server.example.com'],
+            [null, '../x', ''],
+            [null, null, ''],
+        ];
+
+        foreach ($aTests as [$httpHost, $serverName, $expected]) {
+            unset($_SERVER['HTTP_HOST'], $_SERVER['SERVER_NAME']);
+
+            if (null !== $httpHost) {
+                $_SERVER['HTTP_HOST'] = $httpHost;
+            }
+            if (null !== $serverName) {
+                $_SERVER['SERVER_NAME'] = $serverName;
+            }
+
+            $this->assertIdentical(OX_getHostName(), $expected, var_export($httpHost, true) . ' / ' . var_export($serverName, true) . ': %s');
+        }
+
+        $_SERVER = $aServer;
+    }
+
     /**
      * test to ensure that special characters
      * are written and read correctly

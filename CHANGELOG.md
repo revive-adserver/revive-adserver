@@ -19,6 +19,7 @@ All notable changes to Revive Adserver will be documented in this file.
 
 - Added a minimum release stability setting for update checks ([#1794](https://github.com/revive-adserver/revive-adserver/issues/1794))
 - Limited HTML5 ZIP import size and entry count ([#1795](https://github.com/revive-adserver/revive-adserver/issues/1795))
+- Rejected malformed hostnames in requests ([#1812](https://github.com/revive-adserver/revive-adserver/issues/1812))
 
 ### Changed
 
