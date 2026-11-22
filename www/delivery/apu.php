@@ -238,14 +238,16 @@ OA_setTimeZone($tz);
 }
 function OX_getHostName()
 {
-if (!empty($_SERVER['HTTP_HOST'])) {
-$host = explode(':', $_SERVER['HTTP_HOST']);
-$host = $host[0];
-} elseif (!empty($_SERVER['SERVER_NAME'])) {
-$host = explode(':', $_SERVER['SERVER_NAME']);
-$host = $host[0];
+foreach (['HTTP_HOST', 'SERVER_NAME'] as $key) {
+if (empty($_SERVER[$key]) || !is_string($_SERVER[$key])) {
+continue;
 }
+$host = explode(':', $_SERVER[$key])[0];
+if (preg_match('/^[a-z0-9_-]+(?:\.[a-z0-9_-]+)*\.?$/iD', $host)) {
 return $host;
+}
+}
+return '';
 }
 function OX_getHostNameWithPort()
 {
