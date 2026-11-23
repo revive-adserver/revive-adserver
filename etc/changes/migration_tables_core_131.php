@@ -24,6 +24,8 @@ class Migration_131 extends Migration
         $this->aTaskList_constructive[] = 'afterAddIndex__banners__campaignid';
         $this->aTaskList_constructive[] = 'beforeAddIndex__clients__agencyid';
         $this->aTaskList_constructive[] = 'afterAddIndex__clients__agencyid';
+        $this->aTaskList_constructive[] = 'beforeAddIndex__zones__affiliateid';
+        $this->aTaskList_constructive[] = 'afterAddIndex__zones__affiliateid';
     }
 
 
@@ -56,5 +58,15 @@ class Migration_131 extends Migration
     public function afterAddIndex__clients__agencyid()
     {
         return $this->afterAddIndex('clients', 'agencyid');
+    }
+
+    public function beforeAddIndex__zones__affiliateid()
+    {
+        return $this->beforeAddIndex('zones', 'affiliateid');
+    }
+
+    public function afterAddIndex__zones__affiliateid()
+    {
+        return $this->afterAddIndex('zones', 'affiliateid');
     }
 }
