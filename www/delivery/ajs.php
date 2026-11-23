@@ -2556,7 +2556,7 @@ $withtext = $withText;
 $withtext = (isset($withtext) && is_numeric($withtext) ? $withtext : 0);
 $ct0 ??= '';
 $context ??= [];
-$target = (isset($target) && (!empty($target)) && (!strpos($target, chr(32))) ? $target : '');
+$target = isset($target) && is_string($target) && preg_match('#^[a-z0-9_]+$#Di', $target) ? $target : '';
 $charset = (isset($charset) && (!empty($charset)) && (!strpos($charset, chr(32))) ? $charset : 'UTF-8');
 $bannerid = (isset($bannerid) && is_numeric($bannerid) ? $bannerid : '');
 $campaignid = (isset($campaignid) && is_numeric($campaignid) ? $campaignid : '');
@@ -3494,7 +3494,7 @@ $url .= "?" . $conf['var']['adId'] . "=" . $aBanner['ad_id'];
 $url .= $amp . $conf['var']['campaignId'] . "=" . $aBanner['placement_id'];
 $url .= $amp . $conf['var']['zoneId'] . "=" . $zoneId;
 if (!empty($source)) {
-$url .= $amp . $conf['var']['channel'] . "=" . $source;
+$url .= $amp . $conf['var']['channel'] . "=" . urlencode($source);
 }
 if (!empty($aBanner['block_ad'])) {
 $url .= $amp . $conf['var']['blockAd'] . "=" . $aBanner['block_ad'];
@@ -3626,11 +3626,7 @@ function _adRenderReplaceMagicMacros(array $aBanner, string $input): string
 if (!isset($aBanner['aMagicMacros'])) {
 return $input;
 }
-return str_replace(
-array_keys($aBanner['aMagicMacros']),
-array_values($aBanner['aMagicMacros']),
-$input,
-);
+return strtr($input, $aBanner['aMagicMacros']);
 }
 function _adRenderBuildSignedClickUrl(array $aBanner, int $zoneId = 0, string $source = '', ?string $ct0 = null, bool $logClick = true, ?string $customDestination = null): string
 {
