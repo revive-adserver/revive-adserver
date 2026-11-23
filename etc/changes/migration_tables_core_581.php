@@ -30,6 +30,8 @@ class Migration_581 extends Migration
         $this->aTaskList_constructive[] = 'afterAddField__users__date_created';
         $this->aTaskList_constructive[] = 'beforeAddField__users__date_last_login';
         $this->aTaskList_constructive[] = 'afterAddField__users__date_last_login';
+        $this->aTaskList_constructive[] = 'beforeAddIndex__users__sso_user_id';
+        $this->aTaskList_constructive[] = 'afterAddIndex__users__sso_user_id';
         $this->aTaskList_constructive[] = 'beforeAddField__zones__is_in_ad_direct';
         $this->aTaskList_constructive[] = 'afterAddField__zones__is_in_ad_direct';
         $this->aTaskList_constructive[] = 'beforeAddField__zones__rate';
@@ -139,5 +141,15 @@ class Migration_581 extends Migration
     public function afterAddField__users__date_last_login()
     {
         return $this->afterAddField('users', 'date_last_login');
+    }
+
+    public function beforeAddIndex__users__sso_user_id()
+    {
+        return $this->beforeAddIndex('users', 'sso_user_id');
+    }
+
+    public function afterAddIndex__users__sso_user_id()
+    {
+        return $this->afterAddIndex('users', 'sso_user_id');
     }
 }
