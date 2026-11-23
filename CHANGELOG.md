@@ -2,37 +2,10 @@
 
 All notable changes to Revive Adserver will be documented in this file.
 
-## [6.1.0]
+## [6.1.0] - 2026-11-25
 
 ### Fixes
 
-- Exposed signed impression logging URL validity in Banner Delivery Settings ([#1793](https://github.com/revive-adserver/revive-adserver/issues/1793))
-- Restored generated parameters for advanced statistics reports ([#1796](https://github.com/revive-adserver/revive-adserver/issues/1796))
-- Fixed ambiguous grouping in PostgreSQL zone and banner statistics queries, and error handling left suppressed by email-zone validation failures ([#1797](https://github.com/revive-adserver/revive-adserver/issues/1797))
-- Fixed admin interface layout for right-to-left languages ([#1798](https://github.com/revive-adserver/revive-adserver/issues/1798))
-- Standard Reports are no longer available when working as an administrator, as they could download an error page instead of the spreadsheet ([#1801](https://github.com/revive-adserver/revive-adserver/issues/1801))
-- Cleared the admin loading overlay when restoring a page from the browser back/forward cache ([#1800](https://github.com/revive-adserver/revive-adserver/issues/1800))
-- Restricted zone chaining to targets available to the current account ([#1706](https://github.com/revive-adserver/revive-adserver/issues/1706))
-- Cleared cached update information after a successful upgrade so the version check uses the upgraded version ([#1808](https://github.com/revive-adserver/revive-adserver/issues/1808))
-
-### Improvements
-
-- Added a minimum release stability setting for update checks ([#1794](https://github.com/revive-adserver/revive-adserver/issues/1794))
-- Limited HTML5 ZIP import size and entry count ([#1795](https://github.com/revive-adserver/revive-adserver/issues/1795))
-- Rejected malformed hostnames in requests ([#1812](https://github.com/revive-adserver/revive-adserver/issues/1812))
-
-### Changed
-
-- **Backward compatibility:** Banner previews run JavaScript inside sandboxed frames, isolated from the administration interface. Creatives that require access to the surrounding page, browser storage or forms may behave differently in previews ([#346](https://github.com/revive-adserver/revive-adserver/issues/346))
-- When banner previews are disabled, the banner pages and the campaign banner list show a "Show banner" link opening the preview popup instead.
-
-## [6.1.0-rc1] - 2026-11-11
-
-### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2026-004/)
-
-- Includes all the security fixes released in [6.0.9](#609---2026-11-11)
-
-### Fixes
 - Fixed extra space below banners served by asynchronous tags ([#973](https://github.com/revive-adserver/revive-adserver/pull/973))
 - Avoided full banner table scans when auditing duplicated SQL images ([#1788](https://github.com/revive-adserver/revive-adserver/pull/1788))
 - Users with only trafficker permissions could see a JavaScript alert error when linking or unlinking campaigns or banners to a zone ([#1698](https://github.com/revive-adserver/revive-adserver/issues/1698))
@@ -80,6 +53,14 @@ All notable changes to Revive Adserver will be documented in this file.
 - Added missing translations to advertiser, campaign and banner lists ([#122](https://github.com/revive-adserver/revive-adserver/issues/122))
 - Fixed companion ad selection not recognizing a previously delivered companion campaign ([#1728](https://github.com/revive-adserver/revive-adserver/pull/1728))
 - The Advertisers list with "Hide inactive" loaded every banner of the account, which was slow and could exceed the memory limit with a large number of banners ([#1785](https://github.com/revive-adserver/revive-adserver/issues/1785))
+- Exposed signed impression logging URL validity in Banner Delivery Settings ([#1793](https://github.com/revive-adserver/revive-adserver/issues/1793))
+- Restored generated parameters for advanced statistics reports ([#1796](https://github.com/revive-adserver/revive-adserver/issues/1796))
+- Fixed ambiguous grouping in PostgreSQL zone and banner statistics queries, and error handling left suppressed by email-zone validation failures ([#1797](https://github.com/revive-adserver/revive-adserver/issues/1797))
+- Fixed admin interface layout for right-to-left languages ([#1798](https://github.com/revive-adserver/revive-adserver/issues/1798))
+- Standard Reports are no longer available when working as an administrator, as they could download an error page instead of the spreadsheet ([#1801](https://github.com/revive-adserver/revive-adserver/issues/1801))
+- Cleared the admin loading overlay when restoring a page from the browser back/forward cache ([#1800](https://github.com/revive-adserver/revive-adserver/issues/1800))
+- Restricted zone chaining to targets available to the current account ([#1706](https://github.com/revive-adserver/revive-adserver/issues/1706))
+- Cleared cached update information after a successful upgrade so the version check uses the upgraded version ([#1808](https://github.com/revive-adserver/revive-adserver/issues/1808))
 
 ### Added
 
@@ -87,8 +68,16 @@ All notable changes to Revive Adserver will be documented in this file.
 - Added the disabled-by-default `security.allowLinkingExistingUsers` configuration option to allow managers to link existing users to other accounts and search all users in autocomplete. Enabling it is not recommended on shared instances ([#1765](https://github.com/revive-adserver/revive-adserver/issues/1765))
 - Added signed impression logging URLs with optional expiration through the `delivery.logUrlValidity` configuration setting ([#1687](https://github.com/revive-adserver/revive-adserver/issues/1687))
 
+### Improvements
+
+- Added a minimum release stability setting for update checks ([#1794](https://github.com/revive-adserver/revive-adserver/issues/1794))
+- Limited HTML5 ZIP import size and entry count ([#1795](https://github.com/revive-adserver/revive-adserver/issues/1795))
+- Rejected malformed hostnames in requests ([#1812](https://github.com/revive-adserver/revive-adserver/issues/1812))
+
 ### Changed
 
+- **Backward compatibility:** Banner previews run JavaScript inside sandboxed frames, isolated from the administration interface. Creatives that require access to the surrounding page, browser storage or forms may behave differently in previews ([#346](https://github.com/revive-adserver/revive-adserver/issues/346))
+- When banner previews are disabled, the banner pages and the campaign banner list show a "Show banner" link opening the preview popup instead.
 - Revive Adserver now requires at least PHP 8.2.35.
 - The `ftp` PHP extension is now required to store banner files via FTP.
 - Simplified character encoding conversion to use the required `intl` extension.
