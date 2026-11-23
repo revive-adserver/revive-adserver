@@ -93,7 +93,7 @@ class Test_RV_Html5ZipManager extends UnitTestCase
 
     public function testConfiguredLocalAndFtpFilesystems()
     {
-        foreach ([false, true] as $ftp) {
+        foreach ([[false, null], [true, null], [false, '0'], [false, '1']] as [$ftp, $maxFilesize]) {
             $container = new \Symfony\Component\DependencyInjection\ContainerBuilder();
             foreach ($GLOBALS['_MAX']['CONF'] as $section => $values) {
                 foreach ($values as $key => $value) {
@@ -107,6 +107,11 @@ class Test_RV_Html5ZipManager extends UnitTestCase
             $container->setParameter('store.ftpPassword', 'test');
             $container->setParameter('store.ftpPath', '/images');
             $container->setParameter('store.ftpPassive', '1');
+            if ($maxFilesize === null) {
+                $container->getParameterBag()->remove('store.maxFilesize');
+            } else {
+                $container->setParameter('store.maxFilesize', $maxFilesize);
+            }
             \RV\Config\AdminServiceConfigurator::configure($container);
             $container->compile();
             $filesystem = $container->get('filesystem');
@@ -117,6 +122,22 @@ class Test_RV_Html5ZipManager extends UnitTestCase
                 $this->assertEqual(fileperms($this->directory . '/public') & 0777, 0755);
                 $filesystem->deleteDirectory('public');
             }
+            $rejected = false;
+            $originalMessage = $GLOBALS['strHtml5ZipTooLarge'] ?? null;
+            $GLOBALS['strHtml5ZipTooLarge'] = 'Archive exceeds configured limit';
+            try {
+                $container->get('html5.zip.manager')->open($this->archive(['index.html' => $this->html()]));
+            } catch (RuntimeException $e) {
+                $rejected = true;
+                $this->assertEqual($e->getMessage(), $GLOBALS['strHtml5ZipTooLarge']);
+            } finally {
+                if ($originalMessage === null) {
+                    unset($GLOBALS['strHtml5ZipTooLarge']);
+                } else {
+                    $GLOBALS['strHtml5ZipTooLarge'] = $originalMessage;
+                }
+            }
+            $this->assertEqual($rejected, $maxFilesize === '1');
         }
     }
 
