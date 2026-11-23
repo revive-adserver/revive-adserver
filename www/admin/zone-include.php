@@ -45,7 +45,12 @@ $advertiserId = (int) MAX_getValue('clientid');
 $placementId = (int) MAX_getValue('campaignid');
 $adId = (int) MAX_getValue('bannerid');
 $action = MAX_getValue('action');
-$aCurrent = MAX_getValue('includebanner');
+// Only accept positive integer IDs as keys
+$aCurrent = array_filter(
+    (array) MAX_getValue('includebanner', []),
+    fn($id) => is_int($id) && $id > 0,
+    ARRAY_FILTER_USE_KEY,
+);
 $hideInactive = MAX_getStoredValue('hideinactive', ($pref['ui_hide_inactive'] == true), null, true);
 $listorder = MAX_getStoredValue('listorder', 'name');
 $orderdirection = MAX_getStoredValue('orderdirection', 'up');
