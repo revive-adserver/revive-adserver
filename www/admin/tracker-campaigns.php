@@ -33,6 +33,8 @@ phpAds_registerGlobal(
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 OA_Permission::enforceAccessToObject('clients', $clientid);
 OA_Permission::enforceAccessToObject('trackers', $trackerid);
+$doTracker = OA_Dal::staticGetDO('trackers', $trackerid);
+OA_Permission::enforceTrue($doTracker && $doTracker->clientid == $clientid);
 
 
 /*-------------------------------------------------------*/
