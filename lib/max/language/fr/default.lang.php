@@ -688,7 +688,7 @@ $GLOBALS['strShortcutShowStatuses'] = "Afficher les états";
 // Statistics
 $GLOBALS['strStats'] = "Statistiques";
 $GLOBALS['strNoStats'] = "Il n'y a actuellement aucunes statistiques disponibles";
-$GLOBALS['strNoStatsForPeriod'] = "Il n'y actuellement aucunes statistiques disponibles pour la période du %s au %S";
+$GLOBALS['strNoStatsForPeriod'] = "Il n'y actuellement aucunes statistiques disponibles pour la période du %s au %s";
 $GLOBALS['strTotalThisPeriod'] = "Total de cette période";
 $GLOBALS['strPublisherDistribution'] = "Distribution par site web";
 $GLOBALS['strCampaignDistribution'] = "Distribution par campagne";
