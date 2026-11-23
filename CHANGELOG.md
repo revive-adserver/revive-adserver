@@ -4,19 +4,31 @@ All notable changes to Revive Adserver will be documented in this file.
 
 ## [6.1.0] - 2026-11-25
 
+### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2026-005/)
+
+- [CVE-2026-133210](https://www.cve.org/CVERecord?id=CVE-2026-133210): SQL injection in zone banner linking
+- [CVE-2026-133208](https://www.cve.org/CVERecord?id=CVE-2026-133208): Reflected XSS through delivery macro re-injection
+- [CVE-2026-133202](https://www.cve.org/CVERecord?id=CVE-2026-133202): Cross-advertiser tracker association metadata disclosure
+- [CVE-2026-133203](https://www.cve.org/CVERecord?id=CVE-2026-133203): Cross-tracker conversion-variable injection suppressing conversions
+- [CVE-2026-133211](https://www.cve.org/CVERecord?id=CVE-2026-133211): Reflected XSS through the ct0 delivery parameter
+- [CVE-2026-133204](https://www.cve.org/CVERecord?id=CVE-2026-133204): Cross-agency campaign and banner name disclosure in zone linking
+- [CVE-2026-133205](https://www.cve.org/CVERecord?id=CVE-2026-133205): Cross-agency advertiser and website name disclosure in XLS reports
+- [CVE-2026-133206](https://www.cve.org/CVERecord?id=CVE-2026-133206): XML injection in VAST delivery responses
+- [CVE-2026-133207](https://www.cve.org/CVERecord?id=CVE-2026-133207): Formula injection via entity names in XLS reports
+- [CVE-2026-133209](https://www.cve.org/CVERecord?id=CVE-2026-133209): Deleted entity accounts remain active after incomplete cleanup
+
 ### Fixes
 
 - Fixed extra space below banners served by asynchronous tags ([#973](https://github.com/revive-adserver/revive-adserver/pull/973))
 - Avoided full banner table scans when auditing duplicated SQL images ([#1788](https://github.com/revive-adserver/revive-adserver/pull/1788))
 - Users with only trafficker permissions could see a JavaScript alert error when linking or unlinking campaigns or banners to a zone ([#1698](https://github.com/revive-adserver/revive-adserver/issues/1698))
-- Users with only trafficker permissions could link campaigns belonging to a different agency to their zones ([#1700](https://github.com/revive-adserver/revive-adserver/issues/1700))
 - New `script/console` commands were not verifying the accuracy of the hostname, when provided through the `-H` option ([#1695](https://github.com/revive-adserver/revive-adserver/issues/1695))
 - Added missing escaping in conversion comments when displayed in conversion statistics ([#1708](https://github.com/revive-adserver/revive-adserver/issues/1708))
 - Added proper validation to tracker variable names ([#1707](https://github.com/revive-adserver/revive-adserver/issues/1707))
 - The *Account Preferences* section was not accessible from the UI due to a permissions error ([#1711](https://github.com/revive-adserver/revive-adserver/issues/1711))
 - Added validation to the language field in user preferences and optimized language loading ([#1710](https://github.com/revive-adserver/revive-adserver/issues/1710))
 - Delivery capping / blocking values were correctly saved for banners, but not displayed back on the UI ([#1709](https://github.com/revive-adserver/revive-adserver/issues/1709))
-- Added missing HTML escaping in the error message when trying to link a wrong type of baner to a zone ([#1703](https://github.com/revive-adserver/revive-adserver/issues/1703))
+- Added missing HTML escaping in the error message when trying to link a wrong type of banner to a zone ([#1703](https://github.com/revive-adserver/revive-adserver/issues/1703))
 - Fixed PHP fatal error when opening the tracker append code page ([#1719](https://github.com/revive-adserver/revive-adserver/issues/1719))
 - Fixed a PHP fatal error when reporting database errors during an upgrade ([#1721](https://github.com/revive-adserver/revive-adserver/issues/1721))
 - Added missing HTML escaping to the campaign name in email-zone date-conflict errors ([#1763](https://github.com/revive-adserver/revive-adserver/issues/1763))
@@ -78,13 +90,13 @@ All notable changes to Revive Adserver will be documented in this file.
 ### Changed
 
 - **Backward compatibility:** Banner previews run JavaScript inside sandboxed frames, isolated from the administration interface. Creatives that require access to the surrounding page, browser storage or forms may behave differently in previews ([#346](https://github.com/revive-adserver/revive-adserver/issues/346))
+- **Backward compatibility:** The `ct0` parameter is ignored when it contains characters that are not safe in banner markup, such as quotes, spaces, `#`, `|` or braces. They need to be percent-encoded.
 - When banner previews are disabled, the banner pages and the campaign banner list show a "Show banner" link opening the preview popup instead.
 - Revive Adserver now requires at least PHP 8.2.35.
 - The `ftp` PHP extension is now required to store banner files via FTP.
 - Simplified character encoding conversion to use the required `intl` extension.
 - Replaced the legacy XML-RPC update check with a JSON API ([#1694](https://github.com/revive-adserver/revive-adserver/issues/1694)).
 - Removed unused ad categories and OpenX category metadata from affiliates and zones, completing the previously deferred database cleanup ([#1787](https://github.com/revive-adserver/revive-adserver/issues/1787)).
-- Login passwords are no longer trimmed; leading and trailing whitespace is now significant. Usernames continue to be trimmed.
 
 ## [6.0.9] - 2026-11-11
 

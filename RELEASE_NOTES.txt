@@ -17,11 +17,16 @@ Revive Adserver. Please read these notes before reporting any bugs.
 What's New in Revive Adserver 6.1.0
 -----------------------------------
 
- * Release date: t.b.d.
+ * Release date: 25 November 2026
 
 
 Security Updates
 ----------------
+
+ * Fixes 10 vulnerabilities, including SQL injection, cross-site scripting,
+   improper access control and information disclosure.
+   For details, please see the security advisory:
+   https://www.revive-adserver.com/security/revive-sa-2026-005/
 
  * Includes all the security fixes released in Revive Adserver 6.0.9.
    For details, please see the security advisory:
@@ -54,9 +59,6 @@ Changes
 
  * Removed unused ad categories and OpenX category metadata from websites
    and zones.
-
- * Login passwords are no longer trimmed: leading and trailing whitespace
-   is now significant. Usernames continue to be trimmed.
 
 
 Bug Fixes
