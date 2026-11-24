@@ -351,6 +351,44 @@ class Test_DeliveryCommon extends UnitTestCase
             $this->assertIdentical($GLOBALS['target'], $expected, 'Only ASCII letters, digits and underscores are accepted in target');
         }
 
+        $get = $_GET;
+        $validCt0 = [
+            'https://tracker.example/?redirect=',
+            'http://tracker.example:8080/c?a=1&b=2&u=',
+            'https://tracker_1.example/c/',
+            'https://ad.doubleclick.net/clk;123;456;a?https%3a%2f%2fexample.com%2f%3f',
+            'https://adclick.g.doubleclick.net/pcs/click?xai=AKAOjst_x-Y&sig=Cg0Ar&fbs_aeid=[gw_fbsaeid]&urlfix=1&adurl=',
+        ];
+        $invalidCt0 = [
+            '',
+            'foo',
+            '//t.example/',
+            'javascript://t.example/%0aalert(1)',
+            'https://',
+            ' https://t.example/',
+            "https://t.example/\n",
+            "https://t.example/\xe9",
+            'https://t.example/a b',
+            'https://t.example/"><script>alert(1)</script>',
+            "https://t.example/');alert(1)//",
+            'https://t.example/`${alert(1)}`',
+            'https://t.example/\\";alert(1)//',
+            'https://t.example/&#39;);alert(1)//',
+            'https://t.example/&#x27);alert(1)//',
+            'https://t.example/&apos;);alert(1)//',
+            'https://t.example/&quot);alert(1)//',
+            'https://t.example/{referer}',
+            ['https://t.example/'],
+        ];
+        foreach ([...$validCt0, ...$invalidCt0] as $requestedCt0) {
+            $this->_unsetMAXGlobals();
+            $_GET['ct0'] = $requestedCt0;
+            MAX_commonInitVariables();
+            $expected = in_array($requestedCt0, $validCt0, true) ? $requestedCt0 : '';
+            $this->assertIdentical($GLOBALS['ct0'], $expected, 'Only HTTP(S) URLs which cannot break out of the banner markup are accepted in ct0');
+        }
+        $_GET = $get;
+
         // Test 7 : withtext and withText fields (numeric 0 or 1)
         $this->_unsetMAXGlobals();
         global $context, $source, $target, $withText, $withtext, $ct0, $what, $loc, $referer, $zoneid, $campaignid, $bannerid, $clientid, $charset;

@@ -318,7 +318,8 @@ function MAX_commonInitVariables()
         $withtext = $withText;
     }
     $withtext = (isset($withtext) && is_numeric($withtext) ? $withtext : 0);
-    $ct0 ??= '';
+    // Quotes, fragments and HTML entities are not accepted, as they could break out of the banner markup
+    $ct0 = isset($ct0) && is_string($ct0) && preg_match('~^https?://(?!.*&(?:[a-z0-9]+;|quot))[a-z0-9._\~:/?@!$&()*+,;=%\[\]-]+$~Di', $ct0) ? $ct0 : '';
     $context ??= [];
 
     $target = isset($target) && is_string($target) && preg_match('#^[a-z0-9_]+$#Di', $target) ? $target : '';
