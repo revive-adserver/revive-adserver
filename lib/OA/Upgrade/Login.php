@@ -78,6 +78,50 @@ class OA_Upgrade_Login
         return OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isUserLinkedToAdmin();
     }
 
+    /**
+     * Rebuild the authenticated administrator session after upgrading the database.
+     */
+    public static function upgradeSession(): bool
+    {
+        if (!OA_Auth::isLoggedIn() || empty($_COOKIE['sessionID'])) {
+            return false;
+        }
+
+        $user = OA_Permission::getCurrentUser();
+        $doUser = OA_Dal::factoryDO('users');
+        if ($user->aUser['user_id'] == -1 && OA_Permission::isAccount(OA_ACCOUNT_ADMIN) && !empty($user->aUser['username'])) {
+            // PAN and early Openads versions authenticate before the users table exists.
+            $doUser->username = strtolower($user->aUser['username']);
+        } elseif ($user->aUser['user_id'] > 0) {
+            $doUser->user_id = $user->aUser['user_id'];
+        } else {
+            return false;
+        }
+
+        $doUser->find();
+        if (!$doUser->fetch()) {
+            return false;
+        }
+
+        $data = OA_Auth::getSessionData($doUser);
+        if (empty($data['user']->aUser['is_admin'])) {
+            return false;
+        }
+
+        if (!empty($GLOBALS['session'][self::SESSION_PASSWORD_HASH])) {
+            $doUser->password = $GLOBALS['session'][self::SESSION_PASSWORD_HASH];
+            if (!$doUser->update()) {
+                return false;
+            }
+            unset($GLOBALS['session'][self::SESSION_PASSWORD_HASH]);
+        }
+
+        phpAds_SessionDataRegister($data);
+        phpAds_SessionRegenerateId();
+
+        return true;
+    }
+
     public static function autoLogin()
     {
         $oPlugin = OA_Auth::staticGetAuthPlugin();

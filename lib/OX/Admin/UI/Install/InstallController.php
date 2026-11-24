@@ -749,6 +749,10 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
         }
 
         $dbSuccess = $upgraderSuccess && !$oUpgrader->oLogger->errorExists;
+        if ($dbSuccess && !$this->getInstallStatus()->isInstall() && !OA_Upgrade_Login::upgradeSession()) {
+            $oUpgrader->oLogger->logError('Unable to restore the administrator session after upgrading the database');
+            $dbSuccess = false;
+        }
         if ($dbSuccess) {
             //show success status
             OA_Admin_UI::getInstance()->queueMessage($message, 'global', 'info');
@@ -829,16 +833,6 @@ class OX_Admin_UI_Install_InstallController extends OX_Admin_UI_Controller_BaseC
                 $configStepSuccess = false;
             }
             OA_Permission::switchToSystemProcessUser(); //get back to normal user previously logged in
-        }
-
-        //4) upgrade password hash, if necessary
-        if ($configStepSuccess && $isUpgrade && !empty($GLOBALS['session'][OA_Upgrade_Login::SESSION_PASSWORD_HASH])) {
-            $doUsers = OA_Dal::staticGetDO('users', OA_Permission::getUserId());
-
-            if ($doUsers) {
-                $doUsers->password = $GLOBALS['session'][OA_Upgrade_Login::SESSION_PASSWORD_HASH];
-                $doUsers->update();
-            }
         }
 
         $configStepSuccess = $configStepSuccess && empty($errMessage);

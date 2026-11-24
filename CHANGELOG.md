@@ -61,6 +61,7 @@ All notable changes to Revive Adserver will be documented in this file.
 - Cleared the admin loading overlay when restoring a page from the browser back/forward cache ([#1800](https://github.com/revive-adserver/revive-adserver/issues/1800))
 - Restricted zone chaining to targets available to the current account ([#1706](https://github.com/revive-adserver/revive-adserver/issues/1706))
 - Cleared cached update information after a successful upgrade so the version check uses the upgraded version ([#1808](https://github.com/revive-adserver/revive-adserver/issues/1808))
+- Fixed PAN/Openads 2.0 upgrades skipping plugin installation and post-upgrade tasks, and failing to migrate the administrator's password hash when configuration is skipped ([#1814](https://github.com/revive-adserver/revive-adserver/issues/1814))
 
 ### Added
 
