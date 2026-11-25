@@ -6,7 +6,7 @@
 | License: GPLv2 or later, see the LICENSE.txt file.                        |
 +---------------------------------------------------------------------------+
 
-Release Notes: Revive Adserver 6.1.0
+Release Notes: Revive Adserver 6.1.1
 ====================================
 
 These release notes cover what's new, system requirements, download and
@@ -14,58 +14,16 @@ installation instructions, known issues and frequently asked questions for
 Revive Adserver. Please read these notes before reporting any bugs.
 
 
-What's New in Revive Adserver 6.1.0
+What's New in Revive Adserver 6.1.1
 -----------------------------------
 
- * Release date: 25 November 2026
-
-
-Security Updates
-----------------
-
- * Fixes 10 vulnerabilities, including SQL injection, cross-site scripting,
-   improper access control and information disclosure.
-   For details, please see the security advisory:
-   https://www.revive-adserver.com/security/revive-sa-2026-005/
-
- * Includes all the security fixes released in Revive Adserver 6.0.9.
-   For details, please see the security advisory:
-   https://www.revive-adserver.com/security/revive-sa-2026-004/
-
-
-New Features
-------------
-
- * Added XML-RPC methods to list banners linked to zones and zones linked
-   to banners.
-
- * Added signed impression logging URLs, with optional expiration through
-   the new "delivery.logUrlValidity" configuration setting.
-
- * Added the disabled-by-default "security.allowLinkingExistingUsers"
-   configuration option, to allow managers to link existing users to other
-   accounts and search all users in autocomplete. Enabling it is not
-   recommended on shared instances.
-
-
-Changes
--------
-
- * Revive Adserver now requires at least PHP 8.2.35.
-
- * The "ftp" PHP extension is now required to store banner files via FTP.
-
- * The update check now uses a JSON API instead of the legacy XML-RPC one.
-
- * Removed unused ad categories and OpenX category metadata from websites
-   and zones.
+ * Release date: t.b.d.
 
 
 Bug Fixes
 ---------
 
- * Over 40 bug fixes, including several performance improvements for
-   installations with a large number of banners.
+ * ...
 
 For a detailed change log, please see: CHANGELOG.md
 
