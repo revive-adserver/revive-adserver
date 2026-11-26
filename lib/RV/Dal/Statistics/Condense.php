@@ -242,6 +242,9 @@ class Condense
             };
         }
 
+        $basketValue = ConversionTotals::capBasketValueSql('SUM(total_basket_value)');
+        $numItems = ConversionTotals::capNumItemsSql('SUM(total_num_items)');
+
         if ($table === 'data_summary_ad_hourly') {
             return <<<EOF
 SELECT
@@ -253,8 +256,8 @@ SELECT
     SUM(impressions) AS impressions,
     SUM(clicks) AS clicks,
     SUM(conversions) AS conversions,
-    SUM(total_basket_value) AS total_basket_value,
-    SUM(total_num_items) AS total_num_items,
+    {$basketValue} AS total_basket_value,
+    {$numItems} AS total_num_items,
     SUM(total_revenue) AS total_revenue,
     SUM(total_cost) AS total_cost,
     SUM(total_techcost) AS total_techcost
@@ -279,8 +282,8 @@ SELECT
     SUM(impressions) AS impressions,
     SUM(clicks) AS clicks,
     SUM(conversions) AS conversions,
-    SUM(total_basket_value) AS total_basket_value,
-    SUM(total_num_items) AS total_num_items
+    {$basketValue} AS total_basket_value,
+    {$numItems} AS total_num_items
 FROM {$this->prefix}{$table}
 WHERE date_time >= {$start} AND date_time < {$end}
 GROUP BY 1, 2, 3, 4, 5, 6, 7, 8 

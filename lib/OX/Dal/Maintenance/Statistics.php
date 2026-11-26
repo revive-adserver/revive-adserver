@@ -17,6 +17,8 @@ require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once LIB_PATH . '/OperationInterval.php';
 require_once OX_PATH . '/lib/pear/Date.php';
 
+use RV\Dal\Statistics\ConversionTotals;
+
 /**
  * Definitions of class constants.
  */
@@ -666,8 +668,10 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
         $aConf = $GLOBALS['_MAX']['CONF'];
         // The custom IF function in PgSQL is not suitable for this query, we need explicit use of CASE
         if ($this->oDbh->dbsyntax == 'pgsql') {
-            $sqlBasketValue = "CASE WHEN v.purpose = 'basket_value' AND diac.connection_status = " . MAX_CONNECTION_STATUS_APPROVED . " THEN diavv.value::numeric ELSE 0 END";
-            $sqlNumItems = "CASE WHEN v.purpose = 'num_items' AND diac.connection_status = " . MAX_CONNECTION_STATUS_APPROVED . " THEN diavv.value::integer ELSE 0 END";
+            // Values are supplied by the client: ignore anything that isn't a plain number
+            $sqlIsNumeric = "diavv.value ~ '^[0-9]+(\\.[0-9]+)?$'";
+            $sqlBasketValue = "CASE WHEN v.purpose = 'basket_value' AND diac.connection_status = " . MAX_CONNECTION_STATUS_APPROVED . " AND {$sqlIsNumeric} THEN diavv.value::numeric ELSE 0 END";
+            $sqlNumItems = "CASE WHEN v.purpose = 'num_items' AND diac.connection_status = " . MAX_CONNECTION_STATUS_APPROVED . " AND {$sqlIsNumeric} THEN diavv.value::numeric ELSE 0 END";
         } else {
             $sqlBasketValue = "IF(v.purpose = 'basket_value' AND diac.connection_status = " . MAX_CONNECTION_STATUS_APPROVED . ", diavv.value, 0)";
             $sqlNumItems = "IF(v.purpose = 'num_items' AND diac.connection_status = " . MAX_CONNECTION_STATUS_APPROVED . ", diavv.value, 0)";
@@ -681,8 +685,8 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                 diac.ad_id AS ad_id,
                 diac.zone_id AS zone_id,
                 COUNT(DISTINCT(diac.data_intermediate_ad_connection_id)) AS conversions,
-                SUM({$sqlBasketValue}) AS total_basket_value,
-                SUM({$sqlNumItems}) AS total_num_items
+                " . ConversionTotals::capBasketValueSql("SUM({$sqlBasketValue})") . " AS total_basket_value,
+                ROUND(" . ConversionTotals::capNumItemsSql("SUM({$sqlNumItems})") . ") AS total_num_items
             FROM
                 " . $this->oDbh->quoteIdentifier($aConf['table']['prefix'] . 'data_intermediate_ad_connection', true) . " AS diac
             LEFT JOIN
@@ -715,14 +719,16 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
             return MAX::raiseError($rsResult, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
         while ($aRow = $rsResult->fetchRow()) {
+            $basketValue = $this->oDbh->quote($aRow['total_basket_value'], 'float');
+            $numItems = $this->oDbh->quote($aRow['total_num_items'], 'integer');
             // Prepare the update query
             $query = "
                 UPDATE
                     " . $this->oDbh->quoteIdentifier($aConf['table']['prefix'] . 'data_intermediate_ad', true) . "
                 SET
                     conversions = conversions + " . $this->oDbh->quote($aRow['conversions'], 'integer') . ",
-                    total_basket_value = total_basket_value + " . $this->oDbh->quote($aRow['total_basket_value'], 'float') . ",
-                    total_num_items = total_num_items + " . $this->oDbh->quote($aRow['total_num_items'], 'integer') . "
+                    total_basket_value = " . ConversionTotals::capBasketValueSql($basketValue, 'total_basket_value') . ",
+                    total_num_items = " . ConversionTotals::capNumItemsSql($numItems, 'total_num_items') . "
                 WHERE
                     date_time = " . $this->oDbh->quote($aRow['date_f'], 'timestamp') . "
                     AND ad_id = " . $this->oDbh->quote($aRow['ad_id'], 'integer') . "
@@ -763,8 +769,8 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
                             0,
                             " . $this->oDbh->quote($aRow['zone_id'], 'integer') . ",
                             " . $this->oDbh->quote($aRow['conversions'], 'integer') . ",
-                            " . $this->oDbh->quote($aRow['total_basket_value'], 'float') . ",
-                            " . $this->oDbh->quote($aRow['total_num_items'], 'integer') . "
+                            {$basketValue},
+                            {$numItems}
                         )";
                 $rsInsertResult = $this->oDbh->exec($query);
             }
@@ -915,8 +921,8 @@ abstract class OX_Dal_Maintenance_Statistics extends MAX_Dal_Common
         }
         $query .= "
                 SUM(conversions) AS conversions,
-                SUM(total_basket_value) AS total_basket_value,
-                SUM(total_num_items) AS total_num_items,
+                " . ConversionTotals::capBasketValueSql('SUM(total_basket_value)') . " AS total_basket_value,
+                " . ConversionTotals::capNumItemsSql('SUM(total_num_items)') . " AS total_num_items,
                 '" . date('Y-m-d H:i:s') . "'
             FROM
                 " . $this->oDbh->quoteIdentifier($finalFromTable, true) . "
