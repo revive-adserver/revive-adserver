@@ -149,6 +149,11 @@ function MAX_Delivery_log_logVariableValues($aVariables, $trackerId, $serverConv
                     // Strip useless chars, such as currency
                     $value = preg_replace('/[^0-9.]/', '', $value);
                     $value = (float) $value;
+                    // Do not save values that cannot be stored as a number (e.g. INF)
+                    if (!is_finite($value)) {
+                        unset($aVariables[$aVariable['variable_id']]);
+                        continue 2;
+                    }
                     break;
                 case 'date':
                     if (!empty($value)) {

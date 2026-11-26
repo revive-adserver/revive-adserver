@@ -339,4 +339,74 @@ class Test_OX_Dal_Maintenance_Statistics_manageConversions extends UnitTestCase
         // Clean Up
         DataGenerator::cleanUp();
     }
+
+    /**
+     * Test that out of range or invalid variable values do not overflow
+     * the data_intermediate_ad columns.
+     */
+    public function testManageConversionsOverflow()
+    {
+        $doVariables = OA_Dal::factoryDO('variables');
+        $doVariables->purpose = 'basket_value';
+        $basketVariableId = DataGenerator::generateOne($doVariables);
+
+        $doVariables = OA_Dal::factoryDO('variables');
+        $doVariables->purpose = 'num_items';
+        $itemsVariableId = DataGenerator::generateOne($doVariables);
+
+        $aConversions = [
+            // ad_id, basket_value, num_items
+            [700, '1000000', '1.5'],
+            [700, 'abc', null],
+            [701, null, '99999999999'],
+            [701, null, '5'],
+        ];
+        foreach ($aConversions as $key => [$adId, $basketValue, $numItems]) {
+            $doData_intermediate_ad_connection = OA_Dal::factoryDO('data_intermediate_ad_connection');
+            $doData_intermediate_ad_connection->server_raw_tracker_impression_id = $key + 1;
+            $doData_intermediate_ad_connection->server_raw_ip = 'singleDB';
+            $doData_intermediate_ad_connection->tracker_date_time = '2004-06-06 12:15:00';
+            $doData_intermediate_ad_connection->connection_date_time = '2004-06-06 12:10:00';
+            $doData_intermediate_ad_connection->tracker_id = 500;
+            $doData_intermediate_ad_connection->ad_id = $adId;
+            $doData_intermediate_ad_connection->zone_id = 100;
+            $doData_intermediate_ad_connection->tracker_ip_address = '127.0.0.1';
+            $doData_intermediate_ad_connection->connection_action = MAX_CONNECTION_AD_CLICK;
+            $doData_intermediate_ad_connection->connection_window = 3600;
+            $doData_intermediate_ad_connection->connection_status = MAX_CONNECTION_STATUS_APPROVED;
+            $doData_intermediate_ad_connection->inside_window = 1;
+            $connectionId = DataGenerator::generateOne($doData_intermediate_ad_connection);
+
+            foreach ([$basketVariableId => $basketValue, $itemsVariableId => $numItems] as $variableId => $value) {
+                if (null === $value) {
+                    continue;
+                }
+                $doData_intermediate_ad_variable_value = OA_Dal::factoryDO('data_intermediate_ad_variable_value');
+                $doData_intermediate_ad_variable_value->data_intermediate_ad_connection_id = $connectionId;
+                $doData_intermediate_ad_variable_value->tracker_variable_id = $variableId;
+                $doData_intermediate_ad_variable_value->value = $value;
+                DataGenerator::generateOne($doData_intermediate_ad_variable_value);
+            }
+        }
+
+        $oFactory = new OX_Dal_Maintenance_Statistics_Factory();
+        $oDalMaintenanceStatistics = $oFactory->factory();
+        $oDalMaintenanceStatistics->manageConversions(new Date('2004-06-06 12:00:00'), new Date('2004-06-06 12:59:59'));
+
+        $doData_intermediate_ad = OA_Dal::factoryDO('data_intermediate_ad');
+        $doData_intermediate_ad->ad_id = 700;
+        $this->assertEqual($doData_intermediate_ad->find(true), 1);
+        $this->assertEqual($doData_intermediate_ad->conversions, 2);
+        $this->assertEqual($doData_intermediate_ad->total_basket_value, 999999.9999);
+        $this->assertEqual($doData_intermediate_ad->total_num_items, 2);
+
+        $doData_intermediate_ad = OA_Dal::factoryDO('data_intermediate_ad');
+        $doData_intermediate_ad->ad_id = 701;
+        $this->assertEqual($doData_intermediate_ad->find(true), 1);
+        $this->assertEqual($doData_intermediate_ad->conversions, 2);
+        $this->assertEqual($doData_intermediate_ad->total_basket_value, 0);
+        $this->assertEqual($doData_intermediate_ad->total_num_items, 2147483647);
+
+        DataGenerator::cleanUp();
+    }
 }

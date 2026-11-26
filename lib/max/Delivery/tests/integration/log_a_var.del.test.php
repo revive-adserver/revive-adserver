@@ -56,9 +56,27 @@ class Test_Max_Delivery_Log_A_Var extends UnitTestCase
                 'type' => 'string',
                 'variablecode' => '',
             ],
+            77 => [
+                'variable_id' => 77,
+                'tracker_id' => 1,
+                'name' => 'bazVar',
+                'type' => 'numeric',
+                'variablecode' => '',
+            ],
+            88 => [
+                'variable_id' => 88,
+                'tracker_id' => 1,
+                'name' => 'quxVar',
+                'type' => 'numeric',
+                'variablecode' => '',
+            ],
         ];
         $_GET['fooVar'] = 'foo';
         $_GET['barVar'] = 'bar';
+        // Overflows to INF when cast to float: must not be logged
+        $_GET['bazVar'] = str_repeat('9', 400);
+        // Currency and thousand separators are stripped
+        $_GET['quxVar'] = '$1,234.50';
         MAX_Delivery_log_logVariableValues($aVariables, 1, 1, 'singleDB');
 
         // Install the openXDeliveryLog plugin
@@ -103,7 +121,7 @@ class Test_Max_Delivery_Log_A_Var extends UnitTestCase
         $doData_bkt_a_var = OA_Dal::factoryDO('data_bkt_a_var');
         $doData_bkt_a_var->find();
         $rows = $doData_bkt_a_var->getRowCount();
-        $this->assertEqual($rows, 2);
+        $this->assertEqual($rows, 3);
 
         $doData_bkt_a_var = OA_Dal::factoryDO('data_bkt_a_var');
         $doData_bkt_a_var->server_conv_id = $serverConvId;
@@ -116,6 +134,18 @@ class Test_Max_Delivery_Log_A_Var extends UnitTestCase
         $this->assertEqual($doData_bkt_a_var->value, 'foo');
         $this->assertEqual($doData_bkt_a_var->date_time, $oNowDate->format('%Y-%m-%d %H:%M:%S'));
 
+        $doData_bkt_a_var = OA_Dal::factoryDO('data_bkt_a_var');
+        $doData_bkt_a_var->server_conv_id = $serverConvId;
+        $doData_bkt_a_var->tracker_variable_id = 77;
+        $this->assertEqual($doData_bkt_a_var->find(), 0);
+
+        $doData_bkt_a_var = OA_Dal::factoryDO('data_bkt_a_var');
+        $doData_bkt_a_var->server_conv_id = $serverConvId;
+        $doData_bkt_a_var->tracker_variable_id = 88;
+        $this->assertEqual($doData_bkt_a_var->find(true), 1);
+        $this->assertEqual($doData_bkt_a_var->value, '1234.5');
+
+        unset($_GET['fooVar'], $_GET['barVar'], $_GET['bazVar'], $_GET['quxVar']);
 
         // Uninstall the openXDeliveryLog plugin
         TestEnv::uninstallPluginPackage('openXDeliveryLog', false);

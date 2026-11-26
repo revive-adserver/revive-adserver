@@ -18,6 +18,8 @@ require_once MAX_PATH . '/lib/max/Dal/Common.php';
 require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once MAX_PATH . '/lib/OA/Preferences.php';
 
+use RV\Dal\Statistics\ConversionTotals;
+
 /**
  * This class rolls up old stats - e.g. Hourly stats older than X are rolled up to daily stats
  *
@@ -114,7 +116,7 @@ class OA_Maintenance_RollupStats extends MAX_Dal_Common
                            SELECT
                                CONVERT_TZ(DATE_FORMAT(CONVERT_TZ(dsah.date_time, '+00:00', ao.offset), '%Y-%m-%d 12:00:00'), ao.offset, '+00:00') AS tz_date_time,
                                dsah.ad_id, dsah.creative_id, dsah.zone_id, SUM(dsah.requests), SUM(dsah.impressions), SUM(dsah.clicks), SUM(dsah.conversions),
-                               SUM(dsah.total_basket_value), SUM(dsah.total_num_items), SUM(dsah.total_revenue), SUM(dsah.total_cost), SUM(dsah.total_techcost), '{$updated}'
+                               " . ConversionTotals::capBasketValueSql('SUM(dsah.total_basket_value)') . ", " . ConversionTotals::capNumItemsSql('SUM(dsah.total_num_items)') . ", SUM(dsah.total_revenue), SUM(dsah.total_cost), SUM(dsah.total_techcost), '{$updated}'
                            FROM
                                {$this->prefix}data_summary_ad_hourly AS dsah,
                                {$this->prefix}tmp_ad_offset AS ao

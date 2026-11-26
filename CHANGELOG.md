@@ -4,6 +4,10 @@ All notable changes to Revive Adserver will be documented in this file.
 
 ## [6.1.1]
 
+### Fixes
+
+- Large or invalid tracker variable values could break statistics maintenance ([#1818](https://github.com/revive-adserver/revive-adserver/issues/1818))
+
 ## [6.1.0] - 2026-11-25
 
 ### [Security fixes](https://www.revive-adserver.com/security/revive-sa-2026-005/)
