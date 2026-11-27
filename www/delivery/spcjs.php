@@ -2228,6 +2228,10 @@ case 'int':
 case 'numeric':
 $value = preg_replace('/[^0-9.]/', '', $value);
 $value = (float) $value;
+if (!is_finite($value)) {
+unset($aVariables[$aVariable['variable_id']]);
+continue 2;
+}
 break;
 case 'date':
 if (!empty($value)) {
