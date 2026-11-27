@@ -51,6 +51,20 @@ class Test_OA_Dal_DeliveryDB_Image extends UnitTestCase
         $this->_testImageServe('EST');
     }
 
+    public function testImageGetContentType()
+    {
+        $this->assertEqual(MAX_imageGetContentType('banner.jpg'), 'image/jpeg');
+        $this->assertEqual(MAX_imageGetContentType('banner.JPEG'), 'image/jpeg');
+        $this->assertEqual(MAX_imageGetContentType('banner.png'), 'image/png');
+        $this->assertEqual(MAX_imageGetContentType('banner.gif'), 'image/gif');
+        $this->assertEqual(MAX_imageGetContentType('banner.webp'), 'image/webp');
+        $this->assertEqual(MAX_imageGetContentType('banner.avif'), 'image/avif');
+        $this->assertEqual(MAX_imageGetContentType('banner.mov'), 'video/quicktime');
+        $this->assertEqual(MAX_imageGetContentType('banner.svg'), 'application/octet-stream');
+        $this->assertEqual(MAX_imageGetContentType('banner.html'), 'application/octet-stream');
+        $this->assertEqual(MAX_imageGetContentType('banner'), 'application/octet-stream');
+    }
+
     public function _testImageServe($timeZone)
     {
         OA_setTimeZone($timeZone);
@@ -73,25 +87,27 @@ class Test_OA_Dal_DeliveryDB_Image extends UnitTestCase
         // Serve with no If-Modified-Since header
         unset($GLOBALS['_HEADERS']);
         unset($_SERVER['HTTP_IF_MODIFIED_SINCE']);
-        MAX_imageServe($aCreative, $fileName, 'gif');
-        if ($this->assertEqual(count($GLOBALS['_HEADERS']), 2, 'Mismatching headers with ' . $timeZone)) {
+        MAX_imageServe($aCreative, $fileName);
+        if ($this->assertEqual(count($GLOBALS['_HEADERS']), 3, 'Mismatching headers with ' . $timeZone)) {
             $this->assertPattern('/^Last-Modified: /i', $GLOBALS['_HEADERS'][0]);
-            $this->assertPattern('/^Content-Type: /i', $GLOBALS['_HEADERS'][1]);
+            $this->assertEqual('Content-Type: image/gif', $GLOBALS['_HEADERS'][1]);
+            $this->assertEqual('X-Content-Type-Options: nosniff', $GLOBALS['_HEADERS'][2]);
         }
 
         // 1-day old If-Modified-Since header
         unset($GLOBALS['_HEADERS']);
         $_SERVER['HTTP_IF_MODIFIED_SINCE'] = gmdate('D, d M Y H:i:s', $now - 86400) . ' GMT';
-        MAX_imageServe($aCreative, $fileName, 'gif');
-        if ($this->assertEqual(count($GLOBALS['_HEADERS']), 2, 'Mismatching headers with ' . $timeZone)) {
+        MAX_imageServe($aCreative, $fileName);
+        if ($this->assertEqual(count($GLOBALS['_HEADERS']), 3, 'Mismatching headers with ' . $timeZone)) {
             $this->assertPattern('/^Last-Modified: /i', $GLOBALS['_HEADERS'][0]);
-            $this->assertPattern('/^Content-Type: /i', $GLOBALS['_HEADERS'][1]);
+            $this->assertEqual('Content-Type: image/gif', $GLOBALS['_HEADERS'][1]);
+            $this->assertEqual('X-Content-Type-Options: nosniff', $GLOBALS['_HEADERS'][2]);
         }
 
         // 1-day future If-Modified-Since header
         unset($GLOBALS['_HEADERS']);
         $_SERVER['HTTP_IF_MODIFIED_SINCE'] = gmdate('D, d M Y H:i:s', $now + 86400) . ' GMT';
-        MAX_imageServe($aCreative, $fileName, 'gif');
+        MAX_imageServe($aCreative, $fileName);
         if ($this->assertEqual(count($GLOBALS['_HEADERS']), 1, 'Mismatching headers with ' . $timeZone)) {
             $this->assertPattern('/^HTTP\/1.0 304/i', $GLOBALS['_HEADERS'][0]);
         }
@@ -99,16 +115,17 @@ class Test_OA_Dal_DeliveryDB_Image extends UnitTestCase
         // 1 minute ago If-Modified-Since header
         unset($GLOBALS['_HEADERS']);
         $_SERVER['HTTP_IF_MODIFIED_SINCE'] = gmdate('D, d M Y H:i:s', $now - 60) . ' GMT';
-        MAX_imageServe($aCreative, $fileName, 'gif');
-        if ($this->assertEqual(count($GLOBALS['_HEADERS']), 2, 'Mismatching headers with ' . $timeZone)) {
+        MAX_imageServe($aCreative, $fileName);
+        if ($this->assertEqual(count($GLOBALS['_HEADERS']), 3, 'Mismatching headers with ' . $timeZone)) {
             $this->assertPattern('/^Last-Modified: /i', $GLOBALS['_HEADERS'][0]);
-            $this->assertPattern('/^Content-Type: /i', $GLOBALS['_HEADERS'][1]);
+            $this->assertEqual('Content-Type: image/gif', $GLOBALS['_HEADERS'][1]);
+            $this->assertEqual('X-Content-Type-Options: nosniff', $GLOBALS['_HEADERS'][2]);
         }
 
         // 1 minute in future If-Modified-Since header
         unset($GLOBALS['_HEADERS']);
         $_SERVER['HTTP_IF_MODIFIED_SINCE'] = gmdate('D, d M Y H:i:s', $now + 60) . ' GMT';
-        MAX_imageServe($aCreative, $fileName, 'gif');
+        MAX_imageServe($aCreative, $fileName);
         if ($this->assertEqual(count($GLOBALS['_HEADERS']), 1, 'Mismatching headers with ' . $timeZone)) {
             $this->assertPattern('/^HTTP\/1.0 304/i', $GLOBALS['_HEADERS'][0]);
         }

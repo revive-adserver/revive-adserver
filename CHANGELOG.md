@@ -7,6 +7,7 @@ All notable changes to Revive Adserver will be documented in this file.
 ### Fixes
 
 - Fixed maintenance failing on huge conversion values ([#1818](https://github.com/revive-adserver/revive-adserver/issues/1818))
+- Images stored in the database are now served with the content type matching their file extension ([#1820](https://github.com/revive-adserver/revive-adserver/issues/1820))
 
 ## [6.1.0] - 2026-11-25
 

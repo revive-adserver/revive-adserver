@@ -18,7 +18,7 @@ require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 require_once MAX_PATH . '/lib/max/Delivery/image.php';
 
 //Register any script specific input variables
-MAX_commonRegisterGlobalsArray(['filename', 'contenttype']);
+MAX_commonRegisterGlobalsArray(['filename']);
 
 if (!empty($filename)) {
     $aCreative = MAX_cacheGetCreative($filename);
@@ -32,7 +32,7 @@ if (!empty($filename)) {
         }
     } else {
         // Filename found, dump contents to browser
-        MAX_imageServe($aCreative, $filename, $contenttype);
+        MAX_imageServe($aCreative, $filename);
     }
 } elseif (!empty($conf['defaultBanner']['imageUrl'])) {
     // Filename not specified, show the admin user's default banner

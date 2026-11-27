@@ -12,6 +12,7 @@
 
 require_once MAX_PATH . '/lib/OA/Creative.php';
 require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
+require_once MAX_PATH . '/lib/max/Delivery/image.php';
 
 /**
  * A class to deal with uploaded creatives
@@ -116,23 +117,7 @@ class OA_Creative_File extends OA_Creative
 
     public static function staticGetContentTypeByExtension($fileName, $alt = false)
     {
-        $contentType = '';
-
-        $ext = substr($fileName, strrpos($fileName, '.') + 1);
-        $contentType = match (strtolower($ext)) {
-            'jpeg' => 'jpeg',
-            'jpg' => 'jpeg',
-            'png' => 'png',
-            'gif' => 'gif',
-            'webp' => 'webp',
-            'avif' => 'avif',
-            'swf' => $alt ? '' : 'swf',
-            'dcr' => $alt ? '' : 'dcr',
-            'rpm' => $alt ? '' : 'rpm',
-            'mov' => $alt ? '' : 'mov',
-            default => $contentType,
-        };
-        return $contentType;
+        return MAX_imageGetContentTypeByExtension($fileName, $alt);
     }
 
     /**
