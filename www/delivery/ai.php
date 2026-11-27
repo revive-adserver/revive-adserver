@@ -3180,28 +3180,49 @@ OX_Delivery_Common_hook('postInit');
 
 $file = '/lib/OA/Delivery/image.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
-function MAX_imageServe($aCreative, $filename, $contenttype)
+function MAX_imageServe($aCreative, $filename)
 {
 if (!isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ||
 $aCreative['t_stamp'] > strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
 MAX_header("Last-Modified: " . gmdate('D, d M Y H:i:s', $aCreative['t_stamp']) . ' GMT');
-if (isset($contenttype) && $contenttype != '') {
-match ($contenttype) {
-'swf' => MAX_header('Content-type: application/x-shockwave-flash; name=' . $filename),
-'dcr' => MAX_header('Content-type: application/x-director; name=' . $filename),
-'rpm' => MAX_header('Content-type: audio/x-pn-realaudio-plugin; name=' . $filename),
-'mov' => MAX_header('Content-type: video/quicktime; name=' . $filename),
-'webp' => MAX_header('Content-type: image/webp; name=' . $filename),
-'avif' => MAX_header('Content-type: image/avif; name=' . $filename),
-default => MAX_header('Content-type: image/' . $contenttype . '; name=' . $filename),
-};
-}
+MAX_header('Content-Type: ' . MAX_imageGetContentType($filename));
+MAX_header('X-Content-Type-Options: nosniff');
 echo $aCreative['contents'];
 } else {
 MAX_sendStatusCode(304);
 }
 }
-MAX_commonRegisterGlobalsArray(['filename', 'contenttype']);
+function MAX_imageGetContentType($filename)
+{
+return match (MAX_imageGetContentTypeByExtension($filename)) {
+'jpeg' => 'image/jpeg',
+'png' => 'image/png',
+'gif' => 'image/gif',
+'webp' => 'image/webp',
+'avif' => 'image/avif',
+'swf' => 'application/x-shockwave-flash',
+'dcr' => 'application/x-director',
+'rpm' => 'audio/x-pn-realaudio-plugin',
+'mov' => 'video/quicktime',
+default => 'application/octet-stream',
+};
+}
+function MAX_imageGetContentTypeByExtension($filename, $alt = false)
+{
+return match (strtolower(substr((string) strrchr($filename, '.'), 1))) {
+'jpeg', 'jpg' => 'jpeg',
+'png' => 'png',
+'gif' => 'gif',
+'webp' => 'webp',
+'avif' => 'avif',
+'swf' => $alt ? '' : 'swf',
+'dcr' => $alt ? '' : 'dcr',
+'rpm' => $alt ? '' : 'rpm',
+'mov' => $alt ? '' : 'mov',
+default => '',
+};
+}
+MAX_commonRegisterGlobalsArray(['filename']);
 if (!empty($filename)) {
 $aCreative = MAX_cacheGetCreative($filename);
 if (empty($aCreative) || !isset($aCreative['contents'])) {
@@ -3211,7 +3232,7 @@ MAX_redirect($conf['defaultBanner']['imageUrl']);
 MAX_commonDisplay1x1();
 }
 } else {
-MAX_imageServe($aCreative, $filename, $contenttype);
+MAX_imageServe($aCreative, $filename);
 }
 } elseif (!empty($conf['defaultBanner']['imageUrl'])) {
 MAX_redirect($conf['defaultBanner']['imageUrl']);
