@@ -61,6 +61,7 @@
     <exclude name="www/devel/**"/>
     <exclude name="www/delivery_dev"/>
     <exclude name="www/delivery_dev/**"/>
+    <include name="www/images/.htaccess"/>
     <include name="www/images/1x1.gif"/>
     <include name="www/images/robots.txt"/>
     <include name="www/images/layerstyles/**"/>
@@ -133,6 +134,7 @@
     <include name="www/devel/**"/>
     <include name="www/delivery_dev"/>
     <include name="www/delivery_dev/**"/>
+    <exclude name="www/images/.htaccess"/>
     <exclude name="www/images/1x1.gif"/>
     <exclude name="www/images/robots.txt"/>
     <exclude name="www/images/layerstyles/**"/>

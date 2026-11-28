@@ -16,6 +16,10 @@ use League\Flysystem\Visibility;
 use RV\Manager\Html5ZipManager;
 use RV\Parser\Html5\MetaParser;
 
+require_once MAX_PATH . '/lib/max/language/Loader.php';
+
+Language_Loader::load();
+
 class Test_RV_Html5ZipManager extends UnitTestCase
 {
     private string $directory;
@@ -146,6 +150,27 @@ class Test_RV_Html5ZipManager extends UnitTestCase
         $manager = new Html5ZipManager($this->filesystem);
         $this->expectException(RuntimeException::class);
         $manager->open($this->archive(['index.html' => $this->html(), 'code.php' => '<?php echo 1;']));
+    }
+
+    public function testRejectsFilesWithScriptExtensions()
+    {
+        foreach (['code.php.png', 'nested/code.PHP5.js', 'code.phtml.txt', 'code.phar.json', 'page.shtml.html'] as $name) {
+            $manager = new Html5ZipManager($this->filesystem);
+            try {
+                $manager->open($this->archive(['index.html' => $this->html(), $name => '<?php echo 1;']));
+                $this->fail("{$name} was accepted");
+            } catch (RuntimeException $e) {
+                $this->assertPattern('/' . preg_quote(basename($name), '/') . '/', $e->getMessage());
+            }
+        }
+    }
+
+    public function testAcceptsFilesWithMultipleSafeExtensions()
+    {
+        $manager = new Html5ZipManager($this->filesystem);
+        $manager->open($this->archive(['index.html' => $this->html(), 'createjs-2015.11.26.min.js' => '', 'photo.png' => '']));
+        $dir = $manager->copyToWebdir();
+        $this->assertTrue($this->filesystem->fileExists("{$dir}/createjs-2015.11.26.min.js"));
     }
 
     public function testRejectsMultipleIndexFiles()

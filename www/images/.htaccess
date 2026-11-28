@@ -1,0 +1,8 @@
+# This directory stores uploaded banner files: make sure the web server
+# never executes them as scripts, even when a script extension appears
+# before the real one (e.g. "file.php.png") and handlers are mapped by
+# extension (e.g. Apache "AddHandler").
+<IfModule mod_mime.c>
+    RemoveHandler .php .php3 .php4 .php5 .php7 .php8 .phtml .pht .phar .phps .cgi .pl .py .shtml
+    RemoveType .php .php3 .php4 .php5 .php7 .php8 .phtml .pht .phar .phps
+</IfModule>

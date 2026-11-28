@@ -72,6 +72,12 @@ EOF;
     ];
 
     /**
+     * A regular expression matching script extensions that must not appear anywhere in a file name, as some web
+     * servers would execute e.g. "file.php.png".
+     */
+    private const SCRIPT_EXTENSIONS_REGEX = '/\.(php\d*|phtml|pht|phar|phps|cgi|pl|py|shtml)(\.|$)/i';
+
+    /**
      * @var Filesystem
      */
     private $destination;
@@ -301,8 +307,14 @@ EOF;
     private function verifyContent()
     {
         foreach ($this->source->listContents('', true) as $entry) {
-            if ($entry->isFile() && !isset(self::$extensions[strtolower(pathinfo($entry->path(), PATHINFO_EXTENSION))])) {
-                throw new \RuntimeException(sprintf($GLOBALS['strHtml5InvalidFileType'], basename($entry->path())));
+            if (!$entry->isFile()) {
+                continue;
+            }
+
+            $fileName = basename($entry->path());
+
+            if (!isset(self::$extensions[strtolower(pathinfo($fileName, PATHINFO_EXTENSION))]) || preg_match(self::SCRIPT_EXTENSIONS_REGEX, $fileName)) {
+                throw new \RuntimeException(sprintf($GLOBALS['strHtml5InvalidFileType'], $fileName));
             }
         }
     }
